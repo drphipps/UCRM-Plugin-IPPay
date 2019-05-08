@@ -1,0 +1,23 @@
+## Organization (object)
++ name: `UBNT ISP` (required)
++ registrationNumber
++ taxId
++ phone
++ email - Used as the "From attribute" for all the messages sent to clients under this organization
++ website
++ street1: `2580 Orchard Pkwy` (required)
++ street2
++ city: `San Jose` (required)
++ countryId: `249` (number, required)
+    See [Retrieve Countries](#reference/general/countries/get)
++ stateId: `1` (number) - Applicable in case of **United States** and **Canada** only. If not specified, taken from default organization
+    See [Retrieve States](#reference/general/countriesidstates/get)
++ currencyId: `33` (number, required)
+    See [Retrieve Currencies](#reference/general/currencies/get)
++ zipCode: `95131` (required)
++ selected (boolean) - Is preselected while adding new client
+    + Default: `false`
+
+## OrganizationReadOnly (object)
++ id: `1` (number)
++ Include Organization

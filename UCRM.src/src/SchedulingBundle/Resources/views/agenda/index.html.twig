@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% block title %}{% trans %}Scheduling{% endtrans %}{% endblock %}
+
+{% block page_header %}
+    {% trans %}Scheduling{% endtrans %}
+{% endblock %}
+
+{% block page_header_buttons_left %}
+    <a href="{{ path('scheduling_job_new') }}" class="button button--primary button--icon-only primary" data-tooltip="{% trans %}Add job{% endtrans %}">
+        <span class="icon ucrm-icon--plus"></span>
+    </a>
+{% endblock %}
+
+{% block page_header_buttons_right %}
+    {% include '@Scheduling/components/view/header_buttons_right.html.twig' %}
+{% endblock %}
+
+{% block page_header_classes %}page-header--has-background{% endblock %}
+
+{% block body %}
+    {{ grid(grid) }}
+{% endblock %}

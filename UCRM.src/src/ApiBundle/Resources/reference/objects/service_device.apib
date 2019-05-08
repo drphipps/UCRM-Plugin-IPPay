@@ -1,0 +1,33 @@
+## ServiceDevice (object)
++ interfaceId: `1` (number, required) - Device/router's interface to which the client's device is connected. This is important for suspend feature
+    See [Retrieve Device Interfaces](#reference/device-interfaces/devicesiddevice-interfaces/get)
++ vendorId: `1` (number, required)
+    See [Retrieve Vendors](#reference/vendors/vendors/get)
++ ipRange: `192.168.1.20` (array[string], required) - Supported formats: Single IP: 192.168.1.20, IP range: 192.168.1.20‑192.168.1.30 or 192.168.1.20‑30, IP range with netmask: 192.168.1.20/26
++ macAddress: `00:AA:BB:00:11:22` - Supported MAC formats are 00:AA:BB:00:11:22, 00‑AA‑BB‑00‑11‑22, 00AABB001122
++ loginUsername: `admin`
++ loginPassword: `qwerty`
++ sshPort: `22` (number)
+    + Default: `22`
++ sendPingNotifications: `false` (boolean)
+    + Default: `false`
++ pingNotificationUserId: `1` (number) - If not specified, default notification user will be used
+    See [Retrieve Admins](#reference/users/usersadmins/get)
++ createPingStatistics: `true` (boolean)
+    + Default: `true`
++ createSignalStatistics: `true` (boolean)
+    + Default: `true`
++ qosEnabled: `0` (enum[number])
+    + Default: `0`
+    + Members
+        + `0` - No
+        + `1` - On this device
+        + `2` - On other device(s)
++ qosDeviceIds: `[2] ` (array[number]) - Applicable in case of **On other device(s)** only
+    See [Retrieve Devices](#reference/devices/devices/get)
+
+## ServiceDeviceReadOnly (object)
++ Include ServiceDevice
++ id: `1` (number)
++ serviceId: `1` (number)
++ loginPassword: null

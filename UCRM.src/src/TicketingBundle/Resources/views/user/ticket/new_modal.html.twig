@@ -1,0 +1,82 @@
+{% import "form/form_inputs.html.twig" as forms %}
+
+<div class="appControlModal appControlModal--small">
+    <a class="appControlModal__close close-modal">
+        <div class="icon ucrm-icon--close"></div>
+    </a>
+
+    <div class="appControlModal__header">
+        {% trans %}Add ticket{% endtrans %}
+    </div>
+
+    <div class="appControlModal__content appControlModalScrollableContent container--comfy">
+        {{ form_start(form, { attr: { class: 'ajax', id: 'add-new-ticket-user-form' }}) }}
+            <div class="row">
+                <div class="col--xs2">
+                    {{ form_label(form.client, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                </div>
+                <div class="col--xs10 appFormGroup">
+                    {{ form_widget(form.client, { attr: { class: 'input--full select2'} }) }}
+                    {{ form_errors(form.client) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col--xs2">
+                    {{ form_label(form.subject, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                </div>
+                <div class="col--xs10 appFormGroup">
+                    {{ form_widget(form.subject, { attr: { class: 'input--full'} }) }}
+                    {{ form_errors(form.subject) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col--xs2">
+                    {{ form_label(form.message, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                </div>
+                <div class="col--xs10 appFormGroup">
+                    {{ form_widget(form.message, { attr: { class: 'input--full save-shortcut autosize'} }) }}
+                    {{ form_errors(form.message) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col--xs2">
+                    {{ form_label(form.attachmentFiles, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                </div>
+                <div class="col--xs10 appFormGroup">
+                    {{ forms.file_input(form.attachmentFiles, ['input--full']) }}
+                    {{ form_errors(form.attachmentFiles) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col--xs2">
+                    {{ form_label(form.private, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                </div>
+                <div class="col--xs10 appFormGroup appForm--cozy">
+                    <div data-on="{{ 'yes'|trans }}" data-off="{{ 'no'|trans }}" class="toggle appToggle">
+                        {{ form_widget(form.private) }}
+                        <label for="{{ form.private.vars.id }}"></label>
+                    </div>
+                    {{ form_errors(form.private) }}
+                    <div class="appInputHelp">
+                        {% trans %}Private tickets are visible only to admins.{% endtrans %}
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
+
+    <div class="appControlModal__content appControlModal__content--ctrl">
+        <div class="flexRow flexRow--alignCenter">
+            <div class="flexCol--12 alignRight">
+                <span class="appInputGroup">
+                    <a href="#" class="button button--transparent close-modal">{% trans %}Cancel{% endtrans %}</a>
+                    <button class="button button--primary-fill" form="add-new-ticket-user-form">{% trans %}Save{% endtrans %}</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

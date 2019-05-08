@@ -1,0 +1,19 @@
+{% import '@Ticketing/components/view/macros.html.twig' as macros %}
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-header__title">{% trans %}Tickets{% endtrans %}</div>
+    </div>
+
+    <div class="card-block card-block--noPad container container--smash">
+        <div class="row row--smash noMargin">
+            <div class="col--xs12 card-column__border">
+                <ul class="ticket-widget-list noMarginBottom">
+                    {% for ticket in job.tickets %}
+                        {{ macros.ticketItem(ticket) }}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

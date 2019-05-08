@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    SchedulingBundle\Service\Facade\JobAttachmentFacade: ~
+    SchedulingBundle\Service\Facade\JobFacade: ~
+    SchedulingBundle\Service\Facade\JobCommentFacade: ~
+    SchedulingBundle\Service\Facade\JobTaskFacade: ~

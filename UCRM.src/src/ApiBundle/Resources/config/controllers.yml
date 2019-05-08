@@ -1,0 +1,51 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    ApiBundle\Controller\VersionController: ~
+    ApiBundle\Controller\ClientController: ~
+    ApiBundle\Controller\ClientContactController: ~
+    ApiBundle\Controller\ClientLogController: ~
+    ApiBundle\Controller\ClientTagController: ~
+    ApiBundle\Controller\CurrencyController: ~
+    ApiBundle\Controller\ServiceController: ~
+    ApiBundle\Controller\ServiceDeviceController: ~
+    ApiBundle\Controller\ServiceDataUsageController: ~
+    ApiBundle\Controller\ServiceSurchargeController: ~
+    ApiBundle\Controller\ProductController: ~
+    ApiBundle\Controller\ServiceIpController: ~
+    ApiBundle\Controller\TariffController: ~
+    ApiBundle\Controller\CountryController: ~
+    ApiBundle\Controller\StateController: ~
+    ApiBundle\Controller\OrganizationController: ~
+    ApiBundle\Controller\TaxController: ~
+    ApiBundle\Controller\VendorController: ~
+    ApiBundle\Controller\SurchargeController: ~
+    ApiBundle\Controller\DeviceController: ~
+    ApiBundle\Controller\DeviceInterfaceController: ~
+    ApiBundle\Controller\SiteController: ~
+    ApiBundle\Controller\UserController: ~
+    ApiBundle\Controller\InvoiceController: ~
+    ApiBundle\Controller\InvoicePdfController: ~
+    ApiBundle\Controller\PaymentController: ~
+    ApiBundle\Controller\PaymentPdfController: ~
+    ApiBundle\Controller\InvoiceTemplateController: ~
+    ApiBundle\Controller\QuoteTemplateController: ~
+    ApiBundle\Controller\CustomAttributeController: ~
+    ApiBundle\Controller\PaymentPlanController: ~
+    ApiBundle\Controller\RefundController: ~
+    ApiBundle\Controller\ProformaInvoiceTemplateController: ~
+    ApiBundle\Controller\QuoteController: ~
+    ApiBundle\Controller\QuotePdfController: ~
+    ApiBundle\Controller\WebhookEventController: ~
+
+    ApiBundle\Controller\Mobile\LoginController: ~
+    ApiBundle\Controller\Mobile\LogoutController: ~
+    ApiBundle\Controller\Mobile\DashboardOverviewController: ~
+    ApiBundle\Controller\Mobile\DashboardTrafficController: ~
+    ApiBundle\Controller\Mobile\InvoiceListController: ~
+    ApiBundle\Controller\Mobile\ClientListController: ~
+    ApiBundle\Controller\Mobile\ClientSearchController: ~
+    ApiBundle\Controller\Mobile\ClientActivityController: ~

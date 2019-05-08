@@ -1,0 +1,8 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    TicketingBundle\FileManager\CommentAttachmentFileManager:
+        $attachmentsDir: "%kernel.root_dir%/data/ticketing/attachments"

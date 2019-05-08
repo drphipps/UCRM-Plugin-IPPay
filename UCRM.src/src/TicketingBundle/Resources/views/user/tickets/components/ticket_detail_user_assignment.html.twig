@@ -1,0 +1,33 @@
+{% if item.user is null and item.appKey is null and item.ticket.client is null %}
+    {% set authorName %}{{ item.emailFromName|e('html') }} &lt;{{ item.emailFromAddress|e('html') }}&gt;{% endset %}
+{% elseif item.user is null and item.appKey is null %}
+    {% set authorName %}{{ item.ticket.client.nameForView|e('html') }}{% endset %}
+{% elseif item.appKey %}
+    {% set authorName %}
+        {% if not item.appKey.deletedAt %}
+            <a href="{{ path('app_key_show', { id: item.appKey.id }) }}">{{ item.appKey.name|e('html') }} ({% trans %}App key{% endtrans %})</a>
+        {% else %}
+            {{ item.appKey.name|e('html') }} ({% trans %}App key{% endtrans %})
+        {% endif %}
+    {% endset %}
+{% elseif item.user is same as(app.user) %}
+    {% set authorName %}{% trans %}You{% endtrans %}{% endset %}
+{% else %}
+    {% set authorName %}{{ item.user.nameForView|e('html') }}{% endset %}
+{% endif %}
+
+<div class="ticket-system-message">
+    <span class="icon ucrm-icon--user-assign-fill mr-5"></span>
+    {% if item.type is same as(constant('TYPE_ADD', item)) %}
+        {% if item.assignedUser %}
+            {% set userName = item.assignedUser.nameForView|e('html') %}
+        {% else %}
+            {% set userName = '<em>(' ~ 'deleted'|trans ~ ')</em>' %}
+        {% endif %}
+        {% trans with { '%user1%': authorName, '%user2%': userName } %}%user1% assigned user <strong>%user2%</strong>.{% endtrans %}
+    {% else %}
+        {% trans with { '%user%': authorName } %}%user% removed assigned user.{% endtrans %}
+    {% endif %}
+    <span class="ticket-dot"> • </span>
+    <span class="ticket-system-message__time" data-tooltip="{{ item.createdAt|localizedDate('default', 'short') }}">{{ item.createdAt|localizedDateToday('none', 'short', 'default', 'none') }}</span>
+</div>

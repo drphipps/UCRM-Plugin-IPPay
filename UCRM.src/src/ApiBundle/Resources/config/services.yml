@@ -1,0 +1,22 @@
+imports:
+    - { resource: controllers.yml }
+    - { resource: facades.yml }
+    - { resource: mappers.yml }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    ApiBundle\Security\ApiUserProvider: ~
+    ApiBundle\Security\ApiAuthenticator: ~
+    ApiBundle\Component\Validator\Validator: ~
+    ApiBundle\Component\Validator\ValidationErrorCollector: ~
+
+    fos_rest.serializer.exception_normalizer.jms:
+        class: ApiBundle\Component\Serializer\JsonExceptionNormalizer
+        tags:
+            - { name: jms_serializer.subscribing_handler }
+        calls:
+            - [setDebug, ['%kernel.debug%']]

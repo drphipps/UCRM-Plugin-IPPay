@@ -1,0 +1,20 @@
+<div class="container container--comfy">
+    <div class="row verticalRhythmTopHalf verticalRhythmHalf">
+        <div class="col--xs8">
+            {% set entityLogActive = 'entity_log' in jobLogsViewTypeFilters %}
+            {% set jobCommentActive = 'job_comment' in jobLogsViewTypeFilters %}
+            <a href="{{ path('scheduling_job_show', { id: job.id, logType: jobLogsViewFiltersLink['job_comment'] }) }}#job-comments" class="ml-10 button button--medium">
+                <span class="fake-checkbox{% if jobCommentActive %} fake-checkbox--checked{% endif %}"></span> {% trans %}Comments{% endtrans %}
+            </a>
+            <a href="{{ path('scheduling_job_show', { id: job.id, logType: jobLogsViewFiltersLink['entity_log'] }) }}#job-comments" class="ml-10 button button--medium">
+                <span class="fake-checkbox{% if entityLogActive %} fake-checkbox--checked{% endif %}"></span> {% trans %}System log{% endtrans %}
+            </a>
+        </div>
+        <div class="col--xs4 alignRight">
+            <a href="#" class="button button--transparent button--icon-only button--icon-only--medium primary" data-modal-url="{{ path('scheduling_job_comment_new', { id : job.id, logType: jobLogsViewTypeFilters }) }}">
+                <span class="icon ucrm-icon--message"></span>
+            </a>
+        </div>
+    </div>
+    {{ grid(jobLogsViewGrid) }}
+</div>

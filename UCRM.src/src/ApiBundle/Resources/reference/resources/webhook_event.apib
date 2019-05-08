@@ -1,0 +1,15 @@
+## GET /webhook-events/{uuid}
+
+Retrieve **Webhook Event**.
+
++ Parameters
+    + uuid: `2c6984d7-03ae-4e48-a212-7b99378837a2` (string, required) - UUID of a **Webhook Event** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (WebhookEvent)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

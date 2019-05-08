@@ -1,0 +1,92 @@
+# /custom-attributes{?attributeType}
+## GET
+
+Retrieve collection of **Custom Attributes**.
+
++ Parameters
+    + attributeType: `client` (enum[string], optional) - Select only attributes of given type.
+        + Members
+            + `client`
+            + `invoice`
+    
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[CustomAttributeReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+# /custom-attributes
+## POST
+
+Create **Custom Attribute**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (CustomAttribute)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /custom-attributes/1001
+    + Attributes (CustomAttributeReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+#/custom-attributes/{id}
+## GET
+
+Retrieve **Custom Attribute**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Custom Attribute** to fetch / update
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (CustomAttributeReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH
+
+Update **Custom Attribute**. 
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Custom Attribute** to fetch / update
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (CustomAttribute)
+
++ Response 200 (application/json)
+    + Attributes (CustomAttributeReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+
+## DELETE
+
+Delete **Custom Attribute**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Custom Attribute** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

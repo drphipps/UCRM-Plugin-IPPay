@@ -1,0 +1,77 @@
+# /clients/services/service-devices/{id}
+## GET
+
+Retrieve **Service Device**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Service Device** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ServiceDeviceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH
+
+Update **Service Device**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Service Device** to update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+    + Attributes (ServiceDevice)
+
++ Response 200 (application/json)
+    + Attributes (ServiceDeviceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+# /clients/services/{id}/service-devices
+## GET
+
+Retrieve collection of **Service Devices** filtered by **Service**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a related **Service**.
+    
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[ServiceDeviceReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST
+
+Create **Service Device** for **Service**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a related **Service**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (ServiceDevice)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /clients/services/service-devices/2
+    + Attributes (ServiceDeviceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)

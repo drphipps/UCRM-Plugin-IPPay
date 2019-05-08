@@ -1,0 +1,27 @@
+## GET /devices
+
+Retrieve collection of **Devices**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[DeviceReadOnly])
+
+## GET /devices/{id}
+
+Retrieve **Device**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Device** to fetch.
+    + limit: `10` (number, optional) - Result limit.
+    + offset: `10` (number, optional) - Index of first result.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (DeviceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

@@ -1,0 +1,29 @@
+## TicketActivity (object)
++ userId: `35` (number, optional) - ID of User or null if activity is created by client.
+    See [Retrieve Users](#reference/users/users/get)
++ createdAt: `2016-09-12T00:00:00+0000` (string) - Date string in ISO 8601 format. If not specified, current date will be used
+
+## TicketActivityReadOnly (object)
++ Include TicketActivity
++ public (boolean) - Is visible to client?
++ id: `1` (number)
++ ticketId: `12` (number)
+    See [Retrieve Ticket](#reference/tickets/ticket/get)
++ comment (TicketActivityCommentReadOnly, optional)
++ assignment (TicketActivityUserAssignment, optional)
++ clientAssignment (TicketActivityClientAssignment, optional)
++ statusChange (TicketActivityStatusChange, optional)
++ jobAssignment (TicketActivityJobAssignment, optional)
++ type: `comment` (enum[string]) - Type of activity
+    + Members
+        + `comment`
+        + `assignment`
+        + `assignment_client`
+        + `assignment_job`
+        + `status_change`
+
+## TicketActivityWritable (object)
++ Include TicketActivity
++ public (boolean) - Is visible to client?
+    + Default: true
++ comment (TicketActivityCommentWritable)

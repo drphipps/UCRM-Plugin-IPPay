@@ -1,0 +1,94 @@
+# /client-logs{?clientId,createdDateFrom,createdDateTo}
+## GET
+
+Retrieve collection of **ClientLogs**.
+
++ Parameters
+    + clientId: `1` (number, optional) - ID of a **Client** to filter by.
+
+    + createdDateFrom: `2017-01-01` (string, optional) -  Limit collection from date (including).
+    Use `YYYY-MM-DD` format.
+
+    + createdDateTo: `2017-12-31` (string, optional) -  Limit collection to date (including).
+    Use `YYYY-MM-DD` format.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[ClientLogsReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST /client-logs
+
+Create **ClientLogs**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (ClientLogsWritable)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /client-logs/1001
+    + Attributes (ClientLogsReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+#/client-logs/{id}
+
+## GET
+
+Retrieve **ClientLog**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **ClientLog** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ClientLogsReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH
+
+Update **ClientLog**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **ClientLog** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (ClientLogsWritable)
+
++ Response 200 (application/json)
+    + Attributes (ClientLogsReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## DELETE
+
+Delete **ClientLoge**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Client log** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

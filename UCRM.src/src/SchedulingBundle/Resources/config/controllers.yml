@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    SchedulingBundle\Api\Controller\JobController: ~
+    SchedulingBundle\Api\Controller\JobCommentController: ~
+    SchedulingBundle\Api\Controller\JobTaskController: ~
+    SchedulingBundle\Api\Controller\JobAttachmentController: ~

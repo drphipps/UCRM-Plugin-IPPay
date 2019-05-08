@@ -1,0 +1,104 @@
+{% if item.user is null and item.ticket.client is null %}
+    {% set authorName %}{{ item.emailFromName|e('html') }} &lt;{{ item.emailFromAddress|e('html') }}&gt;{% endset %}
+    {% set authorType = 'client' %}
+{% elseif item.user is null %}
+    {% set authorName %}{{ item.ticket.client.nameForView|e('html') }}{% endset %}
+    {% set authorType = 'client' %}
+{% elseif item.user is same as(app.user) %}
+    {% set authorName %}{% trans %}You{% endtrans %}{% endset %}
+    {% set authorType = 'you' %}
+{% else %}
+    {% set authorName %}{{ item.user.nameForView|e('html') }}{% endset %}
+    {% set authorType = 'admin' %}
+{% endif %}
+
+<div class="ticket-conversation{% if authorType == 'you' %} ticket-conversation--right{% endif %}{% if ticketDetail.public and not item.public %} ticket-conversation--private{% endif %}">
+    {% if ticketDetail.public and not item.public %}
+        <div class="ticket-conversation__private" data-tooltip="{% trans %}This comment is visible only to admins.{% endtrans %}">
+            <span class="icon ucrm-icon--lock"></span>
+        </div>
+    {% endif %}
+
+    <div class="ticket-conversation__header">
+        <div>
+            <span class="ticket-conversation__name ticket-conversation__name--{{ authorType }}">
+                {{ authorName }}
+            </span>
+            <span class="ticket-conversation__time">{{ item.createdAt|localizedDate('default', 'short') }}</span>
+
+            {% if item.emailId %}
+                <span class="ticket-conversation__actions">
+                    <a class="action" href="#" data-modal-url="{{ path('ticketing_comment_mail_show', { id: item.id }) }}">
+                        <span class="icon ucrm-icon--email-open"></span>
+                        <small>
+                            {% trans %}Show original{% endtrans %}
+                        </small>
+                    </a>
+                </span>
+            {% endif %}
+        </div>
+        {% if item.emailReplyToAddress %}
+            <div class="ticket-conversation__header__sub">
+                {% trans %}Reply to{% endtrans %}
+                <span class="ticket-conversation__name ticket-conversation__name--{{ authorType }}">
+                    {{ item.emailReplyToName }} &lt;{{ item.emailReplyToAddress }}&gt;
+                </span>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="ticket-conversation__body">
+        {{ item.body|nl2br }}
+        {% if item.body is null and item.attachments is empty and item.mailAttachments is empty %}
+            <em class="appType--quiet">{% trans %}Empty body{% endtrans %}</em>
+        {% endif %}
+    </div>
+
+    {% if item.attachments is not empty or item.mailAttachments is not empty %}
+        <div class="ticket-conversation__files">
+            {% for attachment in item.attachments %}
+                <div class="ticket-conversation__file">
+                    <a href="{{ path('ticketing_comment_attachment_get', {id:attachment.id}) }}" class="ticket-conversation__file__thumbnail">
+                        <span class="icon ucrm-icon--paper-clip"></span>
+                    </a>
+                    <a href="{{ path('ticketing_comment_attachment_get', {id:attachment.id}) }}" class="ticket-conversation__file__info">
+                        <span class="ticket-conversation__file__info__name">
+                            {{ attachment.originalFilename }}
+                        </span>
+                        <span class="ticket-conversation__file__info__size">
+                            {{ attachment.size|bytesToSize }}
+                        </span>
+                    </a>
+                    <div class="ticket-conversation__file__actions">
+                        <a href="{{ path('ticketing_comment_attachment_get', {id:attachment.id}) }}">
+                            <span class="icon ucrm-icon--download"></span>
+                        </a>
+                        <a href="{{ path('ticketing_comment_attachment_delete', {id:attachment.id}) }}" class="appLink--secondary appLink--subtleDanger ml-5" data-tooltip="{% trans %}Delete file{% endtrans %}" data-confirm="{% trans %}Do you really want to delete this attachment?{% endtrans %}{% if attachment.partId %}<br><small>{% trans %}Only the downloaded file will be deleted, you will still be able to download the attachment via IMAP.{% endtrans %}</small>{% endif %}" data-confirm-title="{% trans %}Delete attachment{% endtrans %}" data-confirm-okay="{% trans %}Delete{% endtrans %}">
+                            <span class="icon ucrm-icon--trash"></span>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+            {% for attachment in item.mailAttachments %}
+                <div class="ticket-conversation__file">
+                    <a href="{{ path('ticketing_comment_mail_attachment_get', {id:attachment.id}) }}" class="ticket-conversation__file__thumbnail">
+                        <span class="icon ucrm-icon--paper-clip"></span>
+                    </a>
+                    <a href="{{ path('ticketing_comment_mail_attachment_get', {id:attachment.id}) }}" class="ticket-conversation__file__info">
+                        <span class="ticket-conversation__file__info__name">
+                            {{ attachment.filename }}
+                        </span>
+                        <span class="ticket-conversation__file__info__size">
+                            {{ attachment.size|bytesToSize }}
+                        </span>
+                    </a>
+                    <div class="ticket-conversation__file__actions">
+                        <a href="{{ path('ticketing_comment_mail_attachment_get', {id:attachment.id}) }}" data-tooltip="{% trans %}Download{% endtrans %}">
+                            <span class="icon ucrm-icon--download"></span>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

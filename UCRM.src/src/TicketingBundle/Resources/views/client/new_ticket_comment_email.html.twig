@@ -1,0 +1,80 @@
+{% extends 'notification.html.twig' %}
+{% block body %}
+    {% if byUser %}
+        <p>{% trans with { '%number%': '#' ~ ticket.id, '%name%': byUser.nameForView|e('html') } %}Ticket %number% was commented by user <strong>%name%</strong>.{% endtrans %}</p>
+    {% elseif client %}
+        <p>{% trans with { '%number%': '#' ~ ticket.id, '%name%': client.nameForView|e('html') } %}Ticket %number% was commented by client <strong>%name%</strong>.{% endtrans %}</p>
+    {% endif %}
+
+    <p><a href="{{ publicUrl('ticketing_index', { ticketId: ticket.id }) }}">{{ publicUrl('ticketing_index', { ticketId: ticket.id }) }}</a></p>
+
+    <table class="support-form-table">
+        <tr>
+            <th>
+                {% trans %}Message{% endtrans %}:
+            </th>
+            <td>
+                {{ message|nl2br ?: '-' }}
+            </td>
+        </tr>
+        {% if client %}
+            <tr>
+                <th>
+                    {% trans %}Client{% endtrans %}:
+                </th>
+                <td>
+                    <table class="support-form-table__client">
+                        <tr>
+                            <th>
+                                {% trans %}URL{% endtrans %}:
+                            </th>
+                            <td>
+                                <a href="{{ publicUrl('client_show', { id: client.id }) }}">{{ publicUrl('client_show', { id: client.id }) }}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                {% trans %}ID{% endtrans %}:
+                            </th>
+                            <td>
+                                {{ client.id ?: '-' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                {% trans %}Custom ID{% endtrans %}:
+                            </th>
+                            <td>
+                                {{ client.userIdent ?: '-' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                {% trans %}Name{% endtrans %}:
+                            </th>
+                            <td>
+                                {{ client.nameForView ?: '-' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                {% trans %}Contact email(s){% endtrans %}:
+                            </th>
+                            <td>
+                                {{ client.contactEmails|join(', ') ?: '-' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                {% trans %}Contact phone(s){% endtrans %}:
+                            </th>
+                            <td>
+                                {{ client.generalPhones|join(', ') ?: '-' }}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        {% endif %}
+    </table>
+{% endblock %}

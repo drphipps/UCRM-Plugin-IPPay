@@ -1,0 +1,209 @@
+{% macro jobItem(job, includeStatus = true) %}
+    {% set statusClass = 'status--' ~ constant('STATUS_CLASSES', job)[job.status] %}
+
+    <li class="timeline-item {{ statusClass }}">
+        {% if job.date and job.dateEnd %}
+            <span class="timeline-item__time">{{ job.date|localizedDate('none', 'short') }} &ndash; {{ job.dateEnd|localizedDate('none', 'short') }}</span> &ndash;
+        {% elseif job.duration %}
+            <span class="timeline-item__time">{{ (job.duration * 60)|duration('short') }}</span> &ndash;
+        {% endif %}
+        <a href="{{ path('scheduling_job_show', { id: job.id }) }}">{{ job.title }}</a>
+        {% if includeStatus %}
+            <br><span class="timeline-item__status">{{ constant('STATUSES', job)[job.status]|trans|lower }}</span>
+        {% endif %}
+    </li>
+{% endmacro %}
+
+{% macro jobItemUser(job) %}
+    {% set statusClass = 'status--' ~ constant('STATUS_CLASSES', job)[job.status] %}
+
+    <li>
+        <div class="row">
+            <div class="col--xs9">
+                <div class="timeline-item {{ statusClass }}">
+                    {% if job.date and job.dateEnd %}
+                        <span class="timeline-item__time">{{ job.date|localizedDate('none', 'short') }} &ndash; {{ job.dateEnd|localizedDate('none', 'short') }}</span> &ndash;
+                    {% elseif job.duration %}
+                        <span class="timeline-item__time">{{ (job.duration * 60)|duration('short') }}</span> &ndash;
+                    {% endif %}
+                    <a href="{{ path('scheduling_job_show', { id: job.id }) }}">{{ job.title }}</a>
+                </div>
+            </div>
+            <div class="col--xs3">
+                <div class="timeline-item-user {{ statusClass }}">
+                    {{ job.assignedUser ? job.assignedUser.nameForView : '' }}
+                </div>
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro jobItemUserTicket(job, link) %}
+    {% set statusClass = 'status--' ~ constant('STATUS_CLASSES', job)[job.status] %}
+
+    <li>
+        <div class="row">
+            <div class="col--xs9">
+                <div class="timeline-item {{ statusClass }}">
+                    {% if job.date and job.dateEnd %}
+                        <span class="timeline-item__time">{{ job.date|localizedDate('none', 'short') }} &ndash; {{ job.dateEnd|localizedDate('none', 'short') }}</span> &ndash;
+                    {% elseif job.duration %}
+                        <span class="timeline-item__time">{{ (job.duration * 60)|duration('short') }}</span> &ndash;
+                    {% endif %}
+                    <a href="{{ link }}" class="ajax">{{ job.title }}</a>
+                </div>
+            </div>
+            <div class="col--xs3">
+                <div class="timeline-item-user {{ statusClass }}">
+                    {{ job.assignedUser ? job.assignedUser.nameForView : '' }}
+                </div>
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro ticketJobChoiceItem(job, link) %}
+    {% set statusClass = 'status--' ~ constant('STATUS_CLASSES', job)[job.status] %}
+
+    <li>
+        <div class="row">
+            <div class="col--xs9">
+                <a href="{{ link }}" class="ajax timeline-item {{ statusClass }}">
+                    {% if job.date and job.dateEnd %}
+                        <span class="timeline-item__time">{{ job.date|localizedDate('none', 'short') }} &ndash; {{ job.dateEnd|localizedDate('none', 'short') }}</span> &ndash;
+                    {% elseif job.duration %}
+                        <span class="timeline-item__time">{{ (job.duration * 60)|duration('short') }}</span> &ndash;
+                    {% endif %}
+                    <span class="timeline-item__title">{{ job.title }}</span>
+                </a>
+            </div>
+            <div class="col--xs3">
+                <div class="timeline-item-user {{ statusClass }}">
+                    {{ job.assignedUser ? job.assignedUser.nameForView : '' }}
+                </div>
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro ticketJobAssignedItem(job, detailLink, removeAssignmentLink) %}
+    {% set statusClass = 'status--' ~ constant('STATUS_CLASSES', job)[job.status] %}
+
+    <li>
+        <div class="row">
+            <div class="col--xs9">
+                <span class="timeline-item timeline-item--flex {{ statusClass }}">
+                    <a href="{{ detailLink }}">
+                        {% if job.date and job.dateEnd %}
+                            <span class="timeline-item__time">{{ job.date|localizedDate('none', 'short') }} &ndash; {{ job.dateEnd|localizedDate('none', 'short') }}</span> &ndash;
+                        {% elseif job.duration %}
+                            <span class="timeline-item__time">{{ (job.duration * 60)|duration('short') }}</span> &ndash;
+                        {% endif %}
+                        <span class="timeline-item__title">{{ job.title }}</span>
+                    </a>
+                    <a href="{{ removeAssignmentLink }}" class="ajax timeline-item__remove">
+                        <span class="icon ucrm-icon--close-smaller"></span>
+                    </a>
+                </span>
+            </div>
+            <div class="col--xs3">
+                <div class="timeline-item-user {{ statusClass }}">
+                    {{ job.assignedUser ? job.assignedUser.nameForView : '' }}
+                </div>
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro jobTimelineItem(item) %}
+    {% set job = item.job %}
+    {% if isEditPermissionGranted(constant('SchedulingBundle\\Security\\SchedulingPermissions::JOBS_ALL')) %}
+        {% set timelineData = item.timelineData ?? null %}
+    {% else %}
+        {% set timelineData = null %}
+    {% endif %}
+    {% set statusClass = 'status--' ~ constant('STATUS_CLASSES', job)[job.status] %}
+
+    <li class="timeline-item{% if timelineData %} timeline-item--draggable{% endif %} {{ statusClass }}" id="timeline-item-{{ job.id }}" {% if timelineData %}data-timeline-item="{{ timelineData|json_encode }}"{% endif %}>
+        {% if job.duration %}
+            <span class="timeline-item__time">{{ (job.duration * 60)|duration('short') }}</span> &ndash;
+        {% endif %}
+        <a href="{{ path('scheduling_job_show', { id: job.id }) }}">{{ job.title }}</a><br>
+        <span class="timeline-item__status">{{ constant('STATUSES', job)[job.status]|trans|lower }}</span>
+    </li>
+{% endmacro %}
+
+{% macro jobItemClient(job) %}
+    {% set statusClass = 'status--' ~ constant('STATUS_CLASSES', job)[job.status] %}
+
+    <li>
+        <div class="row">
+            <div class="col--xs12">
+                <a href="#" data-modal-url="{{ path('client_zone_job_show', { id: job.id }) }}" class="timeline-item {{ statusClass }}">
+                    {% if job.date and job.dateEnd %}
+                        <span class="timeline-item__time">{{ job.date|localizedDate('none', 'short') }} &ndash; {{ job.dateEnd|localizedDate('none', 'short') }}</span> &ndash;
+                    {% elseif job.duration %}
+                        <span class="timeline-item__time">{{ (job.duration * 60)|duration('short') }}</span> &ndash;
+                    {% endif %}
+                    <span class="timeline-item__title">{{ job.title }}</span><br>
+                </a>
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro jobTicketWidget(job, ticket, authorIsYou, removeLink) %}
+    {% set statusClass = constant('STATUS_CLASSES', job)[job.status] %}
+
+    <div class="ticket-job-widget {% if authorIsYou %}ticket-job-widget--right{% endif %}">
+        <div class="ticket-job-widget__header ticket-job-widget__header--{{ statusClass }}">
+            <div class="ticket-job-widget__header__title">
+                <a href="{{ path('scheduling_job_show', { id: job.id }) }}" title="{{ job.title|e('html_attr') }}">
+                    {{ job.title }}
+                </a>
+            </div>
+            <div class="ticket-job-widget__header__schedule">
+                {% spaceless %}
+                    {% if job.assignedUser %}
+                        <a href="{{ path('user_show', { id: job.assignedUser.id }) }}" class="ticket-job-widget__header__schedule__user client-avatar client-avatar--smaller {% if job.assignedUser.deleted %} client-avatar--deleted{% endif %}" title="{{ job.assignedUser.nameForView|e('html_attr') }}">
+                            <span class="circle-avatar" {% if job.assignedUser.avatarColor %}style="background-color: {{ job.assignedUser.avatarColor }};"{% endif %}>
+                                {{ job.assignedUser.nameForView|initials('', 1) }}
+                            </span>
+                            <span class="client-avatar__text">
+                                {{ job.assignedUser.firstName ?: job.assignedUser.username }}
+                            </span>
+                        </a>
+                    {% endif %}
+                    {% if job.date %}
+                        {% if job.date is today %}
+                            {% set duration = 'today'|trans ~ ' ' ~ job.date|localizedDate('none', 'short') %}
+                        {% elseif job.date is tomorrow %}
+                            {% set duration = 'tomorrow'|trans ~ ' ' ~ job.date|localizedDate('none', 'short') %}
+                        {% else %}
+                            {% set duration = job.date|localizedDate('default', 'short') %}
+                        {% endif %}
+                        {% if job.duration %}
+                            {% set duration = duration ~ ' (' ~ (job.duration * 60)|duration('short') ~ ')' %}
+                        {% endif %}
+                        <span class="ticket-job-widget__header__schedule__date" title="{{ duration|e('html_attr') }}">
+                            {{ duration }}
+                        </span>
+                    {% elseif isEditPermissionGranted(constant('SchedulingBundle\\Security\\SchedulingPermissions::JOBS_ALL')) %}
+                        <a href="{{ path('scheduling_timeline_index', { queue: true } ) }}" class="button button--small button--white-primary-o">schedule</a>
+                    {% endif %}
+                {% endspaceless %}
+            </div>
+
+            {% if ticket.jobs.contains(job) %}
+                <a href="{{ removeLink }}" class="ajax ticket-job-widget__header__remove" data-tooltip="{% trans %}Remove job assignment{% endtrans %}" data-confirm="{% trans %}Do you really want to remove job assignment?{% endtrans %}" data-confirm-title="{% trans %}Remove job assignment{% endtrans %}" data-confirm-okay="{% trans %}Remove{% endtrans %}">
+                    <span class="icon ucrm-icon--close-smaller"></span>
+                </a>
+            {% endif %}
+        </div>
+        {% if job.description %}
+            <div class="ticket-job-widget__content">
+                {{ job.description|nl2br }}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}

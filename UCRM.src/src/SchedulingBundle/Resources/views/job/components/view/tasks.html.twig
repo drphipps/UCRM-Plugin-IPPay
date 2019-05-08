@@ -1,0 +1,92 @@
+<div class="card">
+    <div class="card-header">
+        <div class="card-header__title">{% trans %}Tasks{% endtrans %}</div>
+    </div>
+
+    {% set taskTemplate %}
+        <li data-task-id="<%- id %>" class="task-list__item <% print(closed ? 'task-list__item--closed' : '') %>">
+            <table>
+                <thead>
+                    <th class="task-list__checkbox"></th>
+                    <th class="task-list__label"></th>
+                    <th class="task-list__ctrl"></th>
+                </thead>
+                <tbody>
+                        <td class="task-list__checkbox">
+                            <input class="task-closed checkbox" id="task-<%- id %>" type="checkbox" autocomplete="off" <% print(closed ? 'checked' : '') %>>
+                            <label class="task-closed-label" for="task-<%- id %>"></label>
+                        </td>
+                        <td class="task-list__label">
+                            <span class="task-label"><%- label %></span>
+                            <form class="task-edit-form display-none">
+                                <div class="appInputGroup appInputGroup--flex">
+                                    <input class="task-label-field input--full" type="text" autocomplete="off" value="<%- label %>" required>
+                                    <button class="button button--primary-fill">{% trans %}Update{% endtrans %}</button>
+                                </div>
+                            </form>
+                        </td>
+                        <td class="task-list__ctrl">
+                            <a href="#" class="appLink--secondary task-remove" data-tooltip="{% trans %}Remove{% endtrans %}">
+                                <span class="icon ucrm-icon--trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+    {% endset %}
+    <div
+        class="card-block card-block--pad job-task-list"
+        data-job-id="{{ job.id }}"
+        data-task-add-csrf="{{ 'scheduling_job_task_new'|csrf_token() }}"
+        data-task-edit-csrf="{{ 'scheduling_job_task_edit'|csrf_token() }}"
+        data-task-delete-csrf="{{ 'scheduling_job_task_delete'|csrf_token() }}"
+        data-task-close-csrf="{{ 'scheduling_job_task_close'|csrf_token() }}"
+        data-task-move-csrf="{{ 'scheduling_job_task_move'|csrf_token() }}"
+        data-task-template="{{ taskTemplate|escape('html_attr') }}"
+    >
+        <ol class="task-list">
+            {% for task in job.tasks %}
+                <li data-task-id="{{ task.id }}" class="task-list__item {% if task.closed %}task-list__item--closed{% endif %}">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="task-list__checkbox"></th>
+                                <th class="task-list__label"></th>
+                                <th class="task-list__ctrl"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="task-list__checkbox">
+                                    <input class="task-closed checkbox" id="task-{{ task.id }}" type="checkbox" autocomplete="off" {% if task.closed %}checked{% endif %}>
+                                    <label class="task-closed-label" for="task-{{ task.id }}"></label>
+                                </td>
+                                <td class="task-list__label">
+                                    <span class="task-label">{{ task.label }}</span>
+                                    <form class="task-edit-form display-none">
+                                        <div class="appInputGroup appInputGroup--flex">
+                                            <input class="task-label-field input--full" type="text" autocomplete="off" value="{{ task.label }}" required>
+                                            <button class="button button--primary-fill">{% trans %}Update{% endtrans %}</button>
+                                        </div>
+                                    </form>
+                                </td>
+                                <td class="task-list__ctrl">
+                                    <a href="#" class="appLink--secondary task-remove" data-tooltip="{% trans %}Remove{% endtrans %}">
+                                        <span class="icon ucrm-icon--trash"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+            {% endfor %}
+        </ol>
+        <form class="task-add-form">
+            <div class="appInputGroup appInputGroup--flex">
+                <input autocomplete="off" type="text" class="task-label-field input--full" required>
+                <button class="button button--primary-fill">{% trans %}Add{% endtrans %}</button>
+            </div>
+        </form>
+    </div>
+</div>

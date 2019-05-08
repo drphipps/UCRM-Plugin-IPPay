@@ -1,0 +1,137 @@
+# GET /clients/services{?clientId}
+
+Retrieve collection of **Services**.
+
++ Parameters
+    + organizationId: `1` (number, optional) - ID of an **Organization** to filter by.
+    + clientId: `1` (number, optional) - ID of an **Client** to filter by.
+    + statuses: `[1]` (array[ServiceStatus], optional) - Filter by service status.
+    + limit: `10` (number, optional) - Result limit.
+    + offset: `10` (number, optional) - Index of first result.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[ServiceReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+
+# /clients/services/{id}
+## GET
+
+Retrieve **Service**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Service** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ServiceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+
+## PATCH
+
+Update **Service**. 
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Service** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+    + Attributes (ServiceUpdate)
+
++ Response 200 (application/json)
+    + Attributes (ServiceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## /clients/{id}/services
+## GET
+
+Retrieve collection of **Services** filtered by **Client**.
+
+**DEPRECATED** - use `clientId` attribute in [GET /clients/services](#reference/clients/clients/services/get) instead.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a related **Client**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[ServiceReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST
+
+Create **Service** for **Client**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a related **Client**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (ServiceWritable)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /clients/services/2
+    + Attributes (ServiceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+
+## /clients/services/{id}/data-usage/{datetime}
+## GET
+
+Retrieve **Service** usage data for the period starting on the day given in date.
+
++ Parameters
+    + id: `1000` (number, required) - ID of the **Service**.
+    + datetime: `2017-09-12T00:00:00+0000` (string, required) - Date string in ISO 8601 format: starting day of period.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ServiceUsageReadonly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+    
+## /clients/services/{id}/geocode
+## PATCH
+
+Automatically geocode **Service's** address and update GPS coordinates with the result.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Service** to geocode.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ServiceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

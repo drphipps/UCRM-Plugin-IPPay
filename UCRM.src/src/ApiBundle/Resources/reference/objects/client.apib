@@ -1,0 +1,88 @@
+## Client (object)
++ userIdent: `ABC1000` (string) - "Custom ID" in UCRM, not to be confused with entity "ID" used in URL
++ previousIsp
++ isLead (boolean) - if true, this is a lead, otherwise active client
+    + Default: false
++ clientType (enum[number])
+    + Default: `1`
+    + Members
+        + `1` - Residential
+        + `2` - Company
++ companyName - Required in case of type **Company**
++ companyRegistrationNumber
++ companyTaxId
++ companyWebsite
++ companyContactFirstName
++ companyContactLastName
++ firstName: `John` - Required in case of type **Residential**
++ lastName: `Doe` - Required in case of type **Residential**
++ street1: `2580 Orchard Pkwy`
++ street2
++ city: `San Jose`
++ countryId: `249` (number) - If not specified, taken from default organization
+    See [Retrieve Countries](#reference/general/countries/get)
++ stateId: `1` (number) - Applicable in case of **United States** and **Canada** only. If not specified, taken from default organization
+    See [Retrieve States](#reference/general/countriesidstates/get)
++ zipCode: `95131`
++ invoiceStreet1: `2580 Orchard Pkwy`
++ invoiceStreet2
++ invoiceCity: `San Jose`
++ invoiceStateId: `1` (number) - Applicable in case of **United States** and **Canada** only
+    See [Retrieve States](#reference/general/countriesidstates/get)
++ invoiceCountryId: `249` (number)
+    See [Retrieve Countries](#reference/general/countries/get)
++ invoiceZipCode: `95131`
++ invoiceAddressSameAsContact (boolean)
+    + Default: `false`
++ note
++ sendInvoiceByPost (boolean) - If `null`, system default is used
+    Mark client's invoices as to be sent by post
+    + Default: `false`
++ invoiceMaturityDays (number) - If `null`, system default is used
+    + Default: `14`
++ stopServiceDue (boolean) - If `null`, system default is used
+    Suspend client's service in case of overdue invoice
+    + Default: `true`
++ stopServiceDueDays (number) - If `null`, system default is used
+    Number of days for which suspend is deferred
+    For example, if 3 days are set and invoice due date is 17th March suspend will start from 20th March
+    + Default: `0`
++ organizationId: `1` (number) - If not specified, default organization will be used
+    See [Retrieve Organizations](#reference/organizations/organizations/get)
++ tax1Id: `1` (number) - Will be added by default to each client's taxable services and products
+    See [Retrieve Taxes](#reference/taxes/taxes/get)
++ tax2Id: `2` (number) - Will be added by default to each client's taxable services and products
+    See [Retrieve Taxes](#reference/taxes/taxes/get)
++ tax3Id: `3` (number) - Will be added by default to each client's taxable services and products
+    See [Retrieve Taxes](#reference/taxes/taxes/get)
++ registrationDate: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format. If not specified, current date will be used
++ username: `john.doe` - If null, client zone is disabled
++ avatarColor: `#FFC107` - Color in hexadecimal format. If not specified, will be assigned randomly.
++ addressGpsLat: `37.3832548351597` (number) - Latitude of address location
++ addressGpsLon: `-121.931131237113` (number) - Longitude of address location
++ generateProformaInvoices (boolean) - If `null`, system default is used.
+    If `true` proforma invoice will be generated.
+    + Default: `null`
+
+## ClientWritable (object)
++ Include Client
++ contacts (array[ClientContactWritable])
++ attributes (array[ClientAttribute])
++ password: `verySecurePassword` (string, optional) - if filled, client's password will be changed
+
+## ClientReadOnly (object)
++ id: `1000` (number)
++ Include Client
++ isActive (boolean) - If `true`, this client has access to Client Zone
++ contacts (array[ClientContactReadOnly])
++ attributes (array[ClientAttributeReadOnly])
++ accountBalance: `-347.94` (number) - The positive number means that the client has a credit, otherwise a debit.
++ accountCredit: `0` (number)
++ accountOutstanding: `347.94` (number)
++ currencyCode: `USD` (string)
++ organizationName: `Your ISP inc.` (string)
++ bankAccounts: (array[ClientBankAccountReadOnly])
++ tags (array[ClientTagReadOnly])
++ invitationEmailSentDate: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format. Null if the user was not invited yet.
++ isArchived (boolean) - If `true`, client is archived.
++ usesProforma (boolean) - If `true` proforma invoice will be generated.

@@ -1,0 +1,26 @@
+## GET /quote-templates
+Retrieve collection of **Quote Templates**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[QuoteTemplateReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## GET /quote-templates/{id}
+Retrieve **Quote Template**.
+
++ Parameters
+    + id: `1` (number, required) - ID of an **Quote Template** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (QuoteTemplateReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

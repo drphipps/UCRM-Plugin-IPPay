@@ -1,0 +1,85 @@
+## GET /scheduling/jobs/tasks{?jobId}
+
+Retrieve collection of **Job Tasks**.
++ Parameters
+    + jobId: `1` (number, required) - ID of a **Job** to filter by
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[JobTaskReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST /scheduling/jobs/tasks
+
+Create **Job Task**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (JobTaskWritable)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /scheduling/jobs/tasks/1001
+    + Attributes (JobTaskReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+# /scheduling/jobs/tasks/{id}
+## GET
+
+Retrieve **Job Task**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Job Task** to fetch
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (JobTaskReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH
+
+Update **Job Task**. 
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Job Task** to update
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (JobTaskWritable)
+
++ Response 200 (application/json)
+    + Attributes (JobTaskReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## DELETE
+
+Delete **Job Task**. 
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Job Task** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

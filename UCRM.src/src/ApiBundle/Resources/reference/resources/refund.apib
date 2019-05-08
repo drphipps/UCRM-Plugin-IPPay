@@ -1,0 +1,65 @@
+## GET /refunds{?createdDateFrom,createdDateTo}
+Retrieve collection of **Refunds**.
+
++ Parameters
+    + createdDateFrom: `2016-01-01` (string, optional) -  Limit collection from date (including).
+    Use `YYYY-MM-DD` format.
+    + createdDateTo: `2016-12-31` (string, optional) -  Limit collection to date (including).
+    Use `YYYY-MM-DD` format.
+    + limit: `10` (number, optional) - Result limit.
+    + offset: `10` (number, optional) - Index of first result.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[RefundReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST /refunds
+Create **Refund**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (Refund)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /refunds/2
+    + Attributes (RefundReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## GET /refunds/{id}
+Retrieve **Refund**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Refund** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (RefundReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## DELETE /refunds/{id}
+Delete **Refund**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Refund** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

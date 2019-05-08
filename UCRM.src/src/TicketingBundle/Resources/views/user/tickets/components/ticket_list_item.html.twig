@@ -1,0 +1,152 @@
+{% if ticket is not null %}
+    {% set ticketUnread = ticket.lastCommentAt > app.user.createdAt and (ticket.id is not in_strict(lastSeenTicketComments|keys) or (ticket.id is in_strict(lastSeenTicketComments|keys) and lastSeenTicketComments[ticket.id] > 0)) %}
+
+    {% set statusClass = constant('STATUS_CLASSES', ticket)[ticket.status] %}
+    {% set ticketClasses = ['ticket-list__item', 'ticket-list__item--' ~ statusClass] %}
+    {% if ticketDetail is defined and ticketDetail is not null and ticketDetail.id is same as(ticket.id) %}
+        {% set ticketClasses = ticketClasses|merge(['ticket-list__item--selected']) %}
+    {% endif %}
+    {% if ticketUnread %}
+        {% set ticketClasses = ticketClasses|merge(['ticket-list__item--unread']) %}
+    {% endif %}
+    {% if not ticket.public %}
+        {% set ticketClasses = ticketClasses|merge(['ticket-list__item--private']) %}
+    {% endif %}
+
+    <div
+        id="ticket-list__item-{{ ticket.id }}"
+        class="{{ ticketClasses|join(' ') }}"
+        data-ticket-url="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.view, { ticketId: ticket.id, clientId: client.id ?? null }) }}"
+    >
+        <div class="ticket-list__item__content">
+            {% if not ticket.public %}
+                <div class="ticket-list__item__content__private" data-tooltip="{% trans %}This ticket is visible only to admins.{% endtrans %}">
+                    <span class="icon ucrm-icon--lock"></span>
+                </div>
+            {% endif %}
+
+            <div class="ticket-list__item__header">
+                {% spaceless %}
+                    <span class="ticket-list__item__avatars">
+                        {% if ticket.client %}
+                            <span class="circle-avatar circle-avatar--small circle-avatar--border" {% if ticket.client.user.avatarColor %}style="background-color: {{ ticket.client.user.avatarColor }};"{% endif %} data-tooltip="{{ ticket.client.nameForView }}">
+                                {{ ticket.client.nameForView|initials }}
+                            </span>
+                        {% endif %}
+                        {% if ticket.assignedUser %}
+                            <span class="circle-avatar circle-avatar--small circle-avatar--border" {% if ticket.assignedUser.avatarColor %}style="background-color: {{ ticket.assignedUser.avatarColor }};"{% endif %} data-tooltip="{{ ticket.assignedUser.nameForView }}">
+                                {{ ticket.assignedUser.nameForView|initials }}
+                            </span>
+                        {% endif %}
+                    </span>
+                {% endspaceless %}
+                <span class="ticket-list__item__name">
+                    #{{ ticket.id }}
+                    <span class="ticket-dot">•</span>
+                    {% if ticket.client is null %}
+                        {{ ticket.emailFromName }} &lt;{{ ticket.emailFromAddress }}&gt;
+                    {% else %}
+                        {{ ticket.client.nameForView }}
+                    {% endif %}
+                    {% if not ticket.jobs.empty %}
+                        <span class="ticket-dot">•</span>
+                        {% transchoice ticket.jobs.count %}%count% jobs{% endtranschoice %}
+                    {% endif %}
+                </span>
+                <span class="ticket-list__item__time">
+                    {{ ticket.createdAt|localizedDateToday('none', 'short', 'default', 'none') }}
+                    <span class="ticket-circle ticket-circle--{{ statusClass }}"></span>
+                </span>
+                {% if isEditPermissionGranted('TicketingBundle\\Controller\\TicketController') %}
+                    <div class="ticket-list__item__actions">
+                        <a class="action action--small action--light" href="#" data-modal-url="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.assign, { ticketId: ticket.id, clientId: client.id ?? null }) }}" data-tooltip="{% trans %}Assign ticket{% endtrans %}">
+                            <span class="icon ucrm-icon--user-assign-fill"></span>
+                        </a>
+
+                        {% if ticketGroups %}
+                            <div class="button-group">
+                                <button class="has-dropdown button-group__item action action--small action--light">
+                                    <span class="icon ucrm-icon--users"></span>
+                                </button>
+                                <ul class="appDropdown appDropdown--right appDropdown--narrow">
+                                    {% for ticketGroup in ticketGroups if not ticket.group or ticket.group.id is not same as(ticketGroup.id) %}
+                                        <li class="appDropdown__item">
+                                            <a href="{{ path(ticketingRoutesMap.ticketGroupEdit, { ticketId: ticket.id, ticketGroupId: ticketGroup.id, clientId: client.id ?? null }) }}" class="ajax">
+                                                {{ ticketGroup.name }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                    {% if ticket.group %}
+                                        <li class="appDropdown__item appDropdown__item--separator">
+                                            <a href="{{ path(ticketingRoutesMap.ticketGroupEdit, { ticketId: ticket.id, ticketGroupId: null, clientId: client.id ?? null }) }}" class="ajax danger">
+                                                {% trans %}remove group{% endtrans %}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        {% if ticket.emailFromAddress and not ticket.client %}
+                            <a class="action action--danger action--small action--light" href="#" data-modal-url="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.deleteFromImap, { ticketId: ticket.id, clientId: client.id ?? null }) }}" data-tooltip="{% trans %}Delete{% endtrans %}">
+                                <span class="icon ucrm-icon--trash"></span>
+                            </a>
+                        {% else %}
+                            <a class="action action--danger action--small action--light ajax" href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.delete, { ticketId: ticket.id, clientId: client.id ?? null }) }}" data-tooltip="{% trans %}Delete{% endtrans %}" data-confirm="{% trans %}Do you really want to delete this ticket?{% endtrans %}" data-confirm-title="{% trans %}Delete ticket{% endtrans %}" data-confirm-okay="{% trans %}Delete{% endtrans %}">
+                                <span class="icon ucrm-icon--trash"></span>
+                            </a>
+                        {% endif %}
+
+                        <div class="button-group">
+                            <button class="has-dropdown ticket-circle-button">
+                                <span class="ticket-circle ticket-circle--{{ statusClass }}"></span>
+                            </button>
+                            <ul class="appDropdown appDropdown--right appDropdown--narrow">
+                                {% for key, status in constant('STATUSES_TO_EDIT', ticket) %}
+                                    <li class="appDropdown__item appDropdown__item--has-icon">
+                                        <a href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.statusEdit, { ticketId: ticket.id, status: key, clientId: client.id ?? null }) }}" class="ajax">
+                                            <span class="icon ticket-square ticket-square--{{ constant('STATUS_CLASSES', ticket)[key] }}"></span>
+                                            <span>{{ status|trans }}</span>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="ticket-list__item__body">
+                <span class="ticket-list__item__subject">
+                    {% if ticket.group %}
+                        <span class="ticket-group-badge mr-5">
+                            {{ ticket.group.name }}
+                        </span>
+                    {% endif %}
+
+                    {% if ticket.subject %}
+                        {{ ticket.subject }}
+                    {% else %}
+                        <em>{% trans %}Empty subject{% endtrans %}</em>
+                    {% endif %}
+                </span>
+                {% if not ticket.comments.empty %}
+                    <span class="ticket-list__item__desc">
+                        {% set firstComment = ticket.comments.first.body %}
+                        {% if firstComment %}
+                            {{ firstComment|truncate(100) }}
+                        {% else %}
+                            <em>{% trans %}Empty body{% endtrans %}</em>
+                        {% endif %}
+                        {% if ticketUnread %}
+                            {% if ticket.id is in_strict(lastSeenTicketComments|keys) and lastSeenTicketComments[ticket.id] > 0 %}
+                                <span class="ticket-list__item__unread-badge">{{ lastSeenTicketComments[ticket.id] }}</span>
+                            {% elseif ticket.id is not in_strict(lastSeenTicketComments|keys) %}
+                                <span class="ticket-list__item__unread-badge">{{ ticket.comments.count }}</span>
+                            {% endif %}
+                        {% endif %}
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}

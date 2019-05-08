@@ -1,0 +1,8 @@
+{% import 'client/components/view/macros.html.twig' as macros %}
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-header__title">{% trans %}Location{% endtrans %}</div>
+    </div>
+    {{ macros.map('job-map', 'map-19-7', job.gpsLat, job.gpsLon, constant('AppBundle\\Util\\Map::DEFAULT_ZOOM'), true, null, 'job', false) }}
+</div>

@@ -1,0 +1,14 @@
+## JobAttachment (object)
++ jobId: `1000` (required, number)
+    See [Retrieve Jobs](#reference/jobs/schedulingjobs/get)
++ filename: `foto.jpg` (required, string) - File name
+
+## JobAttachmentWritable (object)
++ file: `` (required, string) - File encoded in base64.
++ Include JobAttachment
+
+## JobAttachmentReadOnly (object)
++ id: `1` (number)
++ size: `6983` (number) - Size of file in bytes
++ mimeType: `image/png` - MIME Type of file
++ Include JobAttachment

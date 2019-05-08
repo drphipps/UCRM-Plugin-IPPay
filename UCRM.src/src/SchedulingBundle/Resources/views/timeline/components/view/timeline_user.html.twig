@@ -1,0 +1,8 @@
+<div class="timeline-group-user" title="{{ name|e('html_attr') }}">
+    <div class="circle-avatar" {% if avatarColor ?? false %}style="background-color: {{ avatarColor }};"{% endif %}>
+        {{ name|initials }}
+    </div>
+    <div class="timeline-group-user__name">
+        {{ name|surnameInitials }}
+    </div>
+</div>

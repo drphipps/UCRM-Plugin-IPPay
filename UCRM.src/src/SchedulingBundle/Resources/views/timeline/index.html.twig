@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+{% block title %}{% trans %}Scheduling{% endtrans %}{% endblock %}
+
+{% block page_header %}
+    {% trans %}Scheduling{% endtrans %}
+{% endblock %}
+
+{% block page_header_buttons_left %}
+    <a href="{{ path('scheduling_job_new') }}" class="button button--primary button--icon-only primary" data-tooltip="{% trans %}Add job{% endtrans %}">
+        <span class="icon ucrm-icon--plus"></span>
+    </a>
+{% endblock %}
+
+{% block page_header_buttons_right %}
+    <div id="scheduling-filter">
+        {% include '@Scheduling/components/view/header_buttons_right.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block page_header_classes %}page-header--has-background{% endblock %}
+
+{% block content_classes %}full-size{% endblock %}
+
+{% block body %}
+    <div id="scheduling-container"
+            data-ajax-identifier="{{ constant('SchedulingBundle\\Controller\\SchedulingControllerInterface::AJAX_IDENTIFIER') }}"
+            data-ajax-identifier-pagination="{{ constant('SchedulingBundle\\Controller\\SchedulingControllerInterface::AJAX_IDENTIFIER_PAGINATION') }}"
+            data-ajax-identifier-filter="{{ constant('SchedulingBundle\\Controller\\SchedulingControllerInterface::AJAX_IDENTIFIER_FILTER') }}"
+    >
+        {% include '@Scheduling/timeline/components/view/view.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('assets/js/pages/scheduling_timeline.js') }}{{ versionQuery }}"></script>
+{% endblock %}

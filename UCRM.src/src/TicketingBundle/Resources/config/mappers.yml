@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+        tags: ['entity_mapper']
+
+    TicketingBundle\Api\Mapper\TicketActivityMapper: ~
+    TicketingBundle\Api\Mapper\TicketMapper: ~
+    TicketingBundle\Api\Mapper\TicketCommentMapper: ~
+    TicketingBundle\Api\Mapper\TicketGroupMapper: ~

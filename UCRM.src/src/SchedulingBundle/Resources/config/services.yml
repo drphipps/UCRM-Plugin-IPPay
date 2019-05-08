@@ -1,0 +1,22 @@
+imports:
+    - { resource: facades.yml }
+    - { resource: factories.yml }
+    - { resource: grids.yml }
+    - { resource: controllers.yml }
+    - { resource: data_providers.yml }
+    - { resource: symfony_subscribers.yml }
+    - { resource: file_managers.yml }
+    - { resource: mappers.yml }
+    - { resource: forms.yml }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    SchedulingBundle\Service\Job\TimelineDataProvider: ~
+    SchedulingBundle\Service\Job\JobToVisArrayConverter: ~
+    SchedulingBundle\Service\Job\ICalExportGenerator: ~
+    SchedulingBundle\Security\SchedulingPermissionsVoter:
+        public: false

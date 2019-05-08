@@ -1,0 +1,83 @@
+# /client-tags
+
+## GET
+
+Retrieve collection of **Client Tags**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[ClientTagReadOnly])
+
+## POST
+
+Create **Client Tag**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (ClientTag)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /client-tags/2
+    + Attributes (ClientTagReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+#/client-tags/{id}
+
+## PATCH
+
+Update **Client Tag**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Client Tag** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (ClientTag)
+
++ Response 200 (application/json)
+    + Attributes (ClientTagReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## GET
+
+Retrieve **Client Tag**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Client Tag** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ClientTagReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## DELETE
+
+Delete **Client Tag**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Client Tag** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

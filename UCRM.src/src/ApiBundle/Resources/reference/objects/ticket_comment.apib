@@ -1,0 +1,23 @@
+## TicketComment
++ userId: `35` (number) - ID of User or null if activity is created by client.
+    See [Retrieve Users](#reference/users/users/get)
++ public (boolean) - Is visible to client?
+    + Default: `true`
++ createdAt: `2016-09-12T00:00:00+0000` (string) - Date string in ISO 8601 format. If not specified, current date will be used
++ emailFromAddress: `john.doe@example.com` (string) - Can be only set, if `userId` is null (comment is created by client).
++ emailFromName: `John Doe` (string) - Can be only set, if `userId` is null (comment is created by client).
+
+## TicketCommentWritable (object)
++ body: `When I tried to turn on my PC, I see blue screen only.` (string) - Required when **attachments** is not specified.
++ attachments (array[TicketCommentAttachmentWritable]) - Required when **body** is not specified.
++ Include TicketComment
++ ticketId: `35` (required, number)
+    See [Retrieve Ticket](#reference/tickets/ticket/get)
+
+## TicketCommentReadOnly (object)
++ id: `1` (number)
++ ticketId: `35` (number)
+    See [Retrieve Ticket](#reference/tickets/ticket/get)
++ body: `When I tried to turn on my PC, I see blue screen only.` (string)
++ attachments (array[TicketCommentAttachmentReadOnly])
++ Include TicketComment

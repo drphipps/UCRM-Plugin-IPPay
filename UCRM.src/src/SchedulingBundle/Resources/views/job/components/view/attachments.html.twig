@@ -1,0 +1,51 @@
+{% set attachmentTemplate %}
+    <% _.each(attachments, function(attachment) { %>
+        <div data-attachment-id="<%- attachment.id %>"  class="verticalRhythmHalf">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="attachment-list__name">
+                            <a href="<%- attachment.urlGet %>">
+                                <%- attachment.original_filename %> (<%- attachment.size %>)
+                            </a>
+                        </td>
+                        <td class="attachment-list__ctrl">
+                            <a href="#" class="appLink--secondary attachment-remove" data-tooltip="{% trans %}Remove{% endtrans %}" data-confirm="{% trans %}Do you really want to delete this file?{% endtrans %}" data-confirm-title="{% trans %}Delete file{% endtrans %}" data-confirm-okay="{% trans %}Delete{% endtrans %}">
+                                <span class="icon ucrm-icon--trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    <% }); %>
+{% endset %}
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-header__title">{% trans %}Attachments{% endtrans %}</div>
+    </div>
+
+    <div class="card-block card-block--pad job-attachment-list"
+        data-attachment-template="{{ attachmentTemplate|escape('html_attr') }}"
+        data-job-id="{{ job.id }}"
+        data-attachment-add-csrf="{{ 'scheduling_job_attachment_new'|csrf_token() }}"
+        data-attachment-delete-csrf="{{ 'scheduling_job_attachment_delete'|csrf_token() }}"
+    >
+        {% include '@Scheduling/job/components/view/attachments_list.html.twig' %}
+        <form class="attachment-add-form">
+            <div class="row">
+                <div class="col--xs10">
+                    <div class="fileInput input--full">
+                        <input type="text" class="fileInput__fake-input" tabindex="-1">
+                        <input type="file" id="job_attachmentFiles" name="job[attachmentFiles][]" multiple="multiple">
+                        <span class="fileInput__button button button--medium button--block">{% trans %}Browse{% endtrans %}</span>
+                    </div>
+                </div>
+                <div class="col--xs2 alignRight">
+                    <button class="button button--primary-fill">{% trans %}Upload{% endtrans %}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    TicketingBundle\Service\Factory\CommentAttachmentFactory: ~
+    TicketingBundle\Service\Factory\CommentFactory: ~
+    TicketingBundle\Service\Factory\CommentMailAttachmentFactory: ~
+    TicketingBundle\Service\Factory\NotificationEmailMessageFactory: ~
+    TicketingBundle\Service\Factory\TicketImapModelFactory: ~

@@ -1,0 +1,25 @@
+## GET /organizations
+
+Retrieve collection of **Organizations**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[OrganizationReadOnly])
+
+## GET /organizations/{id}
+
+Retrieve **Organization**.
+
++ Parameters
+    + id: `1` (number, required) - ID of an **Organization** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (OrganizationReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

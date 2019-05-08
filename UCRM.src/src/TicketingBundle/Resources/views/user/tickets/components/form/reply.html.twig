@@ -1,0 +1,71 @@
+{{ form_start(ticketDetailCommentForm) }}
+    <div class="ticket-detail__form__comment">
+        {{ form_widget(ticketDetailCommentForm.body, { attr: { class: 'autosize save-shortcut', rows: 1, placeholder: 'Write a comment or attach a file' } }) }}
+        {{ form_errors(ticketDetailCommentForm.body) }}
+    </div>
+    <div class="ticket-detail__form__ctrl">
+        <div class="row">
+            <div class="col--xs6 ticket-detail__form__ctrl__left">
+                <div class="canned-responses">
+                    <span class="canned-responses__ctrl has-dropdown">
+                        <span class="icon ucrm-icon--message-circle"></span>
+                    </span>
+                    <div class="canned-responses__dropdown appDropdown appDropdown--left appDropdown--narrow">
+                        <div class="canned-responses__dropdown__items {% if not ticketingCannedResponses|length %}canned-responses__dropdown__items--empty{% endif %}">
+                            {% for cannedResponse in ticketingCannedResponses %}
+                                <li class="appDropdown__item">
+                                    <a href="#" data-canned-response-value="{{ cannedResponse.content|e('html_attr') }}">
+                                        {{ cannedResponse.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </div>
+                        {% if isEditPermissionGranted('AppBundle\\Controller\\SettingTicketingCannedResponseController') %}
+                            <div class="appDropdown__item appDropdown__item--separator"></div>
+                            <div class="appDropdown__item">
+                                <a href="#" data-organize-url="{{ path('setting_ticketing_canned_response_organize') }}?new=1">
+                                    {% trans %}Create new canned response{% endtrans %}
+                                </a>
+                            </div>
+                            <div class="appDropdown__item appDropdown__item--separator"></div>
+                            <div class="appDropdown__item">
+                                <a href="#" data-organize-url="{{ path('setting_ticketing_canned_response_organize') }}">
+                                    {% trans %}Organize canned responses{% endtrans %}
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="appInputGroup fileInput fileInput--icon fileInput--has-clear">
+                    <span class="fileInput__icon">
+                        <span class="icon ucrm-icon--paper-clip"></span>
+                    </span>
+                    <span class="fileInput__files"></span>
+                    <span class="fileInput__clear">
+                        <span class="icon ucrm-icon--cross"></span>
+                    </span>
+                    {{ form_widget(ticketDetailCommentForm.attachmentFiles) }}
+                </div>
+                {{ form_errors(ticketDetailCommentForm.attachmentFiles) }}
+            </div>
+            <div class="col--xs6 ticket-detail__form__ctrl__right">
+                {% if ticketDetailCommentForm.private is defined %}
+                    <span class="ticket-detail__form__ctrl__private mr-20">
+                        {{ form_widget(ticketDetailCommentForm.private, { attr: { class: 'checkbox' } }) }}
+                        <label for="{{ ticketDetailCommentForm.private.vars.id }}" data-tooltip="{% trans %}Private comments are visible only to admins.{% endtrans %}">{% trans %}Private comment{% endtrans %}</label>
+                    </span>
+                {% endif %}
+                {% if ticketDetail.client is not null and not hasContactEmail and notificationTicketUserCreatedByEmail %}
+                    <button type="submit" class="button button--medium button--medium-pad button--warning-fill button--wide-three-quarters" data-tooltip="{% trans %}Client does not have email. Email notification will not be sent.{% endtrans %}">
+                        {% trans %}Send{% endtrans %}
+                    </button>
+                {% else %}
+                    <button type="submit" class="button button--medium button--medium-pad button--primary-fill button--wide-three-quarters">
+                        {% trans %}Send{% endtrans %}
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{{ form_end(ticketDetailCommentForm) }}

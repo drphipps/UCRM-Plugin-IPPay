@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+        tags: ['entity_mapper']
+
+    SchedulingBundle\Api\Mapper\JobMapper: ~
+    SchedulingBundle\Api\Mapper\JobCommentMapper: ~
+    SchedulingBundle\Api\Mapper\JobTaskMapper: ~
+    SchedulingBundle\Api\Mapper\JobAttachmentMapper: ~

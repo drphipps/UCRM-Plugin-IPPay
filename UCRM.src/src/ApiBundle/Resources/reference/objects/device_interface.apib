@@ -1,0 +1,64 @@
+## DeviceInterface (object)
++ name: `AP1` (required)
++ type: `1` (enum[number], required)
+    + Members
+        + `0` - Unknown
+        + `1` - Wireless
+        + `2` - Ethernet
+        + `3` - Vlan
+        + `4` - Mesh
+        + `5` - Bonding
+        + `6` - Bridge
+        + `7` - CAP
+        + `8` - GRE
+        + `9` - GRE6
+        + `10` - L2TP
+        + `11` - OVPN
+        + `12` - PPPoE
+        + `13` - PPTP
+        + `14` - SSTP
+        + `15` - VPLS
+        + `16` - Traffic eng
+        + `17` - VRRP
+        + `18` - WDS
++ macAddress: `00:AA:BB:00:11:22` - Supported MAC formats are 00:AA:BB:00:11:22, 00‑AA‑BB‑00‑11‑22, 00AABB001122
++ allowClientConnection (boolean)
+    + Default: `true`
++ enabled (boolean)
+    + Default: `true`
++ notes
++ ssid: `UBNT AP1` - Applicable in case of type **Wireless** only
++ frequency (number) - Applicable in case of type **Wireless** only
++ polarization: `1` (enum[number]) - Required in case of type **Wireless**
+    + Members
+        + `1` - Vertical
+        + `2` - Horizontal
+        + `3` - Both
++ encryptionType: `1` (enum[number]) - Required in case of type **Wireless**
+    + Members
+        + `0` - None
+        + `1` - WEP
+        + `2` - WPA
+        + `3` - WPA2EAP
+        + `4` - WPAEAP
+        + `5` - WPAEAP / WPA2EAP
+        + `6` - WPA2PSK
+        + `7` - WPA2PSK / WPA2EAP
+        + `8` - WPA2PSK / WPAEAP
+        + `9` - WPA2PSK / WPAEAP / WPA2EAP
+        + `10` - WPAPSK
+        + `11` - WPAPSK / WPA2EAP
+        + `12` - WPAPSK / WPAEAP
+        + `13` - WPAPSK / WPAEAP / WPA2EAP
+        + `14` - WPAPSK / WPA2PSK
+        + `15` - WPAPSK / WPA2PSK / WPA2EAP
+        + `16` - WPAPSK / WPA2PSK / WPAEAP
+        + `17` - WPAPSK / WPA2PSK / WPAEAP / WPA2EAP
++ encryptionKeyWpa - Applicable in case of type **Wireless** only
++ encryptionKeyWpa2 - Applicable in case of type **Wireless** only
+
+## DeviceInterfaceReadOnly (object)
++ id: `1` (number)
++ deviceId: `1` (number)
++ ipRanges: `192.168.2.98/32` (array)
++ Include DeviceInterface

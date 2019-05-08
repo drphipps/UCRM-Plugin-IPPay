@@ -1,0 +1,96 @@
+## Quote (object)
++ number: `2016050025`
++ items (array[QuoteItem], required)
++ createdDate: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format. If not specified, current date will be used
++ notes - This text will be displayed on the quote
++ adminNotes - This text will not be displayed on the quote and is never shown to client
++ quoteTemplateId: `1` (number) - If not specified, quote template set on Organization is used
+    See [Retrieve Quote Templates](#reference/quote-templates/quote-templates/get)
++ organizationName: `Your ISP inc.` (string)
++ organizationRegistrationNumber: `RN123456` (string)
++ organizationTaxId: `TI123456` (string)
++ organizationStreet1: `2580 Orchard Parkway` (string)
++ organizationStreet2: `Suite G` (string)
++ organizationCity: `San Jose` (string)
++ organizationCountryId: `249` (number)
+    See [Retrieve Countries](#reference/general/countries/get)
++ organizationStateId: `1` (number)
+    See [Retrieve States](#reference/general/countriesidstates/get)
++ organizationZipCode: `95131` (string)
++ organizationBankAccountName: `Primary` (string)
++ organizationBankAccountField1: `12345` (string)
++ organizationBankAccountField2: `6789` (string)
++ clientFirstName: `John` (string)
++ clientLastName: `Doe` (string)
++ clientCompanyName: `John Doe Company inc.` (string)
++ clientCompanyRegistrationNumber: `CRN123` (string)
++ clientCompanyTaxId: `CTI123` (string)
++ clientStreet1: `2580 Orchard Parkway` (string)
++ clientStreet2: `Suite E` (string)
++ clientCity: `San Jose` (string)
++ clientCountryId: `249` (number)
+    See [Retrieve Countries](#reference/general/countries/get)
++ clientStateId: `1` (number)
+    See [Retrieve States](#reference/general/countriesidstates/get)
++ clientZipCode: `95131` (string)
+
+## QuoteNew (object)
++ number: `2016050025` - If not specified, the next quote number will be generated automatically
++ items (array[QuoteItem], required)
++ Include Quote
+
+## QuoteUpdate (object)
++ number: `2016050025`
++ items (array[QuoteItem])
++ Include Quote
+
+## QuoteReadOnly (object)
++ id: `1` (number)
++ clientId: `1` (number)
++ number: `2016050025`
++ Include Quote
++ items (array[QuoteItemReadOnly])
++ subtotal: `15.0` (number)
++ discount: `5.0` (number)
++ discountLabel: `Quantity discount` (string) - Label of discount
++ taxes: (array[TotalTax])
++ total: `10.0` (number)
++ currencyCode: `USD` (string)
++ status: `1` (QuoteStatus)
+
+## QuoteItem (object)
++ label: `Internet` (required)
++ price: `10.0` (number, required)
++ quantity (number)
+    + Default: `1`
++ unit
++ tax1Id: `1` (number)
+    See [Retrieve Taxes](#reference/taxes/taxes/get)
++ tax2Id: `2` (number) - If your pricing mode is set to "Tax inclusive pricing", only single tax can be set.
+    See [Retrieve Taxes](#reference/taxes/taxes/get)
++ tax3Id: `3` (number) - If your pricing mode is set to "Tax inclusive pricing", only single tax can be set.
+    See [Retrieve Taxes](#reference/taxes/taxes/get)
+
+## QuoteItemReadOnly (object)
++ id: `1` (number)
++ serviceId: `1` (number, nullable)
++ serviceSurchargeId: `1` (number, nullable)
++ productId: `1` (number, nullable)
++ total: `10.0` (number, required)
++ type: `service` (QuoteItemType)
++ discountPrice: `10.0` (number, nullable)
++ discountQuantity (number, nullable)
++ discountTotal (number, nullable)
++ Include QuoteItem
+
+## QuoteItemType (enum[string])
++ `service` - Service
++ `fee` - Fee
++ `product` - Product
++ `surcharge` - Service surcharge
++ `other` - Other
+
+## QuoteStatus (enum[number])
++ `0` - Open
++ `1` - Accepted
++ `2` - Rejected

@@ -1,0 +1,81 @@
+# /surcharges
+## GET
+
+Retrieve collection of **Surcharges**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[SurchargeReadOnly])
+
+## POST
+
+Create **Surcharge**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (Surcharge)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /surcharges/2
+    + Attributes (SurchargeReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+# /surcharges/{id}
+## PATCH
+
+Update **Surcharge**. 
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Surcharge** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (Surcharge)
+
++ Response 200 (application/json)
+    + Attributes (SurchargeReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## GET
+
+Retrieve **Surcharge**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Surcharge** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (SurchargeReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## DELETE
+
+Delete **Surcharge**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Surcharge** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

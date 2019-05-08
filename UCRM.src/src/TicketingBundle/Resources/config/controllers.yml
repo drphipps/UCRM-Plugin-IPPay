@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    TicketingBundle\Api\Controller\TicketActivityController: ~
+    TicketingBundle\Api\Controller\TicketController: ~
+    TicketingBundle\Api\Controller\TicketCommentController: ~
+    TicketingBundle\Api\Controller\TicketCommentAttachmentController: ~
+    TicketingBundle\Api\Controller\TicketGroupController: ~

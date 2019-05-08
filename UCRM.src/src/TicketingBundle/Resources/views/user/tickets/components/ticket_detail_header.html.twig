@@ -1,0 +1,124 @@
+<div class="ticket-detail__header">
+    {% if not ticketDetail.public %}
+        <div class="ticket-detail__header__private_bar" data-tooltip="{% trans %}This ticket is visible only to admins.{% endtrans %}">
+            <span class="icon ucrm-icon--lock"></span>
+            {% trans %}Private ticket{% endtrans %}
+        </div>
+    {% endif %}
+
+    <div class="ticket-detail__header__top">
+        {% spaceless %}
+            <div class="ticket-detail__header__top__left">
+                <span class="ticket-detail__header__avatars">
+                    {% if ticketDetail.client %}
+                        <a href="{{ path('client_show', { id: ticketDetail.client.id }) }}" class="circle-avatar circle-avatar--small circle-avatar--border" {% if ticketDetail.client.user.avatarColor %}style="background-color: {{ ticketDetail.client.user.avatarColor }};"{% endif %} data-tooltip="{{ ticketDetail.client.nameForView }}">
+                            {{ ticketDetail.client.nameForView|initials }}
+                        </a>
+                    {% endif %}
+
+                    {% if ticketDetail.assignedUser %}
+                        <a href="{{ path('user_show', { id: ticketDetail.assignedUser.id }) }}" class="circle-avatar circle-avatar--small circle-avatar--border" {% if ticketDetail.assignedUser.avatarColor %}style="background-color: {{ ticketDetail.assignedUser.avatarColor }};"{% endif %} data-tooltip="{{ ticketDetail.assignedUser.nameForView }}">
+                            {{ ticketDetail.assignedUser.nameForView|initials }}
+                        </a>
+                    {% endif %}
+                </span>
+                <span class="ticket-detail__header__details">
+                    #{{ ticketDetail.id }}
+                    <span class="ticket-dot"> • </span>
+                    {% if ticketDetail.client is null %}
+                        <strong>{{ ticketDetail.emailFromName }} &lt;{{ ticketDetail.emailFromAddress }}&gt;</strong>
+                    {% else %}
+                        <a href="{{ path('client_show', { id: ticketDetail.client.id }) }}">
+                            <strong>{{ ticketDetail.client.nameForView }}</strong>
+                        </a>
+                    {% endif %}
+                    <span class="ticket-dot"> • </span>
+                    {{ ticketDetail.createdAt|localizedDate('default', 'short') }}
+                </span>
+            </div>
+        {% endspaceless %}
+        <div class="ticket-detail__header__top__right">
+            {% if isEditPermissionGranted('TicketingBundle\\Controller\\TicketController') %}
+                {% if ticketDetail.group or ticketGroups %}
+                    <div class="button-group">
+                        {% if ticketDetail.group %}
+                            <button class="has-dropdown button-group__item ticket-group-badge">
+                                {{ ticketDetail.group.name }}
+                            </button>
+                        {% else %}
+                            <button class="has-dropdown button-group__item ticket-group-badge ticket-group-badge--empty">
+                                {% trans %}Group{% endtrans %}
+                            </button>
+                        {% endif %}
+                        <ul class="appDropdown appDropdown--right appDropdown--narrow">
+                            {% for ticketGroup in ticketGroups if not ticketDetail.group or ticketDetail.group.id is not same as(ticketGroup.id) %}
+                                <li class="appDropdown__item">
+                                    <a href="{{ path(ticketingRoutesMap.ticketGroupEdit, { ticketId: ticketDetail.id, ticketGroupId: ticketGroup.id, clientId: client.id ?? null }) }}" class="ajax">
+                                        {{ ticketGroup.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            {% if ticketDetail.group %}
+                                <li class="appDropdown__item appDropdown__item--separator">
+                                    <a href="{{ path(ticketingRoutesMap.ticketGroupEdit, { ticketId: ticketDetail.id, ticketGroupId: null, clientId: client.id ?? null }) }}" class="ajax danger">
+                                        {% trans %}remove group{% endtrans %}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <div class="button-group">
+                    <button class="has-dropdown button-group__item ticket-status-badge ticket-status-badge--{{ statusClass }}">
+                        <span>{{ constant('STATUSES', ticketDetail)[ticketDetail.status]|trans }}</span>
+                        <span class="caret caret--medium ucrm-icon--pointer-down"></span>
+                    </button>
+                    <ul class="appDropdown appDropdown--right appDropdown--narrow">
+                        {% for key, status in constant('STATUSES_TO_EDIT', ticketDetail) %}
+                            <li class="appDropdown__item appDropdown__item--has-icon">
+                                <a href="{{ path(ticketingRoutesMap.statusEdit, { ticketId: ticketDetail.id, status: key, clientId: client.id ?? null }) }}" class="ajax">
+                                    <span class="icon ticket-square ticket-square--{{ constant('STATUS_CLASSES', ticketDetail)[key] }}"></span>
+                                    <span>{{ status|trans }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                {% if ticketDetail.group %}
+                    <div class="button-group">
+                        <span class="button-group__item ticket-group-badge">
+                            {{ ticketDetail.group.name }}
+                        </span>
+                    </div>
+                {% endif %}
+
+                <div class="button-group">
+                    <span class="button-group__item ticket-status-badge ticket-status-badge--{{ statusClass }}">
+                        {{ constant('STATUSES', ticketDetail)[ticketDetail.status]|trans }}
+                    </span>
+                </div>
+            {% endif %}
+
+            {% if isEditPermissionGranted('TicketingBundle\\Controller\\TicketController') %}
+                <a class="action action--primary" href="#" data-modal-url="{{ path(ticketingRoutesMap.assign, { ticketId: ticketDetail.id, clientId: client.id ?? null }) }}" data-tooltip="{% trans %}Assign ticket{% endtrans %}">
+                    <span class="icon ucrm-icon--user-assign"></span>
+                </a>
+                {% if ticketDetail.emailFromAddress and not ticketDetail.client %}
+                    <a class="action action--danger" href="#" data-modal-url="{{ path(ticketingRoutesMap.deleteFromImap, { ticketId: ticketDetail.id, clientId: client.id ?? null }) }}" data-tooltip="{% trans %}Delete{% endtrans %}">
+                        <span class="icon ucrm-icon--trash"></span>
+                    </a>
+                {% else %}
+                    <a class="action action--danger ajax" href="{{ path(ticketingRoutesMap.delete, { ticketId: ticketDetail.id, clientId: client.id ?? null }) }}" data-tooltip="{% trans %}Delete{% endtrans %}" data-confirm="{% trans %}Do you really want to delete this ticket?{% endtrans %}" data-confirm-title="{% trans %}Delete ticket{% endtrans %}" data-confirm-okay="{% trans %}Delete{% endtrans %}">
+                        <span class="icon ucrm-icon--trash"></span>
+                    </a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="ticket-detail__header__heading">
+        <span title="{{ ticketDetail.subject }}">{{ ticketDetail.subject }}</span>
+    </div>
+</div>

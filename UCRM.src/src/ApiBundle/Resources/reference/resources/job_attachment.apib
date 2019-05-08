@@ -1,0 +1,102 @@
+## GET /scheduling/jobs/attachments{?jobId}
+
+Retrieve collection of **Job Attachments**.
+
++ Parameters
+    + jobId: `1` (number, optional) - ID of a **Job** to filter by.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[JobAttachmentReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST /scheduling/jobs/attachments
+
+Create **Job Attachment**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (JobAttachmentWritable)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /scheduling/jobs/attachments/1001
+    + Attributes (JobAttachmentReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+# /scheduling/jobs/attachments/{id}
+
+## GET
+
+Retrieve **Job Attachment**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Job Attachment** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (JobAttachmentReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH
+
+Update **Job Attachment**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Job Attachment** to update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (JobAttachmentWritable)
+
++ Response 200 (application/json)
+    + Attributes (JobAttachmentReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## DELETE
+
+Delete **Job Attachment**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Job Attachment** to delete.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## GET /scheduling/jobs/attachments/{id}/file
+
+Retrieve **Job Attachment** file.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Job Attachment** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (*/*)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

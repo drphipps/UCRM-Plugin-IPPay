@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    SchedulingBundle\Grid\Job\JobGridFactory: ~
+    SchedulingBundle\Grid\MyJobs\MyJobsGridFactory: ~
+    SchedulingBundle\Grid\Job\JobCommentsGridFactory: ~
+    SchedulingBundle\Grid\JobLogsView\JobLogsViewGridFactory: ~

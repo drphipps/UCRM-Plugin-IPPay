@@ -1,0 +1,58 @@
+{% set openFormTab = openFormTab ?? constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::FORM_TAB_REPLY') %}
+{% set canCommentTicket = isEditPermissionGranted('TicketingBundle\\Controller\\TicketController') %}
+{% if canCommentTicket %}
+    {% set hasNavBar = newJobForm is not null or (assignedJobs ?? false) or (jobs ?? false) %}
+{% else %}
+    {% set hasNavBar = assignedJobs ?? false %}
+{% endif %}
+
+{% if not canCommentTicket and openFormTab is same as(constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::FORM_TAB_REPLY')) %}
+    {% set openFormTab = constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::FORM_TAB_ADD_JOB') %}
+{% endif %}
+{% if newJobForm is null and openFormTab is same as(constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::FORM_TAB_ADD_JOB')) %}
+    {% set openFormTab = constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::FORM_TAB_LINKED_JOBS') %}
+{% endif %}
+{% if not ((assignedJobs ?? false) or (jobs ?? false)) and openFormTab is same as(constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::FORM_TAB_LINKED_JOBS')) %}
+    {% set openFormTab = constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::FORM_TAB_REPLY') %}
+{% endif %}
+
+<div class="ticket-detail__form {% if hasNavBar %}ticket-detail__form--has-nav{% endif %}">
+    {% if hasNavBar %}
+        <div class="ticket-detail__form__nav">
+            {% if canCommentTicket %}
+                <a href="#" data-nav-target="#ticket-detail__form__reply" class="ticket-detail__form__nav__item {% if openFormTab is same as(constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::FORM_TAB_REPLY')) %}ticket-detail__form__nav__item--active{% endif %}">
+                    {% trans %}Reply{% endtrans %}
+                </a>
+            {% endif %}
+            {% if newJobForm is not null %}
+                <a href="#" data-nav-target="#ticket-detail__form__add_job" class="ticket-detail__form__nav__item {% if openFormTab is same as(constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::FORM_TAB_ADD_JOB')) %}ticket-detail__form__nav__item--active{% endif %}">
+                    {% trans %}Add job{% endtrans %}
+                </a>
+            {% endif %}
+            {% if (assignedJobs ?? false) %}
+                <a href="#" data-nav-target="#ticket-detail__form__linked_jobs" id="ticket-detail__form__nav__item__linked_jobs" class="ticket-detail__form__nav__item {% if openFormTab is same as(constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::FORM_TAB_LINKED_JOBS')) %}ticket-detail__form__nav__item--active{% endif %}">
+                    {% trans %}Linked jobs{% endtrans %}
+                    {% if ticketDetail.jobs.count > 0 %}
+                        <span class="badge badge--primary ml-5">{{ ticketDetail.jobs.count }}</span>
+                    {% endif %}
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if canCommentTicket %}
+        <div id="ticket-detail__form__reply" class="ticket-detail__form__reply ticket-detail__form__item {% if not openFormTab or openFormTab is same as(constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::FORM_TAB_REPLY')) %}ticket-detail__form__item--active{% endif %}">
+            {% include '@Ticketing/user/tickets/components/form/reply.html.twig' %}
+        </div>
+    {% endif %}
+    {% if newJobForm is not null %}
+        <div id="ticket-detail__form__add_job" class="ticket-detail__form__item {% if openFormTab is same as(constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::FORM_TAB_ADD_JOB')) %}ticket-detail__form__item--active{% endif %}">
+            {% include '@Ticketing/user/tickets/components/form/add_job.html.twig' %}
+        </div>
+    {% endif %}
+    {% if (canCommentTicket and ((assignedJobs ?? false) or (jobs ?? false))) or (not canCommentTicket and (assignedJobs ?? false)) %}
+        <div id="ticket-detail__form__linked_jobs" class="ticket-detail__form__item ticket-detail__form__linked_jobs {% if openFormTab is same as(constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::FORM_TAB_LINKED_JOBS')) %}ticket-detail__form__item--active{% endif %}">
+            {% include '@Ticketing/user/tickets/components/form/linked_jobs.html.twig' %}
+        </div>
+    {% endif %}
+</div>

@@ -1,0 +1,106 @@
+## GET /quotes{?clientId,createdDateFrom,createdDateTo}
+Retrieve collection of **Quotes**.
+
++ Parameters
+    + clientId: `1` (number, optional) - ID of a **Client** to filter by.
+    + createdDateFrom: `2016-01-01` (string, optional) -  Limit collection from date (including).
+    Use `YYYY-MM-DD` format.
+    + createdDateTo: `2016-12-31` (string, optional) -  Limit collection to date (including).
+    Use `YYYY-MM-DD` format.
+    + statuses: `[0]` (array[QuoteStatus], optional) - Filter by quote status.
+    + number: `QN20171030` (string, optional) - Search by quote number.
+    + limit: `10` (number, optional) - Result limit.
+    + offset: `10` (number, optional) - Index of first result.
+    + order: `clientLastName` (enum[string], optional) - By what property is result ordered by.
+        + Default: `createdDate`
+        + Members
+            + `clientFirstName`
+            + `clientLastName`
+            + `createdDate`
+    + direction: `DESC` (enum[string], optional) -  Ordering direction.
+        + Default: `ASC`
+        + Members
+            + `ASC`
+            + `DESC`
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[QuoteReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+# /quotes/{id}
+## GET
+Retrieve **Quote**.
+
++ Parameters
+    + id: `1` (number, required) - ID of an **Quote** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (QuoteReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+    
+## PATCH
+Update **Quote**. 
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Quote** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+    + Attributes (QuoteUpdate)
+
++ Response 200 (application/json)
+    + Attributes (QuoteReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## POST /clients/{id}/quotes
+Create **Quote** for **Client**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Client** to create **Quote** for.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+    + Attributes (QuoteNew)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /clients/quotes/2
+    + Attributes (QuoteReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## GET /quotes/{id}/pdf
+
+Retrieve **Quote** PDF.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Quote** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/pdf)
+
+
++ Response 404 (application/json)
+    + Attributes (Error404)

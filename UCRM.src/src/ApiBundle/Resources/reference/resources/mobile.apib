@@ -1,0 +1,250 @@
+## POST /mobile/login
+
+Get authentication token for user.
+
++ Request (application/json)
+    + Attributes
+        + user: `admin` (string)
+        + password: `pa$$word` (string)
+        + expiration: `604800` (number) - Expiration time in seconds, max 604800 (7 days).
+        + sliding: `1` (number) - 1 to prolong expiration each time the key is used, 0 otherwise.
+        + deviceName: `My Phone Model` (string, optional)
+
++ Response 200 (application/json)
+    + Attributes
+        + authenticationKey: `user-key-pwB4nm8KAaFuxOuZQmG59gHl2Xj36zN/yx1HDkBz8Q2zLsDgjbNe2imcgZ8U5pYk` (string)
+        + user (UserReadOnly)
+    
+## DELETE /mobile/logout
+
+Deactivate user authentication key.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes
+        + code: `200` (number)
+        + message: `Authentication key was removed.` (string)
+
+
+## GET /mobile/dashboard/overview
+
+Retrieve overview data for the default organization.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + organization (object)
+            + id: `1` (number)
+            + name: `UBNT` (string)
+            + currencyCode: `USD` (string)
+        + overview (object)
+            + clientCount: `10` (number)
+            + clientLeadCount: `10` (number)
+            + clientSuspendedCount: `10` (number, nullable) Null if suspension feature is disabled, int otherwise.
+            + clientOverdueCount: `10` (number)
+        + invoicingOverview (object)
+            + totalDue: `850.1` (number)
+            + totalOverdue: `243.0` (number)
+            + invoicedThisMonth: `547.8` (number)
+            + invoicedThisMonthUnpaid: `257.4` (number)
+
+
+## GET /mobile/dashboard/last-week-traffic
+
+Retrieve traffic data for last 7 days.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + downloadTotal: `46746846` (number)
+        + uploadTotal: `1586453` (number)
+        + chart (array[TrafficItem])
+
+
+## GET /mobile/invoices{?overdue,limit,offset}
+
+Retrieve summary data about invoices.
+
++ Parameters
+    + statuses: `?statuses[]=1&statuses[]=2` (array[InvoiceStatus], optional) - Filter by invoice status
+    + overdue: `1` (number, optional) - If set to 1, only overdue invoices are returned
+    + limit: `10` (number, optional) - Result limit.
+    + offset: `10` (number, optional) - Index of first result.
+    + order: `clientLastName` (enum[string], optional) - By what property is result ordered by.
+        + Default: `createdDate`
+        + Members
+            + `clientFirstName`
+            + `clientLastName`
+            + `createdDate`
+    + direction: `DESC` (enum[string], optional) -  Ordering direction.
+        + Default: `ASC`
+        + Members
+            + `ASC`
+            + `DESC`
+
++ Response 200 (application/json)
+    + Attributes (array[InvoiceSummary])
+
+## GET /mobile/invoices/counts-by-status
+
+Retrieves counts of all invoices divided by status.
+
++ Response 200 (application/json)
+    + Attributes (array[InvoicesStatusCounts])
+
+## GET /mobile/clients{?overdue,suspended,outage,limit,offset}
+
+Retrieve summary data about clients.
+
++ Parameters
+    + overdue: `1` (number, optional) - Filter clients with overdue invoice.
+    + suspended: `1` (number, optional) - Filter clients with suspended service.
+    + outage: `1` (number, optional) - Filter clients with ongoing outage.
+    + lead: `1` (number, optional) - Filter client leads.
+    + limit: `10` (number, optional) - Result limit.
+    + offset: `10` (number, optional) - Index of first result.
+    + order: `user.lastName` (enum[string], optional) - By what property is result ordered by.
+        + Default: `client.id`
+        + Members
+            + `user.firstName`
+            + `user.lastName`
+            + `client.registrationDate`
+            + `client.id`
+    + direction: `DESC` (enum[string], optional) -  Ordering direction.
+        + Default: `ASC`
+        + Members
+            + `ASC`
+            + `DESC`
+
+
++ Response 200 (application/json)
+    + Attributes (array[ClientSummary])
+
+## GET /mobile/clients/counts-by-status
+
+Retrieves counts of clients grouped by their attributes.
+
++ Response 200 (application/json)
+    + Attributes (array[ClientsStatusCounts])
+
+## GET /mobile/clients/search{?query}
+
+Search clients using Elasticsearch.
+
++ Parameters
+    + query: `John Doe` (string) - Search query.
+
++ Response 200 (application/json)
+    + Attributes (array[ClientSearchResult])
+
++ Response 503 (application/json)
+
+
+## GET /mobile/clients/{id}/activity
+
+Get activity log for client.
+
++ Parameters
+    + id: `1` (number) - Client ID.
+
++ Response 200 (application/json)
+    + Attributes (array[ClientActivity])
+
+
+## Data Structures
+
+### TrafficItem (object)
++ date: `2017-07-11` (string) 
+Format `YYYY-MM-DD`.
++ upload: `3674686` (number) Number of bytes uploaded
++ download: `158653` (number) Number of bytes download
+
+### InvoiceSummary (object)
++ id: `1` (number)
++ number: `2016050025`
++ status: `3` (InvoiceStatus)
++ clientFirstName: `John` (string)
++ clientLastName: `Doe` (string)
++ clientCompanyName: `John Doe Company inc.` (string)
++ total: `10.0` (number)
++ amountPaid: `10.0` (number)
++ currencyCode: `USD` (string)
++ createdDate: `2016-09-12T00:00:00+0000` (string) - Date string in ISO 8601 format
++ dueDate: `2016-09-12T00:00:00+0000` (string, nullable) - Date string in ISO 8601 format
+
+### ClientSummary (object)
++ id: `1` (number)
++ firstName: `John` (string)
++ lastName: `Doe` (string)
++ companyName: `John Doe Company inc.` (string, nullable)
++ balance: `10.0` (number)
++ currencyCode: `USD` (string)
++ activeServices: (array[ClientServiceSummary])
++ overdueInvoices: (array[ClientInvoiceSummary])
++ hasOverdueInvoice: `false` (boolean)
++ hasSuspendedService: `false` (boolean)
++ hasOutage: `false` (boolean)
++ isLead: `false` (boolean) - if true, this is a lead, otherwise active client
+
+### ClientServiceSummary (object)
++ id: `1` (number)
++ name: `Max` (string)
+
+### ClientInvoiceSummary (object)
++ id: `1` (number)
++ status: `3` (InvoiceStatus)
++ total: `10.0` (number)
++ amountPaid: `10.0` (number)
++ currencyCode: `USD` (string)
++ dueDate: `2016-09-26T00:00:00+0000` - Date string in ISO 8601 format
+
+### ClientSearchResult (object)
++ id: `1` (number)
++ firstName: `John` (string)
++ lastName: `Doe` (string)
++ companyName: `John Doe Company inc.` (string, nullable)
+
+### ClientActivity (object)
++ type: `1` (enum[number])
+    + Members
+        + `1` - Invoice
+        + `2` - Payment
+        + `3` - Refund
++ id: `1` (number)
++ createdDate: `2016-09-12T00:00:00+0000` (string) - Date string in ISO 8601 format
++ dueDate: `2016-09-12T00:00:00+0000` (string, nullable) - Date string in ISO 8601 format
++ amount: `10.0` (number)
++ currencyCode: `USD` (string)
++ invoiceStatus: `1` (InvoiceStatus, nullable)
++ paymentMethod: `1` (PaymentMethod, nullable)
++ refundMethod: `1` (enum[number], nullable)
+    + Members
+        + `1` - Check
+        + `2` - Cash
+        + `3` - Bank transfer
+        + `4` - PayPal
+        + `5` - PayPal credit card
+        + `6` - Stripe credit card
+        + `7` - Stripe subscription (credit card)
+        + `8` - PayPal subscription
+        + `9` - Authorize.Net credit card
+        + `12` - IPPay
+        + `99` - Custom
++ invoiceNumber: `2016050025` (string, nullable) - Returns string type if activity is related to invoice otherwise null
+
+### ClientsStatusCounts (object)
++ withOverdueInvoice: `1` (number) - Count of clients with overdue invoice.
++ withOutage: `1` (number) - Count of clients with outage of service.
++ withSuspendedService: `1` (number) - Count of clients with suspended service.
++ clientLeads: `1` (number) - Count of client leads.
++ totalCount: `10` (number) - Count of all clients and leads.
+
+### InvoicesStatusCounts (object)
++ status: `3` (InvoiceStatus) - Invoice status
++ invoicesCount: `1` (number) - Count of invoices with this status.

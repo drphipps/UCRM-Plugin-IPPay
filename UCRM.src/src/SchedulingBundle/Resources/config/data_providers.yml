@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    SchedulingBundle\DataProvider\JobDataProvider: ~
+    SchedulingBundle\DataProvider\JobCommentDataProvider: ~
+    SchedulingBundle\DataProvider\JobLogsViewDataProvider: ~
+    SchedulingBundle\DataProvider\JobAttachmentDataProvider: ~

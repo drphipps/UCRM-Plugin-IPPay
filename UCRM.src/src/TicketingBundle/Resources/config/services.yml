@@ -1,0 +1,18 @@
+imports:
+    - { resource: controllers.yml }
+    - { resource: data_providers.yml }
+    - { resource: facades.yml }
+    - { resource: factories.yml }
+    - { resource: file_managers.yml }
+    - { resource: handlers.yml }
+    - { resource: symfony_subscribers.yml }
+    - { resource: mappers.yml }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    EmailReplyParser\Parser\EmailParser: ~
+    TicketingBundle\Service\TicketFinder: ~

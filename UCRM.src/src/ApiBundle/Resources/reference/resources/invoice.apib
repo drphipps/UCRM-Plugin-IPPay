@@ -1,0 +1,213 @@
+## GET /invoices{?clientId,createdDateFrom,createdDateTo}
+Retrieve collection of **Invoices**.
+
++ Parameters
+    + organizationId: `1` (number, optional) - ID of an **Organization** to filter by.
+    + clientId: `1` (number, optional) - ID of a **Client** to filter by.
+    + createdDateFrom: `2016-01-01` (string, optional) -  Limit collection from date (including).
+    Use `YYYY-MM-DD` format.
+    + createdDateTo: `2016-12-31` (string, optional) -  Limit collection to date (including).
+    Use `YYYY-MM-DD` format.
+    + statuses: `[1]` (array[InvoiceStatus], optional) - Filter by invoice status.
+    + number: `IN20171030` (string, optional) - Search by invoice number.
+    + overdue: `1` (number, optional) - Filter overdue invoices.
+    + limit: `10` (number, optional) - Result limit.
+    + offset: `10` (number, optional) - Index of first result.
+    + order: `clientLastName` (enum[string], optional) - By what property is result ordered by.
+        + Default: `createdDate`
+        + Members
+            + `clientFirstName`
+            + `clientLastName`
+            + `createdDate`
+    + direction: `DESC` (enum[string], optional) -  Ordering direction.
+        + Default: `ASC`
+        + Members
+            + `ASC`
+            + `DESC`
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[InvoiceReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+# /invoices/{id}
+## GET
+Retrieve **Invoice**.
+
++ Parameters
+    + id: `1` (number, required) - ID of an **Invoice** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (InvoiceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH
+Update **Invoice**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Invoice** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+    + Attributes (InvoiceUpdate)
+
++ Response 200 (application/json)
+    + Attributes (InvoiceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## DELETE
+Permanently delete **Invoice**
+
++ Parameters
+    + id: `1000` (number, required) - ID of an **Invoice** to permanently delete.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+
+## GET /clients/invoices/{id}
+Retrieve **Invoice**.
+
+**DEPRECATED** - use [GET /invoices/id](#reference/invoices/invoicesid/get) instead.
+
++ Parameters
+    + id: `1` (number, required) - ID of an **Invoice** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (InvoiceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST /clients/{id}/invoices
+Create **Invoice** for **Client**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Client** to create **Invoice** for.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+    + Attributes (InvoiceNew)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /clients/invoices/2
+    + Attributes (InvoiceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## GET /clients/{id}/invoices{?start,end}
+Retrieve collection of **Invoices** filtered by **Client**.
+
+**DEPRECATED** - use `clientId` attribute in [GET /invoices](#reference/invoices/invoices/get) instead.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Client** to filter by.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[InvoiceReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH /invoices/{id}/send
+Send invoice to client.
+
++ Parameters
+    + id: `1` (number, required) - ID of an **Invoice**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (InvoiceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## PATCH /invoices/{id}/regenerate-pdf
+Regenerate PDF of invoice.
+
++ Parameters
+    + id: `1` (number, required) - ID of an **Invoice**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (InvoiceReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## PATCH /invoices/{id}/void
+Void **Invoice**
+
++ Parameters
+    + id: `1` (number, required) - ID of an **Invoice** to void.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## GET /invoices/{id}/pdf
+
+Retrieve **Invoice** PDF.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Invoice** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/pdf)
+
+
++ Response 404 (application/json)
+    + Attributes (Error404)

@@ -1,0 +1,123 @@
+{% set statusClass = constant('STATUS_CLASSES', job)[job.status] %}
+
+<div class="card card--job">
+    <div class="card-header">
+        <div class="card-header__title job-heading--{{ statusClass }}">
+            {{ job.title }}
+            {% if statusEditPermissionGranted %}
+                <div class="button-group">
+                    <button class="has-dropdown button-group__item job-status-badge job-status-badge--{{ statusClass }}">
+                        <span>{{ constant('STATUSES', job)[job.status]|trans }}</span>
+                        <span class="caret caret--medium ucrm-icon--pointer-down"></span>
+                    </button>
+                    <ul class="appDropdown appDropdown--left appDropdown--narrow">
+                        {% for key, status in constant('STATUSES', job) %}
+                            <li class="appDropdown__item appDropdown__item--has-icon">
+                                <a href="{{ path('scheduling_job_status_edit', { id: job.id, status: key }) }}" class="ajax">
+                                    <span class="icon job-square job-square--{{ constant('STATUS_CLASSES', job)[key] }}"></span>
+                                    <span>{{ status|trans }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <div class="button-group">
+                    <span class="button-group__item job-status-badge job-status-badge--{{ statusClass }}">
+                        {{ constant('STATUSES', job)[job.status]|trans }}
+                    </span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <table class="details-table">
+        <tbody>
+            <tr>
+                <th>{% trans %}Date{% endtrans %}</th>
+                <td>
+                    {% if job.date %}
+                        {{ job.date|localizedDate('default', 'short') }}
+                    {% else %}
+                        &ndash;
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>{% trans %}Duration{% endtrans %}</th>
+                <td>
+                    {% if job.duration %}
+                        {{ (job.duration * 60)|duration('short') }}
+                    {% else %}
+                        &ndash;
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>{% trans %}Description{% endtrans %}</th>
+                <td>
+                    {% if job.description %}
+                        {{ job.description|nl2br }}
+                    {% else %}
+                        &ndash;
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>{% trans %}Assigned user{% endtrans %}</th>
+                <td>
+                    {% if job.assignedUser %}
+                        {% if job.assignedUser.deleted %}
+                            <span class="appType--quiet">
+                                {{ job.assignedUser.nameForView }}
+                            </span>
+                        {% else %}
+                            <a href="{{ path('user_show', { id: job.assignedUser.id }) }}">
+                                {{ job.assignedUser.nameForView }}
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        &ndash;
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>{% trans %}Client{% endtrans %}</th>
+                <td>
+                    {% if job.client %}
+                        <a href="{{ path('client_show', { id: job.client.id }) }}">
+                            {{ job.client.nameForView }}
+                        </a>
+                    {% else %}
+                        &ndash;
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>{% trans %}Address{% endtrans %}</th>
+                <td>
+                    {% if job.address %}
+                        {{ job.address }}
+                    {% else %}
+                        &ndash;
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>{% trans %}GPS{% endtrans %}</th>
+                <td>
+                    {% if job.gpsLat and job.gpsLon %}
+                        {{ job.gpsLat }}, {{ job.gpsLon }}
+                    {% else %}
+                        &ndash;
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>{% trans %}Visible in Client Zone{% endtrans %}</th>
+                <td>
+                    {{ job.public|yesNo|trans  }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,19 @@
+{% import '@Scheduling/job/components/view/macros.html.twig' as macros %}
+
+<div class="scheduling-queue">
+    <div class="scheduling-queue__inner">
+        <div class="scheduling-queue__heading">
+            {% trans %}Job queue{% endtrans %} (<span class="scheduling-queue__heading__count">{{ timeline.queue|length }}</span>)
+        </div>
+
+        <ul class="scheduling-queue__list timeline-queue noMarginBottom">
+            {% for item in timeline.queue %}
+                {{ macros.jobTimelineItem(item) }}
+            {% endfor %}
+        </ul>
+
+        <div class="scheduling-queue__empty appType--quiet{% if timeline.queue %} display-none{% endif %}">
+            <small>{% trans %}There are no jobs in the queue.{% endtrans %}</small>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,117 @@
+{% set filterAjaxIdentifier = { (constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::AJAX_IDENTIFIER')): constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::AJAX_IDENTIFIER_FILTER') }|json_encode %}
+<form action="{{ path(ticketingRoutesMap.view) }}" class="ticketing-filter" data-ajax-extra-data="{{ filterAjaxIdentifier }}">
+    <div class="appIconInput appIconInput--left">
+        <div class="appIconInput__icon icon ucrm-icon--search"></div>
+        <input name="search" placeholder="{% trans %}Search{% endtrans %}" value="{{ search|e('html_attr') }}" class="appIconInput__input" type="text">
+    </div>
+
+    <input type="submit" class="display-none">
+    {% for key, value in statusFilters %}
+        <input type="hidden" name="status-filters[{{ key }}]" value="{{ value }}">
+    {% endfor %}
+    <input type="hidden" name="user-filter" value="{{ userFilter }}">
+</form>
+
+<div class="button-group button-group--header-filter">
+    <span class="button button--medium button--dropdown button-group__item has-dropdown">
+        <span>
+            {% set userFilterName = ticketGroups[userFilter] ?? null %}
+            {% if userFilterName is not null %}
+                {{ userFilterName.name }}
+            {% else %}
+                {% if userFilter is same as(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::USER_FILTER_MY')) %}
+                    {% trans %}My tickets{% endtrans %}
+                {% elseif userFilter is same as(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::USER_FILTER_UNASSIGNED')) %}
+                    {% trans %}Unassigned{% endtrans %}
+                {% else %}
+                    {% trans %}All tickets{% endtrans %}
+                {% endif %}
+            {% endif %}
+        </span>
+        <span class="icon ucrm-icon--pointer-down"></span>
+    </span>
+    <ul class="appDropdown appDropdown--right appDropdown--narrow">
+        <li class="appDropdown__item appDropdown__item--checklist {% if userFilter is same as(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::USER_FILTER_ALL')) %}is-item-selected{% endif %}">
+            <a href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.view, { 'user-filter': constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::USER_FILTER_ALL') }) }}" class="ajax" data-ajax-extra-data="{{ filterAjaxIdentifier }}">
+                <span class="icon ucrm-icon--check-narrow"></span>
+                <span>{% trans %}All tickets{% endtrans %}</span>
+            </a>
+        </li>
+        <li class="appDropdown__item appDropdown__item--checklist {% if userFilter is same as(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::USER_FILTER_MY')) %}is-item-selected{% endif %}">
+            <a href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.view, { 'user-filter': constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::USER_FILTER_MY') }) }}" class="ajax" data-ajax-extra-data="{{ filterAjaxIdentifier }}">
+                <span class="icon ucrm-icon--check-narrow"></span>
+                <span>{% trans %}My tickets{% endtrans %}</span>
+            </a>
+        </li>
+        <li class="appDropdown__item appDropdown__item--checklist {% if userFilter is same as(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::USER_FILTER_UNASSIGNED')) %}is-item-selected{% endif %}">
+            <a href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.view, { 'user-filter': constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::USER_FILTER_UNASSIGNED') }) }}" class="ajax" data-ajax-extra-data="{{ filterAjaxIdentifier }}">
+                <span class="icon ucrm-icon--check-narrow"></span>
+                <span>{% trans %}Unassigned{% endtrans %}</span>
+            </a>
+        </li>
+        {% for ticketGroup in ticketGroups %}
+            <li class="appDropdown__item appDropdown__item--checklist {% if loop.first %}appDropdown__item--separator{% endif %} {% if userFilter is same as (ticketGroup.id) %}is-item-selected{% endif %}">
+                <a href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.view, { 'user-filter': ticketGroup.id }) }}" class="ajax" data-ajax-extra-data="{{ filterAjaxIdentifier }}">
+                    <span class="icon ucrm-icon--check-narrow"></span>
+                    <span>{{ ticketGroup.name }}</span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% spaceless %}
+    <div class="button-group button-group--header-filter">
+        <a href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.view, { 'status-filters': statusFilters|merge({ (constant('\\TicketingBundle\\Entity\\Ticket::STATUS_NEW_KEY')): not statusFilters[constant('\\TicketingBundle\\Entity\\Ticket::STATUS_NEW_KEY')] }) } ) }}" class="button button--medium button-group__item ajax {% if statusFilters[constant('\\TicketingBundle\\Entity\\Ticket::STATUS_NEW_KEY')] %}is-active{% endif %}" data-ajax-extra-data="{{ filterAjaxIdentifier }}">
+            {% trans %}New{% endtrans %}
+        </a>
+        <a href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.view, { 'status-filters': statusFilters|merge({ (constant('\\TicketingBundle\\Entity\\Ticket::STATUS_OPEN_KEY')): not statusFilters[constant('\\TicketingBundle\\Entity\\Ticket::STATUS_OPEN_KEY')] }) } ) }}" class="button button--medium button-group__item ajax {% if statusFilters[constant('\\TicketingBundle\\Entity\\Ticket::STATUS_OPEN_KEY')] %}is-active{% endif %}" data-ajax-extra-data="{{ filterAjaxIdentifier }}">
+            {% trans %}Open{% endtrans %}
+        </a>
+        <a href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.view, { 'status-filters': statusFilters|merge({ (constant('\\TicketingBundle\\Entity\\Ticket::STATUS_PENDING_KEY')): not statusFilters[constant('\\TicketingBundle\\Entity\\Ticket::STATUS_PENDING_KEY')] }) } ) }}" class="button button--medium button-group__item ajax {% if statusFilters[constant('\\TicketingBundle\\Entity\\Ticket::STATUS_PENDING_KEY')] %}is-active{% endif %}" data-ajax-extra-data="{{ filterAjaxIdentifier }}">
+            {% trans %}Pending{% endtrans %}
+        </a>
+        <a href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.view, { 'status-filters': statusFilters|merge({ (constant('\\TicketingBundle\\Entity\\Ticket::STATUS_SOLVED_KEY')): not statusFilters[constant('\\TicketingBundle\\Entity\\Ticket::STATUS_SOLVED_KEY')] }) } ) }}" class="button button--medium button-group__item ajax {% if statusFilters[constant('\\TicketingBundle\\Entity\\Ticket::STATUS_SOLVED_KEY')] %}is-active{% endif %}" data-ajax-extra-data="{{ filterAjaxIdentifier }}">
+            {% trans %}Solved{% endtrans %}
+        </a>
+    </div>
+{% endspaceless %}
+
+<div class="button-group button-group--header-filter">
+    <span class="button button--medium button--dropdown button-group__item has-dropdown">
+        <span>
+            {% if lastActivityFilter is same as(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::LAST_ACTIVITY_FILTER_CLIENT')) %}
+                {% trans %}Last reply by client{% endtrans %}
+            {% elseif lastActivityFilter is same as(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::LAST_ACTIVITY_FILTER_ADMIN')) %}
+                {% trans %}Last reply by admin{% endtrans %}
+            {% else %}
+                {% trans %}Last reply{% endtrans %}
+            {% endif %}
+        </span>
+        <span class="icon ucrm-icon--pointer-down"></span>
+    </span>
+    <ul class="appDropdown appDropdown--right appDropdown--narrow">
+        <li class="appDropdown__item appDropdown__item--checklist {% if lastActivityFilter is same as(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::LAST_ACTIVITY_FILTER_ALL')) or lastActivityFilter is null %}is-item-selected{% endif %}">
+            <a href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.view, { 'last-activity-filter': constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::LAST_ACTIVITY_FILTER_ALL') }) }}" class="ajax" data-ajax-extra-data="{{ filterAjaxIdentifier }}">
+                <span class="icon ucrm-icon--check-narrow"></span>
+                <span>{% trans %}Last reply{% endtrans %}</span>
+            </a>
+        </li>
+        <li class="appDropdown__item appDropdown__item--checklist {% if lastActivityFilter is same as(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::LAST_ACTIVITY_FILTER_CLIENT')) %}is-item-selected{% endif %}">
+            <a href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.view, { 'last-activity-filter': constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::LAST_ACTIVITY_FILTER_CLIENT') }) }}" class="ajax" data-ajax-extra-data="{{ filterAjaxIdentifier }}">
+                <span class="icon ucrm-icon--check-narrow"></span>
+                <span>{% trans %}Last reply by client{% endtrans %}</span>
+            </a>
+        </li>
+        <li class="appDropdown__item appDropdown__item--checklist {% if lastActivityFilter is same as(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::LAST_ACTIVITY_FILTER_ADMIN')) %}is-item-selected{% endif %}">
+            <a href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.view, { 'last-activity-filter': constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::LAST_ACTIVITY_FILTER_ADMIN') }) }}" class="ajax" data-ajax-extra-data="{{ filterAjaxIdentifier }}">
+                <span class="icon ucrm-icon--check-narrow"></span>
+                <span>{% trans %}Last reply by admin{% endtrans %}</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="button-group button-group--header-filter">
+    <a href="#" class="help-icon help-icon--large help-panel" data-help-section="ticketing"></a>
+</div>

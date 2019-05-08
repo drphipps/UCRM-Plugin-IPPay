@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+        public: true
+
+    RabbitMqBundle\RabbitMqEnqueuer: ~
+    RabbitMqBundle\QueueCleaner:
+        arguments: ['@old_sound_rabbit_mq.connection.default']
+    RabbitMqBundle\QueueChecker:
+        arguments: ['@old_sound_rabbit_mq.connection.default']

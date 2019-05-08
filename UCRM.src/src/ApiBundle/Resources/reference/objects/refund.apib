@@ -1,0 +1,31 @@
+## Refund (object)
++ method: `1` (RefundMethod, required)
++ createdDate: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format.
++ amount: `10.0` (number, required)
++ note: `Very kind person.` (string)
++ clientId: `1` (number)
++ currencyCode: `USD` (string, nullable)
+
+## RefundReadOnly (object)
++ id: `1` (number)
++ Include Refund
++ paymentCovers: (array[PaymentCoverReadOnly])
+
+## RefundMethod (enum[number])
++ `1` - Check
++ `2` - Cash
++ `3` - Bank transfer
++ `4` - PayPal
++ `5` - PayPal credit card
++ `6` - Stripe credit card
++ `7` - Stripe subscription (credit card)
++ `8` - PayPal subscription
++ `9` - Authorize.Net credit card
++ `10` - Authorize.Net subscription
++ `12` - IPPay
++ `13` - IPPay subscription
++ `14` - MercadoPago
++ `15` - MercadoPago subscription
++ `16` - Stripe ACH
++ `17` - Stripe subscription (ACH)
++ `99` - Custom

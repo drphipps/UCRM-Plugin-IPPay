@@ -1,0 +1,26 @@
+## GET /proforma-invoice-templates
+Retrieve collection of **Proforma Invoice Templates**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[ProformaInvoiceTemplateReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## GET /proforma-invoice-templates/{id}
+Retrieve **Proforma Invoice Template**.
+
++ Parameters
+    + id: `1` (number, required) - ID of an **Proforma Invoice Template** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ProformaInvoiceTemplateReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

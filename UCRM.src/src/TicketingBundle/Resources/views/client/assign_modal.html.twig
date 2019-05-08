@@ -1,0 +1,63 @@
+<div class="appControlModal appControlModal--small">
+    <a class="appControlModal__close close-modal">
+        <div class="icon ucrm-icon--close"></div>
+    </a>
+
+    <div class="appControlModal__header">
+        {% trans %}Assign ticket{% endtrans %}
+    </div>
+
+    <div class="appControlModal__content appControlModalScrollableContent container--comfy">
+        {{ form_start(form, { attr: { class: 'ajax', id: 'assign-ticket-form' }}) }}
+
+            <div class="row">
+                <div class="col--xs4">
+                    {{ form_label(form.assignedUser, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                </div>
+                <div class="col--xs8 appFormGroup">
+                    {{ form_widget(form.assignedUser, { attr: { class: 'input--full select2'} }) }}
+                    {{ form_errors(form.assignedUser) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col--xs4">
+                    {{ form_label(form.assignedClient, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                </div>
+                <div class="col--xs8 appFormGroup">
+                    {{ form_widget(form.assignedClient, { attr: { class: 'input--full select2'} }) }}
+                    {{ form_errors(form.assignedClient) }}
+                </div>
+            </div>
+
+            {% if form.addContact is defined %}
+                <div class="row {% if not form.vars.value.assignedClient %}display-none{% endif %}">
+                    <div class="col--xs4">
+                        {{ form_label(form.addContact, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                    </div>
+                    <div class="col--xs8 appFormGroup appForm--cozy">
+                        <div data-on="{{ 'yes'|trans }}" data-off="{{ 'no'|trans }}" class="toggle appToggle">
+                            {{ form_widget(form.addContact) }}
+                            <label for="{{ form.addContact.vars.id }}"></label>
+                        </div>
+                        {{ form_errors(form.addContact) }}
+                        <div class="appInputHelp">
+                            {% trans %}Add the unknown email address into the contacts of the assigned client.{% endtrans %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {{ form_end(form) }}
+    </div>
+
+    <div class="appControlModal__content appControlModal__content--ctrl">
+        <div class="flexRow flexRow--alignCenter">
+            <div class="flexCol--12 alignRight">
+                <span class="appInputGroup">
+                    <a href="#" class="button button--transparent close-modal">{% trans %}Cancel{% endtrans %}</a>
+                    <button class="button button--primary-fill" form="assign-ticket-form">{% trans %}Save{% endtrans %}</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

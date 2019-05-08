@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block title %}{% if isEdit %}{{ job.title }} - {% trans %}Scheduling{% endtrans %}{% else %}{% trans %}Add job{% endtrans %}{% endif %}{% endblock %}
+
+{% block page_header %}
+    <a href="{{ path('scheduling_timeline_index') }}">{% trans %}Scheduling{% endtrans %}</a> /
+    {% if isEdit %}
+        <a href="{{ path('scheduling_job_show', { id: job.id }) }}">{{ job.title }}</a> /
+        <span class="primary">{% trans %}Edit{% endtrans %}</span>
+    {% else %}
+        <span class="primary">{% trans %}Add job{% endtrans %}</span>
+    {% endif %}
+{% endblock %}
+
+{% block page_header_buttons_left %}
+    {% if isEdit %}
+        <a href="{{ path('scheduling_job_delete', { 'id': job.id }) }}" class="button button--danger button--icon-only" data-confirm="{% trans %}Do you really want to delete this job?{% endtrans %}" data-confirm-title="{% trans %}Delete job{% endtrans %}" data-confirm-okay="{% trans %}Delete{% endtrans %}">
+            <span class="icon ucrm-icon--trash"></span>
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block page_header_classes %}page-header--has-background{% endblock %}
+
+{% block body %}
+    <div class="container--comfy container--fixed verticalRhythm">
+        {{ form_start(form, { attr: { id: 'job-form' }}) }}
+            {% include '@Scheduling/job/components/edit/edit_form.html.twig' %}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% include 'components/map.html.twig' %}
+    <script type="text/javascript" src="{{ asset('assets/js/modules/form_collection_manager.js') }}{{ versionQuery }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/pages/scheduling_job_form.js') }}{{ versionQuery }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/modules/job_attachments.js') }}{{ versionQuery }}"></script>
+{% endblock %}

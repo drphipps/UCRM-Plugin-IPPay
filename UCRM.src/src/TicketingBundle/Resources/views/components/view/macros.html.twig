@@ -1,0 +1,26 @@
+{% macro ticketItem(ticket) %}
+    {% set statusClass = 'ticket-widget__status--' ~ constant('STATUS_CLASSES', ticket)[ticket.status] %}
+    <li>
+        <a href="{{ path('ticketing_index', { ticketId: ticket.id }) }}" class="ticket-widget {% if ticket.status is same as(constant('STATUS_NEW', ticket)) %}ticket-widget--new{% endif %}">
+            <span class="ticket-widget__status {{ statusClass }}"></span>
+            <span class="ticket-widget__header">
+                <span class="ticket-widget__name">
+                    {% if ticket.client is null %}
+                        {{ ticket.emailFromName }} &lt;{{ ticket.emailFromAddress }}&gt;
+                    {% else %}
+                        {{ ticket.client.nameForView }}
+                    {% endif %}
+                </span>
+                <span class="ticket-widget__time">
+                    {{ ticket.createdAt|localizedDate('default', 'short') }}
+                </span>
+            </span>
+            <span class="ticket-widget__body">
+                {% if not ticket.public %}
+                    <small class="mr-5 appType--quiet"><span class="icon ucrm-icon--lock" data-tooltip="{% trans %}This ticket is visible only to admins.{% endtrans %}"></span></small>
+                {% endif %}
+                #{{ ticket.id }} &ndash; {{ ticket.subject }}
+            </span>
+        </a>
+    </li>
+{% endmacro %}

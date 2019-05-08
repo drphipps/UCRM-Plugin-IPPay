@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+{% block title %}{% trans %}Ticketing{% endtrans %}{% endblock %}
+
+{% block page_header %}
+    <a href="{{ path('ticketing_index') }}">{% trans %}Ticketing{% endtrans %}</a>
+{% endblock %}
+
+{% block page_header_buttons_left %}
+    {% if isEditPermissionGranted('TicketingBundle\\Controller\\TicketController') %}
+        <a href="#" class="button button--primary button--icon-only primary" data-modal-url="{{ path('ticketing_ticket_new') }}">
+            <span class="icon ucrm-icon--plus"></span>
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block page_header_buttons_right %}
+    <div id="ticketing-filter">
+        {% include '@Ticketing/user/tickets/components/ticket_filters.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block page_header_classes %}page-header--has-background{% endblock %}
+
+{% block content_classes %}full-size{% endblock %}
+
+{% block body %}
+    <div
+        id="ticketing-container"
+        data-ajax-identifier="{{ constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::AJAX_IDENTIFIER') }}"
+        data-ajax-identifier-pagination="{{ constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::AJAX_IDENTIFIER_PAGINATION') }}"
+        data-ajax-identifier-filter="{{ constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::AJAX_IDENTIFIER_FILTER') }}"
+        data-ajax-identifier-detail="{{ constant('TicketingBundle\\Interfaces\\TicketingActionsInterface::AJAX_IDENTIFIER_DETAIL') }}"
+    >
+        <div id="ticketing-list-container">
+            {% include '@Ticketing/user/tickets/components/ticket_list.html.twig' %}
+        </div>
+        <div id="ticketing-detail-container">
+            {% include '@Ticketing/user/tickets/components/ticket_detail.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% include 'components/map.html.twig' %}
+    <script type="text/javascript" src="{{ asset('assets/js/modules/form_collection_manager.js') }}{{ versionQuery }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/pages/ticketing.js') }}{{ versionQuery }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/pages/scheduling_job_simple_form.js') }}{{ versionQuery }}"></script>
+{% endblock %}

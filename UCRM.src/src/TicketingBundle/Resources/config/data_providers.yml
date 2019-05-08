@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    TicketingBundle\DataProvider\TicketDataProvider: ~
+    TicketingBundle\DataProvider\TicketActivityDataProvider: ~
+    TicketingBundle\DataProvider\TicketCannedResponseDataProvider: ~
+    TicketingBundle\DataProvider\TicketGroupDataProvider: ~
+    TicketingBundle\DataProvider\TicketImapInboxDataProvider: ~
+    TicketingBundle\DataProvider\TicketImapEmailBlacklistDataProvider: ~

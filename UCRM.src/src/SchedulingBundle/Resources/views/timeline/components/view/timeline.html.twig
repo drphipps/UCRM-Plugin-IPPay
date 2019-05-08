@@ -1,0 +1,56 @@
+<div class="timeline">
+    <div class="timeline-header">
+        <div class="timeline-header__left"></div>
+        <div class="timeline-header__center">
+            <div class="timeline-date-ctrl">
+                {% spaceless %}
+                    <a href="#" class="timeline-date-ctrl__prev">
+                        &lt; <span>{{ timeline.date.modify('-1 day').format('j') }}</span>
+                    </a>
+                    <a class="timeline-date-ctrl__today datepicker input-group" data-datepicker-date="{{ timeline.date.format('Y-m-d') }}">
+                        <input type="text">
+                        <button class="datepickerbutton">{{ timeline.date|localizedDate('default', 'none') }}</button>
+                    </a>
+                    <a href="#" class="timeline-date-ctrl__next">
+                        <span>{{ timeline.date.modify('+1 day').format('j') }}</span> &gt;
+                    </a>
+                {% endspaceless %}
+            </div>
+        </div>
+        <div class="timeline-header__right appForm--cozy">
+            <span class="button mr-10" id="timeline-ctrl__now">{% trans %}now{% endtrans %}</span>
+            <select class="timeline-ctrl__zoom" title="{% trans %}zoom{% endtrans %}">
+                <option value="24">24 {% trans %}hours{% endtrans %}</option>
+                <option value="16">16 {% trans %}hours{% endtrans %}</option>
+                <option value="12" selected>12 {% trans %}hours{% endtrans %}</option>
+                <option value="8">8 {% trans %}hours{% endtrans %}</option>
+                <option value="4">4 {% trans %}hours{% endtrans %}</option>
+            </select>
+        </div>
+    </div>
+    <div class="timeline-content">
+        <div id="job-timeline"
+                data-timeline-items="{{ timeline.items|merge([])|json_encode }}"
+                data-timeline-groups="{{ timeline.groups|merge([])|json_encode }}"
+                data-timeline-max="{{ timeline.max }}"
+                data-timeline-min="{{ timeline.min }}"
+                data-timeline-start="{{ timeline.start }}"
+                data-timeline-end="{{ timeline.end }}"
+                data-timeline-route-index="scheduling_timeline_index"
+                data-timeline-route-edit="scheduling_timeline_edit"
+                data-timeline-filter-type="{{ filterType }}"
+                data-timeline-edit-csrf="{{ 'scheduling_timeline_edit'|csrf_token() }}"
+        ></div>
+        <div class="timeline-popup">
+            <div class="timeline-popup__status__spinner">
+                <div class="appSpinner appSpinner--medium"></div>
+            </div>
+            <div class="timeline-popup__status__403">
+                {% include '@Scheduling/job/components/view/popup_403.html.twig' %}
+            </div>
+            <div class="timeline-popup__status__404">
+                {% include '@Scheduling/job/components/view/popup_404.html.twig' %}
+            </div>
+        </div>
+    </div>
+</div>

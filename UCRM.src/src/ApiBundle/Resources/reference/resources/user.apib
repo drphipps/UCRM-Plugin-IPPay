@@ -1,0 +1,43 @@
+## GET /users/admins
+
+Retrieve collection of **Users** with admin role.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[UserReadOnly])
+
+## GET /users/admins/{id}
+
+Retrieve **User**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **User** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (UserReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH /users/admins/{id}
+
+Update **User** with admin role.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **User** to update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (UserWritable)
+
++ Response 200 (application/json)
+    + Attributes (UserReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

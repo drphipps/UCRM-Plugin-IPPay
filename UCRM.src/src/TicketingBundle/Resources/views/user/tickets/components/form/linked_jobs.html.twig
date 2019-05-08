@@ -1,0 +1,43 @@
+{% import '@scheduling/job/components/view/macros.html.twig' as jobMacros %}
+
+<div class="jobs-widget">
+    {% if assignedJobs ?? false %}
+        <div class="jobs-widget__heading">
+            {% trans %}Linked jobs{% endtrans %}
+        </div>
+        {% for item in assignedJobs %}
+            <div class="jobs-widget__date">
+                {% if item.date %}
+                    {{ item.date|localizedDate('default', 'none') }}
+                {% else %}
+                    {% trans %}Queue{% endtrans %}
+                {% endif %}
+            </div>
+            <ul class="jobs-widget__list{% if loop.last %} noMarginBottom{% else %} verticalRhythmHalf{% endif %}">
+                {% for job in item.jobs %}
+                    {{ jobMacros.ticketJobAssignedItem(job, path('scheduling_job_show', { id: job.id }), path(ticketingRoutesMap.jobRemove, { ticketId: ticketDetail.id, jobId: job.id, clientId: client.id ?? null })) }}
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% endif %}
+
+    {% if jobs ?? false %}
+        <div id="ticket-detail__form__linked_jobs__link" class="jobs-widget__heading {% if assignedJobs %}verticalRhythmTop{% endif %}">
+            {% trans %}Click a job to link it{% endtrans %}
+        </div>
+        {% for item in jobs %}
+            <div class="jobs-widget__date">
+                {% if item.date %}
+                    {{ item.date|localizedDate('default', 'none') }}
+                {% else %}
+                    {% trans %}Queue{% endtrans %}
+                {% endif %}
+            </div>
+            <ul class="jobs-widget__list{% if loop.last %} noMarginBottom{% else %} verticalRhythmHalf{% endif %}">
+                {% for job in item.jobs %}
+                    {{ jobMacros.ticketJobChoiceItem(job, path(ticketingRoutesMap.jobAdd, { ticketId: ticketDetail.id, jobId: job.id, clientId: client.id ?? null })) }}
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% endif %}
+</div>

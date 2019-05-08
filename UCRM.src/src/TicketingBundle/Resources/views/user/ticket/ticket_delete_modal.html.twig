@@ -1,0 +1,53 @@
+<div class="appControlModal appControlModal--small">
+    <a class="appControlModal__close close-modal">
+        <div class="icon ucrm-icon--close"></div>
+    </a>
+    <div class="appControlModal__header">{% trans %}Delete{% endtrans %}</div>
+    <div class="appControlModal__content appControlModalScrollableContent container--comfy">
+        <div class="row">
+            <div class="col--xs12">{% trans %}Do you really want to delete this ticket?{% endtrans %}</div>
+        </div>
+        {{ form_start(form, { attr: { class: 'ajax', id: 'delete-ticket-form' }}) }}
+                {% if ticket.emailFromAddress %}
+                    <div class="row">
+                        <div class="col--xs8">
+                            <label class="appLabel--boxAlign" for="{{ form.addToBlacklist.vars.id }}">
+                                {% trans with {'%emailAddress%': ticket.emailFromAddress|e('html')} %}Add email address %emailAddress% to email blacklist{% endtrans %}
+                            </label>
+                        </div>
+                        <div class="col--xs4 appFormGroup appForm--cozy">
+                            <div data-on="{{ 'yes'|trans }}" data-off="{{ 'no'|trans }}" class="toggle appToggle">
+                                {{ form_widget(form.addToBlacklist) }}
+                                <label for="{{ form.addToBlacklist.vars.id }}"></label>
+                            </div>
+                            {{ form_errors(form.addToBlacklist) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col--xs8">
+                            <label class="appLabel--boxAlign" for="{{ form.deleteTickets.vars.id }}">
+                                {% trans %}Delete all tickets created by receiving email from this address.{% endtrans %}
+                            </label>
+                        </div>
+                        <div class="col--xs4 appFormGroup appForm--cozy">
+                            <div data-on="{{ 'yes'|trans }}" data-off="{{ 'no'|trans }}" class="toggle appToggle">
+                                {{ form_widget(form.deleteTickets) }}
+                                <label for="{{ form.deleteTickets.vars.id }}"></label>
+                            </div>
+                            {{ form_errors(form.deleteTickets) }}
+                        </div>
+                    </div>
+                {% endif %}
+        {{ form_end(form) }}
+    </div>
+    <div class="appControlModal__content appControlModal__content--ctrl">
+        <div class="flexRow flexRow--alignCenter">
+            <div class="flexCol--12 alignRight">
+                <span class="appInputGroup">
+                    <a href="#" class="button button--transparent close-modal">{% trans %}Cancel{% endtrans %}</a>
+                    <button type="submit" class="button button--danger-fill" form="delete-ticket-form">{% trans %}Delete{% endtrans %}</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

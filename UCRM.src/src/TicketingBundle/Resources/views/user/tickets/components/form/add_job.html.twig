@@ -1,0 +1,53 @@
+<div class="ticket-detail__form__add_job__inner">
+    {{ form_start(newJobForm, { attr: { class: 'form--no-spinner' } }) }}
+        <div class="flexRow verticalRhythmHalf">
+            <div class="flexCol--9 ticket-detail__form__add_job__title">
+                {{ form_widget(newJobForm.title, { attr: { class: 'input--full' } }) }}
+                {{ form_errors(newJobForm.title) }}
+            </div>
+            <div class="flexCol--3 ticket-detail__form__add_job__duration">
+                <div class="ticket-detail__form__add_job__duration__inputs">
+                    {{ form_widget(newJobForm.duration.hours, { attr: { class: 'input--half select2 select2--no-search' } }) }}
+                    {{ form_widget(newJobForm.duration.minutes, { attr: { class: 'input--half select2 select2--no-search' } }) }}
+                </div>
+                {{ form_errors(newJobForm.duration.hours) }}
+                {{ form_errors(newJobForm.duration.minutes) }}
+            </div>
+        </div>
+
+        <div class="flexRow verticalRhythmHalf">
+            <div class="flexCol--12">
+                {{ form_widget(newJobForm.description, { attr: { class: 'input--full autosize save-shortcut' } }) }}
+                {{ form_errors(newJobForm.description) }}
+            </div>
+        </div>
+
+        <div class="flexRow verticalRhythm">
+            <div class="flexCol--9">
+                {{ form_widget(newJobForm.address, { attr: { class: 'input--full' } }) }}
+                {{ form_errors(newJobForm.address) }}
+            </div>
+        </div>
+
+        <div class="flexRow flexRow--alignCenter ticket-detail__form__add_job__ctrl">
+            <div class="flexCol--4">
+                {% if jobs ?? false %}
+                    <a href="#" class="ticket-detail__form__add_job__link_existing">
+                        {% trans %}Link existing job{% endtrans %}
+                    </a>
+                {% endif %}
+            </div>
+            <div class="flexCol--8 text-right">
+                <button class="button button--medium button--primary-o primary" name="{{ newJobForm.enqueue.vars.full_name }}" type="submit">
+                    {% trans %}Add to queue{% endtrans %}
+                </button>
+
+                <button class="button button--medium button--primary-fill" name="{{ newJobForm.schedule.vars.full_name }}" type="submit">
+                    {% trans %}Add & go to scheduling{% endtrans %}
+                </button>
+            </div>
+        </div>
+        {% do newJobForm.enqueue.setRendered %}
+        {% do newJobForm.schedule.setRendered %}
+    {{ form_end(newJobForm) }}
+</div>

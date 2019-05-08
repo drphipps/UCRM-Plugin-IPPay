@@ -1,0 +1,9 @@
+## TicketActivityCommentReadOnly (object)
++ body: `When I tried to turn on my PC, I see blue screen only.` (string)
++ attachments (array[TicketCommentAttachmentReadOnly])
+
+## TicketActivityCommentWritable (object)
++ body: `When I tried to turn on my PC, I see blue screen only.` (string) - Required when **attachments** is not specified.
++ attachments (array[TicketCommentAttachmentWritable]) - Required when **body** is not specified.
++ emailFromAddress: `john.doe@example.com` (string)
++ emailFromName: `John Doe` (string)

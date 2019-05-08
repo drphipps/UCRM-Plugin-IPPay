@@ -1,0 +1,33 @@
+## Tariff (object)
++ name: `Maxi` (required)
++ organizationId: `1` (number) - If not specified, default organization will be used
++ invoiceLabel: `Maxi` - If not specified, name will be used
++ downloadBurst: `200` (number) - Download burst in kB
++ uploadBurst: `100` (number) - Upload burst in kB
++ downloadSpeed: `50` (number) - Download speed in Mbps
++ uploadSpeed: `50` (number) - Upload speed in Mbps
++ dataUsageLimit: `100` (number) - Data usage limit in GB
++ taxable (boolean)
+    + Default: `false`
++ periods (array[TariffPeriod]) - By default 1 month period is enabled
+
+## TariffReadOnly (object)
++ id: `1` (number)
++ Include Tariff
++ periods (array[TariffPeriodReadOnly])
+
+## TariffPeriod (object)
++ period: `1` (enum[number]) - Service plan period in months
+    + Members
+        + `1`
+        + `3`
+        + `6`
+        + `12`
+        + `24`
++ price: `50.0` (number)
++ enabled (boolean)
+    + Default: `false`
+
+## TariffPeriodReadOnly (object)
++ id: `1` (number)
++ Include TariffPeriod

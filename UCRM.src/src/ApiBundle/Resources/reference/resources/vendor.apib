@@ -1,0 +1,25 @@
+## GET /vendors
+
+Retrieve collection of **Vendors**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[VendorReadOnly])
+
+## GET /vendors/{id}
+
+Retrieve **Vendor**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Vendor** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (VendorReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

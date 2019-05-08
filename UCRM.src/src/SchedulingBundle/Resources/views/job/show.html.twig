@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ job.title }} - {% trans %}Scheduling{% endtrans %}{% endblock %}
+
+{% block page_header %}
+    <a href="{{ path('scheduling_timeline_index') }}">{% trans %}Scheduling{% endtrans %}</a> / <span class="primary">{{ job.title }}</span>
+{% endblock %}
+
+{% block page_header_buttons_left %}
+    {% if editPermissionGranted %}
+        <a href="{{ path('scheduling_job_edit', { 'id': job.id }) }}" class="button button--icon-only">
+            <span class="icon ucrm-icon--edit"></span>
+        </a>
+        <a href="{{ path('scheduling_job_delete', { 'id': job.id }) }}" class="button button--danger button--icon-only" data-confirm="{% trans %}Do you really want to delete this job?{% endtrans %}" data-confirm-title="{% trans %}Delete job{% endtrans %}" data-confirm-okay="{% trans %}Delete{% endtrans %}">
+            <span class="icon ucrm-icon--trash"></span>
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block page_header_classes %}page-header--has-background{% endblock %}
+
+{% block body %}
+    <div class="content--fixed container--comfy">
+        <div class="row">
+            <div class="col--lg6 col--md12">
+                <div id="job-detail">
+                    {% include '@Scheduling/job/components/view/detail.html.twig' %}
+                </div>
+            </div>
+            {% if job.gpsLat and job.gpsLon %}
+                <div class="col--lg6 col--md12">
+                    {% include '@Scheduling/job/components/view/map.html.twig' %}
+                </div>
+            {% else %}
+                <div class="col--lg6 col--md12">
+                    {% include '@Scheduling/job/components/view/tasks.html.twig' %}
+                    {% if not job.tickets.empty %}
+                        {% include '@Scheduling/job/components/view/tickets.html.twig' %}
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col--lg6 col--md12">
+                {% include '@Scheduling/job/components/view/attachments.html.twig' %}
+            </div>
+            {% if job.gpsLat and job.gpsLon %}
+                <div class="col--lg6 col--md12">
+                    {% include '@Scheduling/job/components/view/tasks.html.twig' %}
+                    {% if not job.tickets.empty %}
+                        {% include '@Scheduling/job/components/view/tickets.html.twig' %}
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col--md12">
+                <div id="job-comments">
+                    {% include '@Scheduling/job/components/view/job_logs.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% include 'components/map.html.twig' %}
+    <script type="text/javascript" src="{{ asset('assets/js/modules/tasks.js') }}{{ versionQuery }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/modules/job_attachments.js') }}{{ versionQuery }}"></script>
+{% endblock %}

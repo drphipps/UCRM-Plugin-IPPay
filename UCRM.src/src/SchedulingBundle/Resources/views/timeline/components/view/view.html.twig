@@ -1,0 +1,9 @@
+{% if timeline.queue is not null and isViewPermissionGranted(constant('SchedulingBundle\\Security\\SchedulingPermissions::JOBS_ALL')) %}
+    <div id="scheduling-queue-container" class="{% if (not timeline.queue|length or not app.user.userPersonalization.schedulingTimelineShowQueue) and not forceShowQueue %}off{% endif %}">
+        {% include '@Scheduling/timeline/components/view/queue.html.twig' %}
+    </div>
+{% endif %}
+
+<div id="scheduling-timeline-container">
+    {% include '@Scheduling/timeline/components/view/timeline.html.twig' %}
+</div>

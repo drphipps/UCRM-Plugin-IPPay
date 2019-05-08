@@ -1,0 +1,30 @@
+## GET /countries/{id}/states
+
+Retrieve collection of **States**.
+
+Available for **United States** and **Canada** only.
+
++ Parameters
+    + id: `249` (number, required) - ID of a related **Country**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[StateReadOnly])
+
+## GET /countries/states/{id}
+
+Retrieve **State**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **State** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (StateReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

@@ -1,0 +1,34 @@
+## PaymentPlan (object)
++ provider: `ippay` (enum[string], required) - For now only subscriptions for IPPay can be added with API.
+    + Members
+        + `ippay`
++ providerPlanId (string) - PaymentPlan ID, specific for every provider.
++ providerSubscriptionId (string) - Subscription ID, specific for every provider. For IPPay it's the token used to authorize the payments.
++ clientId: `1` (number, required)
++ currencyId: `33` (number, required)
++ amount: `10.0` (number, required)
++ period: `1` (enum[number], required) - Period in months.
+    + Members
+        + `1`
+        + `3`
+        + `6`
+        + `12`
+        + `24`
++ startDate: `2017-09-12T00:00:00+0000` - Date string in ISO 8601 format.
+
+## PaymentPlanReadOnly (object)
++ id: `1` (number)
++ name: `$249.05 / 3 months - John Doe`
++ status: `active` (enum[string])
+    + Members
+        + `created`
+        + `pending`
+        + `active`
+        + `cancelled`
+        + `paused`
+        + `error`
++ createdDate: `2017-09-12T00:00:00+0000` - Date string in ISO 8601 format.
++ canceledDate: `2017-09-12T00:00:00+0000` - Date string in ISO 8601 format.
++ nextPaymentDate: `2017-09-12T00:00:00+0000` - Date string in ISO 8601 format. Only used for IPPay subscriptions.
++ active (boolean)
++ Include PaymentPlan

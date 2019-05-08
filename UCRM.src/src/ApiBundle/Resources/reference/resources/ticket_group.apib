@@ -1,0 +1,86 @@
+# /ticketing/ticket-groups
+
+## GET
+
+Retrieve collection of **Ticket Groups**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[TicketGroupReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST
+
+Create **Ticket Group**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (TicketGroup)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /ticketing/ticket-groups/1001
+    + Attributes (TicketGroupReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+# /ticketing/ticket-groups/{id}
+
+## GET
+
+Retrieve **Ticket Group**.
+
++ Parameters
+    + id: `5` (number, required) - ID of a **Ticket Group** to fetch / update
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (TicketGroupReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH
+
+Update **Ticket Group**.
+
++ Parameters
+    + id: `5` (number, required) - ID of a **Ticket Group** to fetch / update
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (TicketGroup)
+
++ Response 200 (application/json)
+    + Attributes (TicketGroupReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## DELETE
+
+Delete **Ticket Group**.
+
++ Parameters
+    + id: `5` (number, required) - ID of a **Ticket Group** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

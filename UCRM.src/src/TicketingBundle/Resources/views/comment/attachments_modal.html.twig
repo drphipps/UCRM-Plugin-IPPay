@@ -1,0 +1,52 @@
+<div class="appControlModal appControlModal--small">
+    <a class="appControlModal__close close-modal">
+        <div class="icon ucrm-icon--close"></div>
+    </a>
+
+    <div class="appControlModal__header">
+        {% trans %}Download attachments{% endtrans %}
+    </div>
+
+    <div class="appControlModal__content appControlModalScrollableContent">
+        {% for attachment in attachments %}
+            {% if app.user.client and app.user.client is same as(attachment.ticketComment.ticket.client) %}
+                {% set path =  path('client_zone_ticket_comment_attachment_get', {id:attachment.id}) %}
+            {% else %}
+                {% set path =  path('ticketing_comment_attachment_get', {id:attachment.id}) %}
+            {% endif %}
+
+            <div class="row verticalRhythmHalf">
+                <div class="col--lg12">
+                    <a href="{{ path }}">
+                        {{ attachment.originalFilename }} ({{ attachment.size|bytesToSize }})
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+        {% for attachment in mailAttachments %}
+            {% if app.user.client and app.user.client is same as(attachment.ticketComment.ticket.client) %}
+                {% set path =  path('client_zone_ticket_comment_mail_attachment_get', {id:attachment.id}) %}
+            {% else %}
+                {% set path =  path('ticketing_comment_mail_attachment_get', {id:attachment.id}) %}
+            {% endif %}
+
+            <div class="row verticalRhythmHalf">
+                <div class="col--lg12">
+                    <a href="{{ path }}">
+                        {{ attachment.filename }} ({{ attachment.size|bytesToSize }})
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="appControlModal__content appControlModal__content--ctrl">
+        <div class="flexRow flexRow--alignCenter">
+            <div class="flexCol--12 alignRight">
+                <span class="appInputGroup">
+                    <a href="#" class="button button--transparent close-modal">{% trans %}Cancel{% endtrans %}</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

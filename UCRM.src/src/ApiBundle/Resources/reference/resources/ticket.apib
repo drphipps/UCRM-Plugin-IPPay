@@ -1,0 +1,149 @@
+## GET /ticketing/tickets{?clientId,assignedUserId,dateFrom,dateTo,statuses%5B%5D,limit,offset,order,direction}
+
+Retrieve collection of **Tickets**.
+
++ Parameters
+    + clientId: `1` (number | string, optional) - ID of a **Client** to filter by. Use string "null" to filter tickets with unassigned **Client**.
+
+    + assignedUserId: `1` (number | string, optional) - ID of a **User** to filter by. Use string "null" to filter tickets with unassigned **User**.
+
+    + assignedGroupId: `1` (number | string, optional) - ID of a **TicketGroup** to filter by. Use string "null" to filter tickets with unassigned **TicketGroup**.
+
+    + dateFrom: `2016-01-01` (string, optional) -  Limit collection from date (including).
+    Use `YYYY-MM-DD` format.
+
+    + dateTo: `2016-12-31` (string, optional) -  Limit collection to date (including).
+    Use `YYYY-MM-DD` format.
+
+    + statuses%5B%5D: `1` (enum[TicketStatus], optional) - Filter by ticket status.
+
+    + limit: `15` (number, optional) - Result limit.
+
+    + offset: `30` (number, optional) - Index of first result.
+
+    + order: `lastActivity` (enum[string], optional) - By what property is result ordered by.
+        + Default: `createdAt`
+        + Members
+            + `createdAt`
+            + `id`
+            + `lastActivity`
+    + direction: `DESC` (enum[string], optional) -  Ordering direction.
+        + Default: `ASC`
+        + Members
+            + `ASC`
+            + `DESC`
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[TicketReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST /ticketing/tickets
+
+Create **Ticket**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (TicketWritable)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /ticketing/tickets/1001
+    + Attributes (TicketReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+
+# /ticketing/tickets/{id}
+## GET
+
+Retrieve **Ticket**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Ticket** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (TicketReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH
+
+Update **Ticket**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Ticket** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (TicketPatch)
+
++ Response 200 (application/json)
+    + Attributes (TicketReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## DELETE
+
+Delete **Ticket**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Ticket** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH /ticketing/tickets/{id}/add-job/{jobId}
+
+Add **Job** to **Ticket**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Ticket** to add job to.
+    + jobId: `1000` (number, required) - ID of a **Job** to add to the ticket.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (TicketReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH /ticketing/tickets/{id}/remove-job/{jobId}
+
+Remove **Job** from **Ticket**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Ticket** to remove job from.
+    + jobId: `1000` (number, required) - ID of a **Job** to remove from the client.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (TicketReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

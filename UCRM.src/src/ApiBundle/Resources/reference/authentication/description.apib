@@ -1,0 +1,19 @@
+In order to use this API, you will need an app key.
+
+### Generating an App Key
+Go to **App keys** (Settings => Security => App keys) section of your UCRM instance
+and generate a new app key of required type (**Read** or **Write**).
+
+| Request Method | Type        |
+|----------------|-------------|
+| GET            | Read, Write |
+| POST           | Write       |
+| PUT            | Write       |
+| PATCH          | Write       |
+| DELETE         | Write       |
+
+### Using an App Key
+Once you have generated an app key, pass it in `X-Auth-App-Key` header in each request.
+
+If an app key is not passed or invalid, you will get a `401 Unauthorized` response.
+If an app key is of wrong type, you will get a `403 Forbidden` response.

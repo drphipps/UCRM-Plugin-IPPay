@@ -1,0 +1,117 @@
+## Invoice (object)
++ number: `2016050025`
++ items (array[InvoiceItem], required)
++ createdDate: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format. If not specified, current date will be used
++ emailSentDate: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format or null. Does not actually send the invoice by email when changed.
++ maturityDays: `14` (number) - If not specified, will be taken from global settings
++ notes - This text will be displayed on the invoice
++ adminNotes - This text will not be displayed on the invoice and is never shown to client
++ invoiceTemplateId: `1` (number) - If not specified, invoice template set on Organization is used
+    See [Retrieve Invoice Templates](#reference/invoice-templates/invoice-templates/get)
++ organizationName: `Your ISP inc.` (string)
++ organizationRegistrationNumber: `RN123456` (string)
++ organizationTaxId: `TI123456` (string)
++ organizationStreet1: `2580 Orchard Parkway` (string)
++ organizationStreet2: `Suite G` (string)
++ organizationCity: `San Jose` (string)
++ organizationCountryId: `249` (number)
+    See [Retrieve Countries](#reference/general/countries/get)
++ organizationStateId: `1` (number)
+    See [Retrieve States](#reference/general/countriesidstates/get)
++ organizationZipCode: `95131` (string)
++ organizationBankAccountName: `Primary` (string)
++ organizationBankAccountField1: `12345` (string)
++ organizationBankAccountField2: `6789` (string)
++ clientFirstName: `John` (string)
++ clientLastName: `Doe` (string)
++ clientCompanyName: `John Doe Company inc.` (string)
++ clientCompanyRegistrationNumber: `CRN123` (string)
++ clientCompanyTaxId: `CTI123` (string)
++ clientStreet1: `2580 Orchard Parkway` (string)
++ clientStreet2: `Suite E` (string)
++ clientCity: `San Jose` (string)
++ clientCountryId: `249` (number)
+    See [Retrieve Countries](#reference/general/countries/get)
++ clientStateId: `1` (number)
+    See [Retrieve States](#reference/general/countriesidstates/get)
++ clientZipCode: `95131` (string)
+
+## InvoiceNew (object)
++ number: `2016050025` - If not specified, the next invoice number will be generated automatically
++ items (array[InvoiceItem], required)
++ Include Invoice
++ attributes (array[InvoiceAttribute])
++ applyCredit: true (boolean) - Automatically pay the invoice from available credit. True by default.
+
+## InvoiceUpdate (object)
++ number: `2016050025`
++ items (array[InvoiceItem])
++ Include Invoice
++ attributes (array[InvoiceAttribute])
+
+## InvoiceReadOnly (object)
++ id: `1` (number)
++ clientId: `1` (number)
++ number: `2016050025`
++ Include Invoice
++ dueDate: `2016-09-26T00:00:00+0000` - Date string in ISO 8601 format
++ taxableSupplyDate: `2016-09-26T00:00:00+0000` - Date string in ISO 8601 format
++ items (array[InvoiceItemReadOnly])
++ subtotal: `15.0` (number)
++ discount: `5.0` (number)
++ discountLabel: `Quantity discount` (string) - Label of discount
++ taxes: (array[TotalTax])
++ total: `10.0` (number)
++ amountPaid: `10.0` (number)
++ currencyCode: `USD` (string)
++ status: `3` (InvoiceStatus)
++ paymentCovers: (array[PaymentCoverReadOnly])
++ uncollectible: true (boolean) - Invoice is marked as uncollectible
++ proforma: false (boolean) - Invoice is proforma
++ proformaInvoiceId: `7` (number, nullable) - If filled, contains ID of proforma invoice which triggered generation of this invoice after receiving payment.
++ generatedInvoiceId: `15` (number, nullable) - If filled, contains ID of regular invoice which was generated from this proforma invoice after receiving payment.
++ attributes (array[InvoiceAttributeReadOnly])
+
+## InvoiceItem (object)
++ label: `Internet` (required)
++ price: `10.0` (number, required)
++ quantity (number)
+    + Default: `1`
++ unit
++ tax1Id: `1` (number)
+    See [Retrieve Taxes](#reference/taxes/taxes/get)
++ tax2Id: `2` (number) - If your pricing mode is set to "Tax inclusive pricing", only single tax can be set.
+    See [Retrieve Taxes](#reference/taxes/taxes/get)
++ tax3Id: `3` (number) - If your pricing mode is set to "Tax inclusive pricing", only single tax can be set.
+    See [Retrieve Taxes](#reference/taxes/taxes/get)
+
+## InvoiceItemReadOnly (object)
++ id: `1` (number)
++ serviceId: `1` (number, nullable)
++ serviceSurchargeId: `1` (number, nullable)
++ productId: `1` (number, nullable)
++ total: `10.0` (number, required)
++ type: `service` (InvoiceItemType)
++ discountPrice: `10.0` (number, nullable)
++ discountQuantity (number, nullable)
++ discountTotal (number, nullable)
++ Include InvoiceItem
+
+## InvoiceStatus (enum[number])
++ `0` - Draft
++ `1` - Unpaid
++ `2` - Partially paid
++ `3` - Paid
++ `4` - Void
++ `5` - Processed proforma
+
+## InvoiceItemType (enum[string])
++ `service` - Service
++ `fee` - Fee
++ `product` - Product
++ `surcharge` - Service surcharge
++ `other` - Other
+
+## TotalTax (object)
++ name: `VAT 19% - 19%` (string) - Name and rate of tax
++ totalValue: `2.58` (number) - Sum of all taxes of this kind.

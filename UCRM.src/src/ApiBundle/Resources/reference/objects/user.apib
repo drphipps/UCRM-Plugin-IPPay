@@ -1,0 +1,14 @@
+## User (object)
++ email: `john.doe@example.com` (string, required)
++ username: `john.doe` (string, required)
++ firstName: `John` (string )
++ lastName: `Doe` (string)
++ avatarColor: `#FFC107` - Color in hexadecimal format. If not specified, will be assigned randomly.
+
+## UserReadOnly (object)
++ id: `1` (number)
++ Include User
+
+## UserWritable (object)
++ Include User
++ password: `verySecurePassword` (string, optional) - if filled, user's password will be changed

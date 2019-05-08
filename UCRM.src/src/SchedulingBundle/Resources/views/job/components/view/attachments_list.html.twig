@@ -1,0 +1,22 @@
+<div class="job-attachments">
+    {% for attachment in job.attachments %}
+        <div data-attachment-id="{{ attachment.id }}" class="verticalRhythmHalf">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="attachment-list__name">
+                            <a href="{{ path('scheduling_job_attachment_get', {id:attachment.id}) }}">
+                                {{ attachment.originalFilename }} ({{ attachment.size|bytesToSize }})
+                            </a>
+                        </td>
+                        <td class="attachment-list__ctrl">
+                            <a href="#" class="appLink--secondary attachment-remove" data-tooltip="{% trans %}Remove{% endtrans %}" data-confirm="{% trans %}Do you really want to delete this file?{% endtrans %}" data-confirm-title="{% trans %}Delete file{% endtrans %}" data-confirm-okay="{% trans %}Delete{% endtrans %}">
+                                <span class="icon ucrm-icon--trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+</div>

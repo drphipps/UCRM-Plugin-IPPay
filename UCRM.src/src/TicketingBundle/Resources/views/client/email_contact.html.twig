@@ -1,0 +1,16 @@
+{% extends 'notification.html.twig' %}
+{% block body %}
+    <h1>{{ subject }}</h1>
+    {% if client %}
+        <p>
+            <strong>{% trans %}ID{% endtrans %}:</strong> {{ client.id }}<br>
+            <strong>{% trans %}Custom ID{% endtrans %}:</strong> {{ client.userIdent }}<br>
+            <strong>{% trans %}Client{% endtrans %}:</strong> {{ client.nameForView }}<br>
+            <strong>{% trans %}Email{% endtrans %}:</strong> {{ client.contactEmails|join(', ') }}
+        </p>
+    {% endif %}
+    <p>
+        <strong>{% trans %}Message{% endtrans %}:</strong><br>
+        {{ message|nl2br }}
+    </p>
+{% endblock %}

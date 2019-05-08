@@ -1,0 +1,42 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+        tags: ['entity_mapper']
+
+    ApiBundle\Mapper\ClientMapper: ~
+    ApiBundle\Mapper\ClientContactMapper: ~
+    ApiBundle\Mapper\ClientEditMapper: ~
+    ApiBundle\Mapper\ClientLogMapper: ~
+    ApiBundle\Mapper\ClientTagMapper: ~
+    ApiBundle\Mapper\CurrencyMapper: ~
+    ApiBundle\Mapper\ServiceMapper: ~
+    ApiBundle\Mapper\ServiceEditMapper: ~
+    ApiBundle\Mapper\ServiceDeviceMapper: ~
+    ApiBundle\Mapper\ServiceSurchargeMapper: ~
+    ApiBundle\Mapper\ServiceUsageMapper: ~
+    ApiBundle\Mapper\ProductMapper: ~
+    ApiBundle\Mapper\ProformaInvoiceTemplateMapper: ~
+    ApiBundle\Mapper\ServiceIpMapper: ~
+    ApiBundle\Mapper\TariffMapper: ~
+    ApiBundle\Mapper\CountryMapper: ~
+    ApiBundle\Mapper\StateMapper: ~
+    ApiBundle\Mapper\OrganizationMapper: ~
+    ApiBundle\Mapper\TaxMapper: ~
+    ApiBundle\Mapper\VendorMapper: ~
+    ApiBundle\Mapper\SurchargeMapper: ~
+    ApiBundle\Mapper\DeviceMapper: ~
+    ApiBundle\Mapper\DeviceInterfaceMapper: ~
+    ApiBundle\Mapper\SiteMapper: ~
+    ApiBundle\Mapper\UserMapper: ~
+    ApiBundle\Mapper\UserEditMapper: ~
+    ApiBundle\Mapper\InvoiceMapper: ~
+    ApiBundle\Mapper\PaymentMapper: ~
+    ApiBundle\Mapper\InvoiceTemplateMapper: ~
+    ApiBundle\Mapper\QuoteTemplateMapper: ~
+    ApiBundle\Mapper\CustomAttributeMapper: ~
+    ApiBundle\Mapper\PaymentPlanMapper: ~
+    ApiBundle\Mapper\QuoteMapper: ~
+    ApiBundle\Mapper\RefundMapper: ~
+    ApiBundle\Mapper\WebhookEventMapper: ~

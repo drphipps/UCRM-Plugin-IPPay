@@ -1,0 +1,112 @@
+## GET /payments{?createdDateFrom,createdDateTo,clientId,order,direction}
+Retrieve collection of **Payments**.
+
++ Parameters
+    + createdDateFrom: `2016-01-01` (string, optional) -  Limit collection from date (including).
+    Use `YYYY-MM-DD` format.
+    + createdDateTo: `2016-12-31` (string, optional) -  Limit collection to date (including).
+    Use `YYYY-MM-DD` format.
+    + clientId: `1` (number, optional) - ID of a **Client** to filter by.
+    + limit: `10` (number, optional) - Result limit.
+    + offset: `10` (number, optional) - Index of first result.
+    + order: `createdDate` (enum[string], optional) - By what property is the result ordered by.
+        + Default: `createdDate`
+        + Members
+            + `id`
+            + `createdDate`
+            + `amount`
+    + direction: `ASC` (enum[string], optional) -  Ordering direction.
+        + Default: `ASC`
+        + Members
+            + `ASC`
+            + `DESC`
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[PaymentReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST /payments
+Create **Payment**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (Payment)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /payments/2
+    + Attributes (PaymentReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## GET /payments/{id}
+Retrieve **Payment**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Payment** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (PaymentReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## DELETE /payments/{id}
+Delete **Payment**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Payment** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH /payments/{id}/send-receipt
+Send payment receipt to client.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Payment**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (PaymentReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+
+## GET /payments/{id}/pdf
+
+Retrieve **Payment** Receipt PDF.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Payment** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/pdf)
+
+
++ Response 404 (application/json)
+    + Attributes (Error404)

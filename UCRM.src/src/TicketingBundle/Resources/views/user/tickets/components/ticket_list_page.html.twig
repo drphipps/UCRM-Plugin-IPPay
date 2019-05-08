@@ -1,0 +1,40 @@
+{% set lastTimestamp = null %}
+{% set lastId = null %}
+
+{% for ticket in tickets %}
+    {% include '@Ticketing/user/tickets/components/ticket_list_item.html.twig' %}
+    {% if loop.last %}
+        {% set lastTimestamp = ticket.lastActivity %}
+    {% endif %}
+{% else %}
+    {% if not hasNextPage %}
+        <div class="ticket-list__item ticket-list__item--empty">
+            <img src="{{ asset('assets/images/ticketing/empty.svg') }}" width="126" alt="">
+            <strong>{% trans %}No tickets found{% endtrans %}</strong>
+            {% if client is defined and client %}
+                <div class="verticalRhythmQuarter">
+                    {% trans %}You can create new ticket.{% endtrans %}
+                </div>
+                <a href="#" data-modal-url="{{ path('client_ticket_new', { 'id': client.id }) }}" class="button button--primary-fill button--page-header__left">
+                    <span class="icon icon--left ucrm-icon--plus"></span>
+                    <span>{% trans %}Ticket{% endtrans %}</span>
+                </a>
+            {% else %}
+                <div class="verticalRhythmQuarter">
+                    {% trans %}You can create new ticket or change the filter.{% endtrans %}
+                </div>
+                <a href="#" data-modal-url="{{ path('ticketing_ticket_new') }}" class="button button--primary-fill button--page-header__left">
+                    <span class="icon icon--left ucrm-icon--plus"></span>
+                    <span>{% trans %}Ticket{% endtrans %}</span>
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% if hasNextPage %}
+    <div class="ticket-list__load-more">
+        {# UTC TimeZone added to fix bug in pre 2.11.2 and 2.12.0-beta2 bug caused not loading some tickets in list #}
+        <a href="{{ persistentPath(constant('\\TicketingBundle\\Interfaces\\TicketingActionsInterface::PERSISTENT_PARAMETERS'), ticketingRoutesMap.view, {lastTimestamp: lastTimestamp|date(constant('\DateTime::ATOM'), 'UTC'), clientId: client.id ?? null }) }}" class="button button--medium button--wide">{% trans %}load more{% endtrans %}</a>
+    </div>
+{% endif %}

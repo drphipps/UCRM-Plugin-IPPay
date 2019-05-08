@@ -1,0 +1,47 @@
+{% if ticketNotFound is defined and ticketNotFound %}
+    <div class="ticket-not-found">
+        <img src="{{ asset('assets/images/ticketing/404.svg') }}" width="165" alt="">
+        <strong>{% trans %}Oops. The ticket you are looking for doesn't exist.{% endtrans %}</strong>
+        {% trans %}The ticket has been deleted or you made a mistake in the URL.{% endtrans %}
+    </div>
+{% elseif ticketDetail is defined and ticketDetail %}
+    {% set canCommentTicket = isEditPermissionGranted('TicketingBundle\\Controller\\TicketController') %}
+    {% if canCommentTicket %}
+        {% set hasNavBar = newJobForm is not null or (assignedJobs ?? false) or (jobs ?? false) %}
+    {% else %}
+        {% set hasNavBar = assignedJobs ?? false %}
+    {% endif %}
+
+    {% set statusClass = constant('STATUS_CLASSES', ticketDetail)[ticketDetail.status] %}
+    <div id="ticket-detail-{{ ticketDetail.id }}" data-ticket-id="{{ ticketDetail.id }}" class="ticket-detail {% if canCommentTicket %}ticket-detail--has-form{% endif %} {% if hasNavBar %}ticket-detail--has-nav{% endif %} {% if not ticketDetail.public %}ticket-detail--private{% endif %}">
+        {% include '@Ticketing/user/tickets/components/ticket_detail_header.html.twig' with { ticketDetail: ticketDetail } %}
+
+        {% if ticketDetailActivity %}
+            <div class="ticket-detail__conversation">
+                {% for key, item in ticketDetailActivity if item is instanceof('TicketingBundle\\Entity\\TicketJobAssignment') and item.type is same as(constant('TYPE_ADD', item)) and item.assignedJob and item.ticket.jobs.contains(item.assignedJob) %}
+
+                {% endfor %}
+
+                {% for item in ticketDetailActivity %}
+                    {% if item is instanceof('TicketingBundle\\Entity\\TicketComment') %}
+                        {% include '@Ticketing/user/tickets/components/ticket_detail_comment.html.twig' with { item: item } %}
+                    {% elseif item is instanceof('TicketingBundle\\Entity\\TicketUserAssignment') %}
+                        {% include '@Ticketing/user/tickets/components/ticket_detail_user_assignment.html.twig' with { item: item } %}
+                    {% elseif item is instanceof('TicketingBundle\\Entity\\TicketClientAssignment') %}
+                        {% include '@Ticketing/user/tickets/components/ticket_detail_client_assignment.html.twig' with { item: item } %}
+                    {% elseif item is instanceof('TicketingBundle\\Entity\\TicketStatusChange') %}
+                        {% include '@Ticketing/user/tickets/components/ticket_detail_status_change.html.twig' with { item: item } %}
+                    {% elseif item is instanceof('TicketingBundle\\Entity\\TicketGroupAssignment') %}
+                        {% include '@Ticketing/user/tickets/components/ticket_detail_group_assignment.html.twig' with { item: item } %}
+                    {% elseif item is instanceof('TicketingBundle\\Entity\\TicketJobAssignment') %}
+                        {% include '@Ticketing/user/tickets/components/ticket_detail_job_assignment.html.twig' with { item: item } %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if (canCommentTicket and ticketDetailCommentForm) or (assignedJobs ?? false) %}
+            {% include '@Ticketing/user/tickets/components/ticket_detail_form.html.twig' with { ticketDetailCommentForm: ticketDetailCommentForm, hasContactEmail: hasContactEmail } %}
+        {% endif %}
+    </div>
+{% endif %}

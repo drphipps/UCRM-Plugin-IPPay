@@ -1,0 +1,30 @@
+{% if item.appKey %}{# Changed by API #}
+    {% set authorName %}
+        {% if not item.appKey.deletedAt %}
+            <a href="{{ path('app_key_show', { id: item.appKey.id }) }}">{{ item.appKey.name|e('html') }} ({% trans %}App key{% endtrans %})</a>
+        {% else %}
+            {{ item.appKey.name|e('html') }} ({% trans %}App key{% endtrans %})
+        {% endif %}
+    {% endset %}
+{% elseif item.user %}{# Changed by Admin #}
+    {% if item.user is same as(app.user) %}
+        {% set authorName %}{% trans %}You{% endtrans %}{% endset %}
+    {% else %}
+        {% set authorName %}{{ item.user.nameForView|e('html') }}{% endset %}
+    {% endif %}
+{% else %}{# Changed with importing from IMAP to closed ticket #}
+    {% if item.ticket.client %}{# Changed by client #}
+        {% set authorName %}{{ item.ticket.client.nameForView|e('html') }}{% endset %}
+    {% else %}{# Changed by unknown message #}
+        {% set authorName %}{{ item.ticket.emailFromName|e('html') }} &lt;{{ item.ticket.emailFromAddress|e('html') }}&gt;{% endset %}
+    {% endif %}
+{% endif %}
+{% set statusClass = constant('STATUS_CLASSES', ticketDetail)[item.status] %}
+
+<div class="ticket-system-message">
+    <span class="icon ucrm-icon--speaker mr-5"></span>
+    {% set status = '<span class="ticket-circle ticket-circle--' ~ statusClass ~ '"></span><strong class="ticket-status--' ~ statusClass ~ '">' ~ constant('STATUSES', ticketDetail)[item.status]|trans|upper ~ '</strong>' %}
+    {% trans with { '%user%': authorName, '%status%': status } %}%user% changed status to %status%.{% endtrans %}
+    <span class="ticket-dot"> • </span>
+    <span class="ticket-system-message__time" data-tooltip="{{ item.createdAt|localizedDate('default', 'short') }}">{{ item.createdAt|localizedDateToday('none', 'short', 'default', 'none') }}</span>
+</div>

@@ -1,0 +1,25 @@
+## GET /countries
+
+Retrieve collection of **Countries**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[CountryReadOnly])
+
+## GET /countries/{id}
+
+Retrieve **Country**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Country** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (CountryReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

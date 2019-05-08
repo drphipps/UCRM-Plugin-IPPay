@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    SchedulingBundle\Subscriber\Job\DeleteFileWhenJobAttachmentIsRemovedSubscriber: ~
+    SchedulingBundle\Subscriber\Job\DeleteJobFromGoogleCalendarSubscriber: ~
+    SchedulingBundle\Subscriber\Job\UpdateJobInGoogleCalendarSubscriber: ~
+    SchedulingBundle\Subscriber\Job\ImportJobToGoogleCalendarSubscriber: ~

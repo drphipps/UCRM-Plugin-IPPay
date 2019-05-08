@@ -1,0 +1,93 @@
+# /clients/contacts/{id}
+## GET
+
+Retrieve **Client Contact**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Client Contact** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ClientContactReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH
+
+Update **Client Contact**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Client Contact** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (ClientContactWritable)
+
++ Response 200 (application/json)
+    + Attributes (ClientContactReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## DELETE
+
+Delete **Client Contact**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Client Contact** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+# /clients/{id}/contacts
+## GET
+
+Retrieve collection of **Client Contacts** filtered by **Client**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a related **Client**.
+    
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[ClientContactReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST
+
+Create **Client Contact** for **Client**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a related **Client**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (ClientContact)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /clients/contacts/2
+    + Attributes (ClientContactReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)

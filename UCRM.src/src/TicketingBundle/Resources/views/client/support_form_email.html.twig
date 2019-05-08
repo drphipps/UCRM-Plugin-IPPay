@@ -1,0 +1,82 @@
+{% extends 'notification.html.twig' %}
+{% block body %}
+    <p>
+        {% trans %}This message was sent by support form in Client Zone.{% endtrans %}
+    </p>
+
+    <table class="support-form-table">
+        <tr>
+            <th>
+                {% trans %}Subject{% endtrans %}:
+            </th>
+            <td>
+                {{ subject }}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                {% trans %}Message{% endtrans %}:
+            </th>
+            <td>
+                {{ message|nl2br ?: '-' }}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                {% trans %}Client{% endtrans %}:
+            </th>
+            <td>
+                <table class="support-form-table__client">
+                    <tr>
+                        <th>
+                            {% trans %}URL{% endtrans %}:
+                        </th>
+                        <td>
+                            <a href="{{ publicUrl('client_show', { id: client.id }) }}">{{ publicUrl('client_show', { id: client.id }) }}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {% trans %}ID{% endtrans %}:
+                        </th>
+                        <td>
+                            {{ client.id ?: '-' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {% trans %}Custom ID{% endtrans %}:
+                        </th>
+                        <td>
+                            {{ client.userIdent ?: '-' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {% trans %}Name{% endtrans %}:
+                        </th>
+                        <td>
+                            {{ client.nameForView ?: '-' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {% trans %}Contact email(s){% endtrans %}:
+                        </th>
+                        <td>
+                            {{ client.contactEmails|join(', ') ?: '-' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {% trans %}Contact phone(s){% endtrans %}:
+                        </th>
+                        <td>
+                            {{ client.generalPhones|join(', ') ?: '-' }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

@@ -1,0 +1,94 @@
+## GET /scheduling/jobs/comments{?jobId,userId,createdDateFrom,createdDateTo}
+
+Retrieve collection of **Job Comments**.
+
++ Parameters
+    + jobId: `1` (number, optional) - ID of a **Job** to filter by.
+
+    + userId: `1` (number, optional) - ID of a **User** to filter by.
+
+    + createdDateFrom: `2016-01-01` (string, optional) -  Limit collection from date (including).
+    Use `YYYY-MM-DD` format.
+
+    + createdDateTo: `2016-12-31` (string, optional) -  Limit collection to date (including).
+    Use `YYYY-MM-DD` format.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[JobCommentReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST /scheduling/jobs/comments
+
+Create **Job Comment**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (JobCommentWritable)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /scheduling/jobs/comments/1001
+    + Attributes (JobCommentReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+# /scheduling/jobs/comments/{id}
+## GET
+
+Retrieve **Job Comment**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Job Comment** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (JobCommentReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH
+
+Update **Job Comment**. 
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Job Comment** to update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (JobCommentWritable)
+
++ Response 200 (application/json)
+    + Attributes (JobCommentReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## DELETE
+
+Delete **Job Comment**. 
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Job Comment** to delete.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

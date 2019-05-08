@@ -1,0 +1,119 @@
+{% set statusClass = constant('STATUS_CLASSES', job)[job.status] %}
+
+<div class="timeline-popup__container">
+    <div class="row timeline-popup__header">
+        <div class="col--xs10 timeline-popup__title">
+            <a href="{{ path('scheduling_job_show', { id: job.id }) }}" class="timeline-popup__title__inner job-heading--{{ statusClass }}">
+                {{ job.title }}
+            </a>
+            {% if statusEditPermissionGranted %}
+                <div class="button-group">
+                    <button class="has-dropdown button-group__item job-status-badge job-status-badge--{{ statusClass }}">
+                        <span>{{ constant('STATUSES', job)[job.status]|trans }}</span>
+                        <span class="caret caret--medium ucrm-icon--pointer-down"></span>
+                    </button>
+                    <ul class="appDropdown appDropdown--left appDropdown--narrow">
+                        {% for key, status in constant('STATUSES', job) %}
+                            <li class="appDropdown__item appDropdown__item--has-icon">
+                                <a href="#" data-href="{{ path('scheduling_job_popup_status_edit', { id: job.id, status: key }) }}" class="ajax">
+                                    <span class="icon job-square job-square--{{ constant('STATUS_CLASSES', job)[key] }}"></span>
+                                    <span>{{ status|trans }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <div class="button-group">
+                    <span class="button-group__item job-status-badge job-status-badge--{{ statusClass }}">
+                        {{ constant('STATUSES', job)[job.status]|trans }}
+                    </span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col--xs2 timeline-popup__ctrl">
+            <a href="#" class="timeline-popup__ctrl__close">
+                <span class="icon ucrm-icon--close"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="timeline-popup__body">
+        <table class="details-table">
+            <tbody>
+                <tr>
+                    <th>{% trans %}Date{% endtrans %}</th>
+                    <td>
+                        {% if job.date %}
+                            {{ job.date|localizedDate('default', 'short') }}
+                        {% else %}
+                            &ndash;
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans %}Duration{% endtrans %}</th>
+                    <td>
+                        {% if job.duration %}
+                            {{ (job.duration * 60)|duration('short') }}
+                        {% else %}
+                            &ndash;
+                        {% endif %}
+                    </td>
+                </tr>
+                {% if job.description %}
+                    <tr>
+                        <th>{% trans %}Description{% endtrans %}</th>
+                        <td>
+                            {{ job.description|truncate(100)|nl2br }}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if job.client %}
+                    <tr>
+                        <th>{% trans %}Client{% endtrans %}</th>
+                        <td>
+                            <a href="{{ path('client_show', { id: job.client.id }) }}">
+                                {{ job.client.nameForView }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if job.address %}
+                    <tr>
+                        <th>{% trans %}Address{% endtrans %}</th>
+                        <td>
+                            {{ job.address }}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if job.gpsLat and job.gpsLon %}
+                    <tr>
+                        <th>{% trans %}GPS{% endtrans %}</th>
+
+                        <td>
+                            {{ job.gpsLat }}, {{ job.gpsLon }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="timeline-popup__footer">
+        <div class="row">
+            <div class="col--xs6">
+                {% if editPermissionGranted %}
+                    <a href="#" data-href="{{ path('scheduling_job_popup_delete', { id: job.id }) }}" class="button button--medium button--danger" data-confirm="{% trans %}Do you really want to delete this job?{% endtrans %}" data-confirm-title="{% trans %}Delete job{% endtrans %}" data-confirm-okay="{% trans %}Delete{% endtrans %}">
+                        {% trans %}Delete{% endtrans %}
+                    </a>
+                {% endif %}
+            </div>
+            <div class="col--xs6 alignRight">
+                <a href="{{ path('scheduling_job_show', { id: job.id }) }}" class="button button--medium button--primary-fill">
+                    {% trans %}Details{% endtrans %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

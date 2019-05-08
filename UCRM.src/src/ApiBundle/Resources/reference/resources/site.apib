@@ -1,0 +1,27 @@
+## GET /sites
+
+Retrieve collection of **Sites**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[SiteReadOnly])
+
+## GET /sites/{id}
+
+Retrieve **Site**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Site** to fetch.
+    + limit: `10` (number, optional) - Result limit.
+    + offset: `10` (number, optional) - Index of first result.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (SiteReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

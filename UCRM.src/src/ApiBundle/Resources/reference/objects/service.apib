@@ -1,0 +1,151 @@
+## Service (object)
++ servicePlanId: `3` (number, required)
+    See [Retrieve Service Plans](#reference/service-plans/service-plans/get)
++ servicePlanPeriodId: `11` (number, required)
+    See [Retrieve Service Plan](#reference/service-plans/service-plansid/get)
++ activeFrom: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format. If not specified, current date will be used
++ activeTo: `2017-09-12T00:00:00+0000` - Date string in ISO 8601 format
++ name: `Internet` - If not specified, service plan name will be used
++ price: `58.5` (number) - Price from the chosen service plan period or the individual price if specified. Changing this property only sets the individual price.
++ note
++ invoicingStart: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format. If not specified, current date will be used
+    Service will be invoiced from this date including
++ invoicingPeriodType: `1` (enum)
+    + Members
+        + `1` - Backwards - Recurring invoices are created at the end of the billing period
+        + `2` - Forwards - Recurring invoices are created at the beginning of billing period (clients pay for the service in advance)
++ invoicingPeriodStartDay: `1` (number) - Day in month when the recurring period starts. If not specified, current day will be used. Valid values are 1-28 and 31, where 31 means last day of month.
++ nextInvoicingDayAdjustment: `5` (number) - Number of days to shift for before the default day, when the recurring invoices are automatically created
++ invoicingProratedSeparately: `true` (boolean) - Whether to invoice the first prorated period alone or together with the next whole period
+    + Default: `true`
++ invoicingSeparately (boolean) - Do not merge this service with other client's services into a single invoice
+    + Default: `false`
++ sendEmailsAutomatically: `false` (boolean) - If `null`, system default is used
+    Create and send the recurring invoice to client automatically. If not specified, taken from general settings
++ useCreditAutomatically (boolean)
+    + Default: `true`
++ invoiceLabel: `Internet` - Individual invoice label to override default set in chosen service plan
++ street1: `2580 Orchard Pkwy` - If not specified, taken from client
++ street2 - If not specified, taken from client
++ city: `San Jose` - If not specified, taken from client
++ countryId: `249` (number) - If not specified, taken from client
+    See [Retrieve Countries](#reference/general/countries/get)
++ stateId: `1` (number) - Applicable in case of **United States** and **Canada** only. If not specified, taken from client
+    See [Retrieve States](#reference/general/countriesidstates/get)
++ zipCode: `95131` - If not specified, taken from client
++ addressGpsLat: `37.3832548351597` (number) - Latitude of service location
++ addressGpsLon: `-121.931131237113` (number) - Longitude of service location
++ contractId: `000001`
++ contractLengthType (enum[number])
+    + Default: `1`
+    + Members
+        + `1` - Open end contract
+        + `2` - Close end contract
++ minimumContractLengthMonths:`12` (number) - Minimum contract length in months
++ contractEndDate: `2017-09-12T00:00:00+0000` - Date string in ISO 8601 format. Required in case of **Close end contract**
++ discountType (enum[number])
+    + Default: `0`
+    + Members
+        + `0` - No discount
+        + `1` - Percentage discount
+        + `2` - Fixed discount
++ discountValue: `5.5` (number)
++ discountInvoiceLabel: `Discount`
++ discountFrom: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format. Must match one of the selected service plan period's start dates
++ discountTo: `2016-12-12T00:00:00+0000` - Date string in ISO 8601 format. Must match one of the selected service plan period's end dates
++ taxable (boolean)
+    + Default: `false`
++ tax1Id: `1` (number) - Applicable if the service is taxable. If not specified, taken from client
+    See [Retrieve Taxes](#reference/taxes/taxes/get)
++ tax2Id: `2` (number) - Applicable if the service is taxable. If not specified, taken from client
+    See [Retrieve Taxes](#reference/taxes/taxes/get)
++ tax3Id: `3` (number) - Applicable if the service is taxable. If not specified, taken from client
+    See [Retrieve Taxes](#reference/taxes/taxes/get)
++ fccBlockId: `060855033303006` (optional) - Census block GEOID - used for FCC report generation
+
+## ServiceReadOnly (object)
++ id: `1` (number)
++ clientId: `1` (number)
++ status: `3` (enum[number])
+    + Members
+        + `0` - Prepared
+        + `1` - Active
+        + `2` - Ended
+        + `3` - Suspended
+        + `4` - Prepared blocked
+        + `5` - Obsolete
+        + `6` - Deferred
+        + `7` - Quoted
++ Include Service
++ hasIndividualPrice: `false` (boolean) - True if the service price is set individually, false if it's inherited from service plan.
++ totalPrice: `66.72` (number) - Total price of service, including surcharges, discounts and taxes. Price is calculated for current invoicing period and thus accounts for time-limited discounts.
++ servicePlanName: `Maxi`
++ servicePlanPrice: `50.0` (number)
++ servicePlanPeriod: `1` (number) - Pricing period in months
++ downloadSpeed: `50` (number) - Download speed in Mbps
++ uploadSpeed: `50` (number) - Upload speed in Mbps
++ ipRanges: `192.168.2.98/32` (array)
++ currencyCode: `USD` (string)
++ hasOutage: `false` (boolean)
++ fccBlockId: `060855033303006` (optional) - Census block GEOID - used for FCC report generation
+
+## ServiceUsageReadonly (object)
++ download `1051200155` (number) Number of bytes downloaded in period
++ upload `364602541` (number) Number of bytes uploaded in period
++ downloadLimit `100000000000` (number) Limit of downloadable bytes for period, if any
++ periodStart: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format
++ periodEnd: `2016-09-18T00:00:00+0000` - Date string in ISO 8601 format
++ lastInvoicedDate: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format or null if not yet invoiced.
+
+## ServiceWritable
++ Include Service
++ isQuoted: `false` (boolean) - Will create quoted service when `true`, otherwise regular service will be created. If regular service is created for client lead, he will be automatically converted to regular client.
+    + Default: `false`
+
+## ServiceUpdate (object)
++ servicePlanId: `3` (number)
+    See [Retrieve Service Plans](#reference/service-plans/service-plans/get)
++ servicePlanPeriodId: `11` (number)
+    See [Retrieve Service Plan](#reference/service-plans/service-plansid/get)
++ name: `Internet`
++ price: `58.5` (number) - Changing this property only sets the individual price.
++ invoicingPeriodType: `1` (enum)
+    + Members
+        + `1` - Backwards - Recurring invoices are created at the end of the billing period
+        + `2` - Forwards - Recurring invoices are created at the beginning of billing period (clients pay for the service in advance)
++ invoiceLabel: `Internet` - Individual invoice label to override default set in chosen service plan
++ activeTo: `2017-09-12T00:00:00+0000` - Date string in ISO 8601 format
++ nextInvoicingDayAdjustment: `5` (number) - Number of days to shift for before the default day, when the recurring invoices are automatically created
++ invoicingSeparately: `false` (boolean) - Do not merge this service with other client's services into a single invoice
++ sendEmailsAutomatically: `false` (boolean) - If `null`, system default is used
+    Create and send the recurring invoice to client automatically. If not specified, taken from general settings
++ useCreditAutomatically: `false` (boolean)
++ contractId: `000001`
++ contractLengthType (enum[number])
+    + Members
+        + `1` - Open end contract
+        + `2` - Close end contract
++ minimumContractLengthMonths:`12` (number) - Minimum contract length in months
++ contractEndDate: `2017-09-12T00:00:00+0000` - Date string in ISO 8601 format. Required in case of **Close end contract**
++ street1: `2580 Orchard Pkwy`
++ street2
++ city: `San Jose`
++ countryId: `249` (number)
+    See [Retrieve Countries](#reference/general/countries/get)
++ stateId: `1` (number) - Applicable in case of **United States** and **Canada** only.
+    See [Retrieve States](#reference/general/countriesidstates/get)
++ zipCode: `95131`
++ addressGpsLat: `37.3832548351597` (number) - Latitude of service location
++ addressGpsLon: `-121.931131237113` (number) - Longitude of service location
++ note (string)
++ fccBlockId: `060855033303006` (optional) - Census block GEOID - used for FCC report generation
+
+## ServiceStatus (enum[number])
++ `0` - Prepared
++ `1` - Active
++ `2` - Ended
++ `3` - Suspended
++ `4` - Prepared blocked
++ `5` - Obsolete
++ `6` - Deferred
++ `7` - Quoted

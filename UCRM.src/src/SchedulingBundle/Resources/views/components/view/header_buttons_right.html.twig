@@ -1,0 +1,65 @@
+{% spaceless %}
+    {% set isViewAllGranted = isViewPermissionGranted(constant('SchedulingBundle\\Security\\SchedulingPermissions::JOBS_ALL')) %}
+    {% set headerNavigationFilterAll = constant('SchedulingBundle\\Controller\\SchedulingControllerInterface::FILTER_ALL') %}
+    {% set headerNavigationFilterMy = constant('SchedulingBundle\\Controller\\SchedulingControllerInterface::FILTER_MY') %}
+    {% set headerNavigationFilterType = filterType ?? (isViewAllGranted ? headerNavigationFilterAll : headerNavigationFilterMy) %}
+    {% set headerNavigationTimelineDate = timeline.date ?? null is not null ? timeline.date.format('Y-m-d') : date().format('Y-m-d') %}
+    {% set ajaxIdentifier = constant('SchedulingBundle\\Controller\\SchedulingControllerInterface::AJAX_IDENTIFIER') %}
+    {% set ajaxIdentifierFilter = constant('SchedulingBundle\\Controller\\SchedulingControllerInterface::AJAX_IDENTIFIER_FILTER') %}
+
+    {% if isViewAllGranted %}
+        <div class="button-group button-group--header-filter">
+            {% if isCurrentController('SchedulingBundle\\Controller\\TimelineController') %}
+                {% if timeline.queue ?? null is not null %}
+                    <a href="#" class="scheduling-queue__ctrl button button--medium button--has-indicator button--active-hide-indicator button-group__item{% if (timeline.queue|length and app.user.userPersonalization.schedulingTimelineShowQueue) or forceShowQueue %} is-active{% endif %}" data-toggle-personalization="{{ path('user_settings_account_edit_personalization', { field: 'schedulingTimelineShowQueue' }) }}">
+                        {% trans %}Job queue{% endtrans %}
+                        {% if hasQueue %}
+                            <span class="button__indicator button__indicator--primary"></span>
+                        {% endif %}
+                    </a>
+                {% else %}
+                    <a href="{{ path('scheduling_timeline_index', { (ajaxIdentifier): ajaxIdentifierFilter, filterType: headerNavigationFilterAll, queue: true }) }}" class="ajax button button--medium button--has-indicator button--active-hide-indicator button-group__item">
+                        {% trans %}Job queue{% endtrans %}
+                        {% if hasQueue is defined and hasQueue %}
+                            <span class="button__indicator button__indicator--primary"></span>
+                        {% endif %}
+                    </a>
+                {% endif %}
+            {% else %}
+                <a href="{{ path('scheduling_timeline_index', { filterType: headerNavigationFilterType, queue: true }) }}" class="button button--medium button--has-indicator button--active-hide-indicator button-group__item">
+                    {% trans %}Job queue{% endtrans %}
+                    {% if hasQueue is defined and hasQueue %}
+                        <span class="button__indicator button__indicator--primary"></span>
+                    {% endif %}
+                </a>
+            {% endif %}
+        </div>
+
+        <div class="button-group button-group--header-filter">
+            {% if isCurrentController('SchedulingBundle\\Controller\\AgendaController') %}
+                <a href="{{ path('scheduling_agenda_index', { filterType: headerNavigationFilterAll, 'grid-filter[date_from]': headerNavigationTimelineDate }) }}" class="button button--medium button-group__item{% if headerNavigationFilterType == headerNavigationFilterAll %} is-active{% endif %}">
+                    {% trans %}All Jobs{% endtrans %}
+                </a>
+                <a href="{{ path('scheduling_agenda_index', { filterType: headerNavigationFilterMy, 'grid-filter[date_from]': headerNavigationTimelineDate }) }}" class="button button--medium button-group__item{% if headerNavigationFilterType == headerNavigationFilterMy %} is-active{% endif %}">
+                    {% trans %}My Jobs{% endtrans %}
+                </a>
+            {% else %}
+                <a href="{{ path('scheduling_timeline_index', { (ajaxIdentifier): ajaxIdentifierFilter, filterType: headerNavigationFilterAll, date: headerNavigationTimelineDate }) }}" class="ajax button button--medium button-group__item{% if headerNavigationFilterType == headerNavigationFilterAll %} is-active{% endif %}">
+                    {% trans %}All Jobs{% endtrans %}
+                </a>
+                <a href="{{ path('scheduling_timeline_index', { (ajaxIdentifier): ajaxIdentifierFilter, filterType: headerNavigationFilterMy, date: headerNavigationTimelineDate }) }}" class="ajax button button--medium button-group__item{% if headerNavigationFilterType == headerNavigationFilterMy %} is-active{% endif %}">
+                    {% trans %}My Jobs{% endtrans %}
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="button-group button-group--header-filter">
+        <a href="{{ path('scheduling_timeline_index', { filterType: headerNavigationFilterType, date: headerNavigationTimelineDate }) }}" class="button button--medium button-group__item{% if isCurrentController('SchedulingBundle\\Controller\\TimelineController') %} is-active{% endif %}">
+            {% trans %}Timeline{% endtrans %}
+        </a>
+        <a href="{{ path('scheduling_agenda_index', { filterType: headerNavigationFilterType, 'grid-filter[date_from]': headerNavigationTimelineDate }) }}" class="button button--medium button-group__item{% if isCurrentController('SchedulingBundle\\Controller\\AgendaController') %} is-active{% endif %}">
+            {% trans %}Agenda{% endtrans %}
+        </a>
+    </div>
+{% endspaceless %}

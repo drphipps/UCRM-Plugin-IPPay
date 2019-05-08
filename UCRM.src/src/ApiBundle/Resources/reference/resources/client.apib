@@ -1,0 +1,210 @@
+# /clients{?userIdent,customAttributeKey,customAttributeValue,order,direction}
+
+## GET
+Retrieve collection of **Clients**.
+
++ Parameters
+    + organizationId: `1` (number, optional) - ID of an **Organization** to filter by.
+    + userIdent: `123456` (string, optional) - Search by userIdent (client's custom ID).
+    + customAttributeKey: `myCustomAttribute` (string, optional) - Search by custom attribute. Have to be used alongside with customAttributeValue.
+    + customAttributeValue: `value` (string, optional) - Search by custom attribute. Have to be used alongside with customAttributeKey.
+    + lead: `1` (number, optional) - Filter client leads.
+    + limit: `10` (number, optional) - Result limit.
+    + offset: `10` (number, optional) - Index of first result.
+    + order: `user.lastName` (enum[string], optional) - By what property is result ordered by.
+        + Default: `client.id`
+        + Members
+            + `user.firstName`
+            + `user.lastName`
+            + `client.registrationDate`
+            + `client.id`
+    + direction: `DESC` (enum[string], optional) -  Ordering direction.
+        + Default: `ASC`
+        + Members
+            + `ASC`
+            + `DESC`
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[ClientReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST /clients
+Create **Client**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (ClientWritable)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /clients/1001
+    + Attributes (ClientReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+# /clients/{id}
+
+## GET
+Retrieve **Client**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Client** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ClientReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH
+
+Update **Client**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Client** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (ClientWritable)
+
++ Response 200 (application/json)
+    + Attributes (ClientReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## PATCH /clients/{id}/add-tag/{tagId}
+
+Add **Client Tag** to **Client**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Client** to add tag to.
+    + tagId: `1000` (number, required) - ID of a **Client Tag** to add to the client.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ClientReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH /clients/{id}/remove-tag/{tagId}
+
+Remove **Client Tag** from **Client**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Client** to remove tag from.
+    + tagId: `1000` (number, required) - ID of a **Client Tag** to remove from the client.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ClientReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH /clients/{id}/send-invitation
+
+Send an invitation email to **Client**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Client** to send the invitation email to.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ClientReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH /clients/{id}/archive
+
+Archive **Client**
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Client** to archive.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## DELETE /clients/{id}
+
+Permanently delete **Client**
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Client** to permanently delete.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+# /clients/authenticated
+
+## POST
+Find **Client** by valid credentials. You should only use this endpoint over secured (HTTPS) connection.
+
++ Attributes
+    + username: `name@example.com` (string) - Client's username.
+    + password: `mySecurePassword` (string) - Client's password.
+
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[ClientReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH /clients/{id}/geocode
+
+Automatically geocode **Client's** address and update GPS coordinates with the result.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Client** to geocode.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ClientReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

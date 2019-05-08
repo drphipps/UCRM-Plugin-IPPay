@@ -1,0 +1,16 @@
+## ClientContact (object)
++ email: `john.doe@example.com`
++ phone
++ name (string)
++ isBilling (boolean) - Contact is used for Billing notifications
++ isContact (boolean) - Contact is used for other notifications
+
+## ClientContactReadOnly (object)
++ id: `2000` (number)
++ clientId: `1000` (number)
++ Include ClientContact
++ types (array[ContactTypeReadOnly])
+
+## ClientContactWritable (object)
++ Include ClientContact
++ types (array[ContactType])

@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    TicketingBundle\Subscriber\Transaction\Ticket\TicketEmailingSubscriber: ~
+    TicketingBundle\Subscriber\Transaction\Ticket\TicketHeaderNotifyingSubscriber: ~
+    TicketingBundle\Subscriber\Transaction\Ticket\TicketLastActivitySubscriber: ~
+    TicketingBundle\Subscriber\Transaction\Ticket\TicketLastCommentSubscriber: ~
+    TicketingBundle\Subscriber\Transaction\TicketComment\TicketCommentEmailingSubscriber: ~
+    TicketingBundle\Subscriber\Transaction\TicketComment\TicketCommentHeaderNotifyingSubscriber: ~
+    TicketingBundle\Subscriber\Transaction\TicketAttachment\TicketAttachmentSubscriber: ~
+    TicketingBundle\Subscriber\Transaction\Ticket\TicketActivityLogSubscriber: ~
+    TicketingBundle\Subscriber\Transaction\Elasticsearch\TicketIndexSubscriber: ['@fos_elastica.object_persister.ticket.ticket']

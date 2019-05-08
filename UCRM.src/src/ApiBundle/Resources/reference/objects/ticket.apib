@@ -1,0 +1,37 @@
+## Ticket (object)
++ subject: `The Internet is not working` (required, string)
++ clientId: `1` (number) - If not set, `emailFromAddress` is required.
+    See [Retrieve Clients](#reference/clients/clients/get)
++ emailFromAddress: `john.doe@example.com` (string) - When set, the ticket behaves as if imported by IMAP integration.
++ emailFromName: `John Doe` (string)
++ assignedGroupId: `1` (number)
+    See [Retrieve TicketGroups](#reference/ticket-groups/ticketingticket-groups/get)
++ assignedUserId: `1` (number)
+    See [Retrieve Users](#reference/users/usersadmins/get)
++ createdAt: `2016-09-12T00:00:00+0000` (string) - Date string in ISO 8601 format. If not specified, current date will be used
++ status: (TicketStatus)
++ public (boolean) - Is visible to client?
++ assignedJobIds: `[2]` (array[number])
+    See [Retrieve Jobs](#reference/jobs/schedulingjobsclientidassigneduseriddatefromdateto/get)
+
+## TicketWritable (object)
++ Include Ticket
++ activity (required, array[TicketActivityWritable]) - At least one comment required.
+
+## TicketReadOnly (object)
++ id: `1000` (number)
++ lastActivity: `2016-09-12T00:00:00+0000` (string) - Date string in ISO 8601 format.
++ lastCommentAt: `2016-09-12T00:00:00+0000` (string) - Date string in ISO 8601 format.
++ isLastActivityByClient: `2016-09-12T00:00:00+0000` (string) - Date string in ISO 8601 format.
++ Include Ticket
++ activity (array[TicketActivityReadOnly])
+
+## TicketPatch (object)
++ Include Ticket
++ activity (array[TicketActivityWritable])
+
+## TicketStatus (enum[number])
++ `0` - New
++ `1` - Open
++ `2` - Pending
++ `3` - Solved

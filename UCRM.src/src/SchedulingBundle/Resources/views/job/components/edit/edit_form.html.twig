@@ -1,0 +1,263 @@
+{% import 'form/form_inputs.html.twig' as forms %}
+{% import 'client/components/view/macros.html.twig' as macros %}
+
+<div class="row verticalRhythmQuarter">
+    {% spaceless %}
+        <div class="form__ctrl col--xs12 alignRight">
+            {% if isEdit %}
+                <a href="{{ path('scheduling_job_show', { id: job.id }) }}" class="button button--medium button--transparent">{% trans %}Cancel{% endtrans %}</a>
+            {% else %}
+                <a href="{{ path('scheduling_timeline_index') }}" class="button button--medium button--transparent">{% trans %}Cancel{% endtrans %}</a>
+            {% endif %}
+            <button type="submit" class="button button--medium button--primary-fill">{% trans %}Save{% endtrans %}</button>
+        </div>
+    {% endspaceless %}
+</div>
+
+<div class="row verticalRhythmHalf">
+    <div class="col--xs12">
+        <div class="form-column">
+            <div class="form-box">
+                <div class="header" tabindex="0">
+                    <span class="form-box__toggle"></span>
+                    <span>{% trans %}Basic information{% endtrans %}</span>
+                </div>
+                <div class="body">
+                    <div class="row">
+                        <div class="col--xs2">
+                            {{ form_label(form.title, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                        </div>
+                        <div class="col--xs10">
+                            <div class="row">
+                                <div class="col--xs8 appFormGroup">
+                                    {{ form_widget(form.title, { attr: { class: 'input--full'} }) }}
+                                    {{ form_errors(form.title) }}
+                                </div>
+                                <div class="col--xs4 appFormGroup">
+                                    {{ form_widget(form.status, { attr: { class: 'input--full job-status-select2'} }) }}
+                                    {{ form_errors(form.status) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col--xs2">
+                            {{ form_label(form.duration, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                        </div>
+                        <div class="col--xs10">
+                            <div class="row">
+                                <div class="col--xs3">
+                                    <div class="appInputGroup appInputGroup--flex appInputGroup--full">
+                                        {{ form_widget(form.duration.hours, { attr: { class: 'input--full select2 select2--no-search'} }) }}
+                                        <label>{% trans %}hours{% endtrans %}</label>
+                                    </div>
+                                    {{ form_errors(form.duration.hours) }}
+                                </div>
+                                <div class="col--xs3">
+                                    <div class="appInputGroup appInputGroup--flex appInputGroup--full">
+                                        {{ form_widget(form.duration.minutes, { attr: { class: 'input--full select2 select2--no-search'} }) }}
+                                        <label>{% trans %}minutes{% endtrans %}</label>
+                                    </div>
+                                    {{ form_errors(form.duration.minutes) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="verticalRhythm verticalRhythmTop lighter">
+
+                    <div class="row">
+                        <div class="col--xs2">
+                            {{ form_label(form.date, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                        </div>
+                        <div class="col--xs4 appFormGroup">
+                            {{ forms.calendar_time_input(form.date) }}
+                            {{ form_errors(form.date) }}
+                            <div class="appInputHelp">
+                                {% trans %}To save to queue, do not pick date and assigned user.{% endtrans %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col--xs2">
+                            {{ form_label(form.assignedUser, null, { label_attr: { class: 'appLabel--boxAlign' } }) }}
+                        </div>
+                        <div class="col--xs4 appFormGroup">
+                            {{ form_widget(form.assignedUser, { attr: { class: 'input--full select2'} }) }}
+                            {{ form_errors(form.assignedUser) }}
+                        </div>
+                        <div class="col--xs2 col--xsPush1">
+                            {{ form_label(form.client, null, { label_attr: { class: 'appLabel--boxAlign' } }) }}
+                        </div>
+                        <div class="col--xs4 appFormGroup">
+                            {{ form_widget(form.client, { attr: { class: 'input--full select2'} }) }}
+                            {{ form_errors(form.client) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col--xs2 col--xsOffset6">
+                            {{ form_label(form.public, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                        </div>
+                        <div class="col--xs4 appFormGroup appForm--cozy">
+                            <div data-on="{{ 'yes'|trans }}" data-off="{{ 'no'|trans }}" class="toggle appToggle">
+                                {{ form_widget(form.public) }}
+                                <label for="{{ form.public.vars.id }}"></label>
+                            </div>
+                            {{ form_errors(form.public) }}
+                            <div class="appInputHelp">
+                                {% trans %}Only jobs with status "Open" or "In progress" will be displayed.{% endtrans %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col--xs2">
+                            {{ form_label(form.description, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                        </div>
+                        <div class="col--xs10 appFormGroup">
+                            {{ form_widget(form.description, { attr: { class: 'input--full autosize'} }) }}
+                            {{ form_errors(form.description) }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col--xs2">
+                            {{ form_label(form.address, null, { label_attr: { class: 'appLabel--boxAlign' } }) }}
+                        </div>
+                        <div class="col--xs10 appFormGroup">
+                            {{ form_widget(form.address, { attr: { class: 'input--full', 'data-user-set': isEdit and job.address ? 1 : 0 } }) }}
+                            {{ form_errors(form.address) }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col--xs2"></div>
+                        <div class="col--xs4">
+                            <div class="row">
+                                <div class="col--xs6">
+                                    <div class="appFormGroup">
+                                        {{ form_widget(form.gpsLat, { attr: { class: 'input--full', placeholder: 'GPS latitude' } }) }}
+                                        {{ form_errors(form.gpsLat) }}
+                                    </div>
+                                </div>
+                                <div class="col--xs6">
+                                    <div class="appFormGroup">
+                                        {{ form_widget(form.gpsLon, { attr: { class: 'input--full', placeholder: 'GPS longitude' } }) }}
+                                        {{ form_errors(form.gpsLon) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="appFormGroup">
+                                {{ form_widget(form.resolveGps, { attr: { class: 'button button--medium button--block button--primary-fill'} }) }}
+                            </div>
+                        </div>
+                        <div class="col--xs6">
+                            <div class="appFormGroup disable-tabindex-children">
+                                {{ macros.map('job-map', 'map-19-7', gpsLat, gpsLon, zoom, false) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-box{% if form.vars.valid %} form-box-hidden{% endif %}">
+                <div class="header" tabindex="0">
+                    <span class="form-box__toggle"></span>
+                    <span>{% trans %}Attachments{% endtrans %}</span>
+                </div>
+                <div class="body">
+                    {% if isEdit %}
+                        <div class="row">
+                            <div class="col--xs12 job-attachment-list"
+                                data-job-id="{{ job.id }}"
+                                data-attachment-delete-csrf="{{ 'scheduling_job_attachment_delete'|csrf_token() }}"
+                            >
+                                {% include '@Scheduling/job/components/view/attachments_list.html.twig' %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col--xs2">
+                            {{ form_label(form.attachmentFiles, null, { label_attr: { class: 'appLabel--boxAlign' } } ) }}
+                        </div>
+                        <div class="col--xs4 appFormGroup">
+                            {{ forms.file_input(form.attachmentFiles, ['input--full']) }}
+                            {{ form_errors(form.attachmentFiles) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-box{% if form.vars.valid %} form-box-hidden{% endif %}">
+                <div class="header" tabindex="0">
+                    <span class="form-box__toggle"></span>
+                    <span>{% trans %}Tasks{% endtrans %}</span>
+                </div>
+                <div class="body">
+                    {% macro taskCollectionItem(itemField) %}
+                        <div class="collection-item collection-item--inline task-list__item">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="task-list__checkbox"></th>
+                                        <th class="task-list__label"></th>
+                                        <th class="task-list__ctrl"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="task-list__checkbox">
+                                            {{ form_widget(itemField.closed, { attr: { class: 'checkbox' } }) }}
+                                            <label for="{{ itemField.closed.vars.id }}"></label>
+                                        </td>
+                                        <td class="task-list__label">
+                                            {{ form_widget(itemField.label, { attr: { class: 'input--full' } }) }}
+                                            {{ form_errors(itemField.label) }}
+                                        </td>
+                                        <td class="task-list__ctrl">
+                                            <a href="#" class="collection-ctrl-delete-item appLink--secondary task-remove" data-tooltip="{% trans %}Remove{% endtrans %}">
+                                                <span class="icon ucrm-icon--trash"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endmacro %}
+                    {% import _self as forms %}
+
+                    <div class="row">
+                        <div class="col--xs12 appFormGroup">
+                            <div id="collection-tasks" class="collection task-list noMarginBottom" data-collection-index="{{ form.tasks|length }}" data-prototype="{{ forms.taskCollectionItem(form.tasks.vars.prototype)|e }}">
+                                {% for itemField in form.tasks %}
+                                    {{ forms.taskCollectionItem(itemField) }}
+                                {% endfor %}
+                            </div>
+
+                            <div>
+                                <div class="appInputGroup appInputGroup--flex">
+                                    <input id="collection-tasks__new-label" autocomplete="off" type="text" class="task-label-field input--full">
+                                    <a href="#" class="collection-ctrl-add-item button button--wide button--medium button--primary-fill" data-collection-target="collection-tasks">{% trans %}Add{% endtrans %}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% do form.tasks.setRendered %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% spaceless %}
+        <div class="form__ctrl col--xs12 alignRight">
+            {% if isEdit %}
+                <a href="{{ path('scheduling_job_show', { id: job.id }) }}" class="button button--medium button--transparent">{% trans %}Cancel{% endtrans %}</a>
+            {% else %}
+                <a href="{{ path('scheduling_timeline_index') }}" class="button button--medium button--transparent">{% trans %}Cancel{% endtrans %}</a>
+            {% endif %}
+            <button type="submit" class="button button--medium button--primary-fill">{% trans %}Save{% endtrans %}</button>
+        </div>
+    {% endspaceless %}
+</div>

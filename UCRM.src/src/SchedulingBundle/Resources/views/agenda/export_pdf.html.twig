@@ -1,0 +1,40 @@
+{% extends 'pdf.html.twig' %}
+
+{% block stylesheets %}
+    <style type="text/css">
+        {{ source('@web/' ~ asset('assets/css/pdf-overview.css')) }}
+    </style>
+{% endblock %}
+
+{% block body %}
+    <table class="table-overview">
+        <thead>
+        <tr>
+            <th>{% trans %}Title{% endtrans %}</th>
+            <th>{% trans %}Status{% endtrans %}</th>
+            <th>{% trans %}Date{% endtrans %}</th>
+            <th>{% trans %}Duration{% endtrans %}</th>
+            <th>{% trans %}Assigned user{% endtrans %}</th>
+            <th>{% trans %}Client{% endtrans %}</th>
+        </tr>
+        </thead>
+        {% for jobsBatch in jobs|batch(31) %}
+            <tbody>
+            {% for job in jobsBatch %}
+                <tr {% if loop.last and not loop.parent.loop.last %}class="last-of-batch"{% endif %}>
+                    <td width="30%">{{ job.title }}</td>
+                    <td width="10%">{{ job.status }}</td>
+                    <td width="10%">{{ job.date ? job.date|localizedDate('default', 'short') : '' }}</td>
+                    <td width="10%">{{ job.duration ? (job.duration * 60)|duration('short') : '' }}</td>
+                    <td width="20%">{{ job.assignedUser ? job.assignedUser.nameForView : '' }}</td>
+                    <td width="20%">{{ job.client ? job.client.nameForView : '' }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            </table>{# needed here - else PDF export takes forever #}
+            <table class="table-overview">
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block bodyClasses %}page-size-{{ pageSize|lower }}{% endblock %}

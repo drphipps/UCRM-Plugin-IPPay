@@ -1,0 +1,51 @@
+## Device (object)
++ name: `AP1` (required)
++ siteId: `1` (number, required)
+    See [Retrieve Sites](#reference/sites/sites/get)
++ vendorId: `1` (number, required)
+    See [Retrieve Vendors](#reference/vendors/vendors/get)
++ modelName: `UBNT M5`
++ parentIds: `2` (array[number]) - Parent devices within your network topology which is used for monitoring of outages
++ notes
++ loginUsername: `admin`
++ loginPassword: `qwerty`
++ sshPort (number)
+    + Default: `22`
++ snmpCommunity
++ osVersion
++ isGateway (boolean) - Mark device as the gateway router of your network. This may ease the setup of QoS feature
+    + Default: `false`
++ isSuspendEnabled (boolean) - Synchronize list of blocked users
+    + Default: `false`
++ sendPingNotifications (boolean)
+    + Default: `false`
++ pingNotificationUserId: `1` (number) - If not specified, default notification user will be used
+    See [Retrieve Admins](#reference/users/usersadmins/get)
++ createSignalStatistics (boolean)
+    + Default: `true`
+
+## DeviceReadOnly (object)
++ id: `1` (number)
++ name: `AP1` (required)
++ siteId: `1` (number, required)
+    See [Retrieve Sites](#reference/sites/sites/get)
++ vendorId: `1` (number, required)
+    See [Retrieve Vendors](#reference/vendors/vendors/get)
++ modelName: `UBNT M5`
++ parentIds: `2` (array[number]) - Parent devices within your network topology which is used for monitoring of outages
++ notes
++ loginUsername: `admin`
++ sshPort (number)
+    + Default: `22`
++ snmpCommunity
++ osVersion
++ isGateway (boolean) - Mark device as the gateway router of your network. This may ease the setup of QoS feature
+    + Default: `false`
++ isSuspendEnabled (boolean) - Synchronize list of blocked users
+    + Default: `false`
++ sendPingNotifications (boolean)
+    + Default: `false`
++ pingNotificationUserId: `1` (number) - If not specified, default notification user will be used
+    See [Retrieve Admins](#reference/users/usersadmins/get)
++ createSignalStatistics (boolean)
+    + Default: `true`

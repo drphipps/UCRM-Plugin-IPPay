@@ -1,0 +1,102 @@
+## GET /scheduling/jobs{?clientId,assignedUserId,ticketId,dateFrom,dateTo,statuses,limit,offset}
+
+Retrieve collection of **Jobs**.
+
++ Parameters
+    + clientId: `1` (number | string, optional) - ID of a **Client** to filter by. Use string "null" to filter jobs with unassigned **Client**.
+
+    + assignedUserId: `1` (number | string, optional) - ID of a **User** to filter by. Use string "null" to filter jobs with unassigned **User**.
+
+    + ticketId: `1` (number | string, optional) - ID of a **Ticket** to filter by. Use string "null" to filter jobs with unassigned **Ticket**.
+
+    + dateFrom: `2016-01-01` (string, optional) -  Limit collection from date (including).
+    Use `YYYY-MM-DD` format.
+
+    + dateTo: `2016-12-31` (string, optional) -  Limit collection to date (including).
+    Use `YYYY-MM-DD` format.
+
+    + statuses: `[1]` (array[JobStatus], optional) - Filter by job status.
+
+    + limit: `15` (number, optional) - Result limit.
+
+    + offset: `30` (number, optional) - Index of first result.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[JobReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## POST /scheduling/jobs
+
+Create **Job**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (JobWritable)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /scheduling/jobs/1001
+    + Attributes (JobReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## /scheduling/jobs/{id}
+## GET
+
+Retrieve **Job**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Job** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (JobReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## PATCH
+
+Update **Job**. 
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Job** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (JobWritable)
+
++ Response 200 (application/json)
+    + Attributes (JobReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## DELETE
+
+Delete **Job**. 
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Job** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

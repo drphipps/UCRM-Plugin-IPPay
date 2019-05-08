@@ -1,0 +1,61 @@
+# /taxes
+## GET
+
+Retrieve collection of **Taxes**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[TaxReadOnly])
+
+## POST
+
+Create **Tax**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (Tax)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /taxes/2
+    + Attributes (TaxReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+#/taxes/{id}
+## GET
+
+Retrieve **Tax**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Tax** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (TaxReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## DELETE
+
+Delete **Tax**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Tax** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+

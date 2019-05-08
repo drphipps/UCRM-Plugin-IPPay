@@ -1,0 +1,83 @@
+# /service-plans
+
+## GET
+
+Retrieve collection of **Service Plans**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[Tariff])
+
+## POST
+
+Create **Service Plan**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (Tariff)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /tariffs/2
+    + Attributes (TariffReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+#/service-plans/{id}
+
+## PATCH
+
+Update **Service Plan**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Service Plan** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (Tariff)
+
++ Response 200 (application/json)
+    + Attributes (TariffReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## GET
+
+Retrieve **Service Plan**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Service Plan** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (TariffReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## DELETE
+
+Delete **Service Plan**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Service Plan** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

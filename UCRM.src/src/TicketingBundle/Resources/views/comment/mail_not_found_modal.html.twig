@@ -1,0 +1,34 @@
+<div class="appControlModal appControlModal--small">
+    <a class="appControlModal__close close-modal">
+        <div class="icon ucrm-icon--close"></div>
+    </a>
+
+    <div class="appControlModal__header">
+        {% trans %}Email{% endtrans %}
+    </div>
+
+    <div class="appControlModal__content appControlModalScrollableContent">
+        <div class="row verticalRhythmHalf">
+            <div class="col--lg12">
+                {% trans %}Email is not available.{% endtrans %}
+            </div>
+        </div>
+        {% if exception is not null %}
+            <div class="row verticalRhythmHalf">
+                <div class="col--lg12">
+                    {{ exception.message }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="appControlModal__content appControlModal__content--ctrl">
+        <div class="flexRow flexRow--alignCenter">
+            <div class="flexCol--12 alignRight">
+                <span class="appInputGroup">
+                    <a href="#" class="button button--transparent close-modal">{% trans %}Cancel{% endtrans %}</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

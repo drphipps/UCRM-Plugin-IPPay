@@ -1,0 +1,39 @@
+## GET /ticketing/tickets/activities{?ticketId,userId,createdDateFrom,createdDateTo}
+
+Retrieve collection of **Ticket Activities**.
+
++ Parameters
+    + ticketId: `1` (number, optional) - ID of a **Ticket** to filter by.
+
+    + userId: `1` (number, optional) - ID of a **User** to filter by.
+
+    + createdDateFrom: `2016-01-01` (string, optional) -  Limit collection from date (including).
+    Use `YYYY-MM-DD` format.
+
+    + createdDateTo: `2016-12-31` (string, optional) -  Limit collection to date (including).
+    Use `YYYY-MM-DD` format.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[TicketActivityReadOnly])
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## GET /ticketing/tickets/activities/{id}
+
+Retrieve **Ticket Activity**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Ticket Activity** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (TicketActivityReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

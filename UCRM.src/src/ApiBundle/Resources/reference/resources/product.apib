@@ -1,0 +1,81 @@
+# /products
+## GET
+
+Retrieve collection of **Products**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (array[ProductReadOnly])
+
+## POST
+
+Create **Product**.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (Product)
+
++ Response 201 (application/json)
+    + Headers
+
+            Location: /products/2
+    + Attributes (ProductReadOnly)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+# /products/{id}
+## PATCH
+
+Update **Product**.
+
++ Parameters
+    + id: `1000` (number, required) - ID of a **Product** to fetch / update.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
+    + Attributes (Product)
+
++ Response 200 (application/json)
+    + Attributes (ProductReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
++ Response 422 (application/json)
+    + Attributes (Error422)
+
+## GET
+
+Retrieve **Product**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Product** to fetch.
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+    + Attributes (ProductReadOnly)
+
++ Response 404 (application/json)
+    + Attributes (Error404)
+
+## DELETE
+
+Delete **Product**.
+
++ Parameters
+    + id: `1` (number, required) - ID of a **Product** to delete
+
++ Request (application/json)
+    :[Authentication Headers](../authentication/headers.apib)
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+    + Attributes (Error404)

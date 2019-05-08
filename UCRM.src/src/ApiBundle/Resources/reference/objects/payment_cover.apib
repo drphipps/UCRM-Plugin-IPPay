@@ -1,0 +1,6 @@
+## PaymentCoverReadOnly (object)
++ id: `1` (number)
++ paymentId: `1` (number, required) - Source payment of the cover.
++ invoiceId: `1` (number, optional) - Invoice assigned to this cover (can be `null`, but `refundId` will be filled in that case).
++ refundId: `75` (number, optional) - Refund assigned to this cover (can be `null`, but `invoiceId` will be filled in that case).
++ amount: `123.23` (number, required) - Amount this cover takes from source payment.

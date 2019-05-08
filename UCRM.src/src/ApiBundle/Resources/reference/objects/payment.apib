@@ -1,0 +1,54 @@
+## Payment (object)
++ clientId: `1` (number)
++ method: `1` (PaymentMethod, required)
++ checkNumber - Applicable in case of **Check** method only.
++ createdDate: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format. If not specified, current date will be used.
++ amount: `10.0` (number, required)
++ currencyCode: `USD` (string, nullable)
++ note: `Paid in coins.` (string)
++ invoiceId: `1` (number) - **DEPRECATED**, use invoiceIds instead.
+    See [Retrieve Invoices](#reference/invoices/invoices/get)
++ invoiceIds: `[1, 2]` (array[number]) - Assign the payment to invoices. If the amount is greater than the invoices total, the overpayment will be added to the credit automatically.
+    See [Retrieve Invoices](#reference/invoices/invoices/get)
++ providerName: `Worldpay` - Required in case of **Custom** method.
++ providerPaymentId: `WP451837` - Required in case of **Custom** method.
++ providerPaymentTime: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format. If not specified, current date will be used. Required in case of **Custom** method.
++ applyToInvoicesAutomatically: `false` (boolean) - Automatically applies payment to client's unpaid invoices. If true, invoiceId and invoiceIds fields must be empty or not set.
+    + Default: `false`
++ userId: `1` (number) - Id of User who created payment.
+
+## PaymentReadOnly (object)
++ id: `1` (number)
++ clientId: `1` (number)
++ method: `1` (PaymentMethod, required)
++ checkNumber - Applicable in case of **Check** method only
++ createdDate: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format. If not specified, current date will be used.
++ amount: `10.0` (number, required)
++ currencyCode: `USD` (string)
++ note: `Paid in coins.` (string)
++ receiptSentDate: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format or null if receipt was not sent.
++ providerName: `Worldpay` - Required in case of **Custom** method.
++ providerPaymentId: `WP451837` - Required in case of **Custom** method.
++ providerPaymentTime: `2016-09-12T00:00:00+0000` - Date string in ISO 8601 format. If not specified, current date will be used. Required in case of **Custom** method.
++ paymentCovers: (array[PaymentCoverReadOnly])
++ creditAmount: `10.0` (number)
+
+## PaymentMethod (enum[number])
++ `1` - Check
++ `2` - Cash
++ `3` - Bank transfer
++ `4` - PayPal
++ `5` - PayPal credit card
++ `6` - Stripe credit card
++ `7` - Stripe subscription (credit card)
++ `8` - PayPal subscription
++ `9` - Authorize.Net credit card
++ `10` - Authorize.Net subscription
++ `11` - Courtesy credit
++ `12` - IPPay
++ `13` - IPPay subscription
++ `14` - MercadoPago
++ `15` - MercadoPago subscription
++ `16` - Stripe ACH
++ `17` - Stripe subscription (ACH)
++ `99` - Custom

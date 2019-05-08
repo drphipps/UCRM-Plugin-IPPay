@@ -1,0 +1,34 @@
+<div class="appControlModal">
+    <a class="appControlModal__close close-modal">
+        <div class="icon ucrm-icon--close"></div>
+    </a>
+
+    <div class="appControlModal__header">
+        {% trans %}Original Message{% endtrans %}
+    </div>
+
+    <div class="appControlModal__content appControlModalScrollableContent">
+        <div class="text-content">
+            <h4>{% trans %}Headers{% endtrans %}</h4>
+            <pre class="code">{{ rawHeaders }}</pre>
+            {% if bodyText %}
+                <h4>{% trans %}Plain text body{% endtrans %}</h4>
+                <pre class="code">{{ bodyText }}</pre>
+            {% endif %}
+            {% if bodyHtml %}
+                <h4>{% trans %}HTML body{% endtrans %}</h4>
+                <pre class="code">{{ bodyHtml }}</pre>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="appControlModal__content appControlModal__content--ctrl">
+        <div class="flexRow flexRow--alignCenter">
+            <div class="flexCol--12 alignRight">
+                <span class="appInputGroup">
+                    <a href="#" class="button button--transparent close-modal">{% trans %}Cancel{% endtrans %}</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

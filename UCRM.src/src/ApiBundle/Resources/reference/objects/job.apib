@@ -1,0 +1,27 @@
+## Job (object)
++ title: `CPE installation` (required, string)
++ description: `CPE is to be installed on location.` (string)
++ assignedUserId: `1` (number)
+    See [Retrieve Users](#reference/users/usersadmins/get)
++ clientId: `1` (number)
+    See [Retrieve Clients](#reference/clients/clients/get)
++ date: `2016-09-12T00:00:00+0000` (string) - Date string in ISO 8601 format
++ duration: `60` (number) - Duration of job in minutes
++ status `0` (JobStatus)
++ address: `2580 Orchard Pkwy, San Jose, CA 95131, USA` (string)
++ gpsLat: `37.3832548351597` (string) - Latitude of location
++ gpsLon: `-121.931131237113` (string) - Longitude of location
+
+## JobWritable (object)
++ Include Job
+
+## JobReadOnly (object)
++ id: `1000` (number)
++ Include Job
++ attachments (array[JobAttachmentReadOnly])
++ tasks (array[JobTaskReadOnly])
+
+## JobStatus (enum[number])
++ `0` - Open
++ `1` - In progress
++ `2` - Closed

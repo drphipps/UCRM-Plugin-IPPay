@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    TicketingBundle\Service\Facade\TicketCommentFacade: ~
+    TicketingBundle\Service\Facade\TicketFacade: ~
+    TicketingBundle\Service\Facade\TicketCannedResponseFacade: ~
+    TicketingBundle\Service\Facade\TicketGroupFacade: ~
+    TicketingBundle\Service\Facade\TicketImapInboxFacade: ~
+    TicketingBundle\Service\Facade\TicketMailFacade: ~
+    TicketingBundle\Service\Facade\SupportFormFacade: ~
+    TicketingBundle\Service\Facade\TicketImapEmailBlacklistFacade: ~
+    TicketingBundle\Service\Facade\TicketMailAttachmentFacade: ~

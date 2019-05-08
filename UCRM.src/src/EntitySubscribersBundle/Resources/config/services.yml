@@ -1,0 +1,5 @@
+services:
+    EntitySubscribersBundle\Event\RegisterEntitySubscribersSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }
+        autowire: true
